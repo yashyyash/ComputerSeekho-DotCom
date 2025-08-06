@@ -9,4 +9,5 @@ public interface PaymentService {
     Payment savePayment(PaymentDTO paymentDTO);
     List<Payment> getAllPayments();
     Payment getPaymentById(int id);
+    List<Payment> getPaymentsByStudentId(int studentId);
 }

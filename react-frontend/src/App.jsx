@@ -22,6 +22,8 @@ import ManageRecruiter from './pages/ManageRecruiter';
 import ManageStaff from './pages/ManageStaff';
 import ManageEnquiry from './pages/ManageEnquiry';
 import Register from './pages/Register';
+import PaymentPage from './pages/PaymentPage';
+import ReceiptPage from './pages/ReceiptPage';
 
 const App = () => {
   return (
@@ -31,7 +33,7 @@ const App = () => {
       <NotificationBar />
 
       <Routes>
-        
+
         <Route path="/" element={<Home />} />
         <Route path="/placement" element={<BatchwisePlacement />} />
         <Route path="/courses" element={<Courses />} />
@@ -39,7 +41,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/batchwise-placed-students/:batchId" element={<BatchwisePlacedStudents />} />
 
-       
+
         <Route
           path="/admin"
           element={
@@ -127,6 +129,35 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        {/* <Route
+          path="/payments"
+          element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        /> */}
+
+        <Route
+          path="/payments/:studentId"
+          element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+        path="/receipt/:receiptId"
+        element={
+          <ProtectedRoute>
+            <ReceiptPage />
+          </ProtectedRoute>
+        }
+      />
+
+
+
       </Routes>
 
 

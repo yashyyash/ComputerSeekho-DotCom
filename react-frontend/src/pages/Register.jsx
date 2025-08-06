@@ -106,7 +106,7 @@ const Register = () => {
       alert("Student Registered Successfully");
 
       // Auto-redirect to payment page
-      navigate(`/payment/${studentId}`);
+      navigate(`/payments/${studentId}`);
     } catch (error) {
         alert("Student Registered Failed | Check if Already Registered");
       console.error("Error registering student", error);
