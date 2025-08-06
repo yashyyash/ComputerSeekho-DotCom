@@ -22,7 +22,8 @@ import ManageRecruiter from './pages/ManageRecruiter';
 import ManageStaff from './pages/ManageStaff';
 import ManageEnquiry from './pages/ManageEnquiry';
 import Register from './pages/Register';
-
+import CampusLife from './pages/CampusLife';
+import Campus from './pages/Campus';
 const App = () => {
   return (
     <>
@@ -38,7 +39,7 @@ const App = () => {
         <Route path="/recruiters" element={<Recruiter />} />
         <Route path="/login" element={<Login />} />
         <Route path="/batchwise-placed-students/:batchId" element={<BatchwisePlacedStudents />} />
-
+        <Route path="/campuslife" element={<Campus />} />
        
         <Route
           path="/admin"
@@ -127,6 +128,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/add-campus-life"
+          element={
+          <ProtectedRoute>
+            <CampusLife />
+          </ProtectedRoute>
+        }
+        />
+
       </Routes>
 
 
