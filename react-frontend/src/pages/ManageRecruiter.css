@@ -1,0 +1,79 @@
+.manage-recruiter-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.recruiter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.recruiter-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.recruiter-form button {
+  padding: 10px;
+  background-color: #49a1ff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.recruiter-form button:hover {
+  background-color: #00438a;
+}
+
+.recruiter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.recruiter-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 180px;
+  text-align: center;
+}
+
+.recruiter-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  
+}
+
+.card-actions button {
+  padding: 5px 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.card-actions .delete-btn {
+  background-color: rgb(255, 69, 69);
+  color: white;
+
+}
+
+.no-data {
+  font-size: 16px;
+  margin-top: 20px;
+  color: #555;
+}

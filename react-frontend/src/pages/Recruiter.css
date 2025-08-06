@@ -1,0 +1,56 @@
+.recruiter-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.recruiter-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.recruiter-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.recruiter-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 160px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.recruiter-card:hover {
+  transform: scale(1.05);
+}
+
+.recruiter-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.recruiter-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+  color: #333;
+}
+
+.recruiter-location {
+  font-size: 14px;
+  color: #777;
+}
+
+.no-data {
+  font-size: 16px;
+  color: #555;
+  margin-top: 20px;
+}

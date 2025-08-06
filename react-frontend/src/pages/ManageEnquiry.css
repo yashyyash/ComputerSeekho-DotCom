@@ -1,0 +1,53 @@
+.enquiry-container {
+  padding: 20px;
+}
+
+.enquiry-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.enquiry-form input,
+.enquiry-form textarea,
+.enquiry-form select,
+.enquiry-form button {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.enquiry-form textarea {
+  min-height: 60px;
+}
+
+.enquiry-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.enquiry-table th,
+.enquiry-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.enquiry-table th {
+  background: #f2f2f2;
+}
+
+.enquiry-table button {
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+}

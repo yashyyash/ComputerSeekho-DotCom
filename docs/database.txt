@@ -1,0 +1,66 @@
+--------------------------------------------
+--------------------------------------------------------------------------------------
+version4
+
+
+-- 1. Create new database
+CREATE DATABASE version4;
+
+
+-- 4. Copy course table
+CREATE TABLE version4.course LIKE version3.course;
+INSERT INTO version4.course SELECT * FROM version3.course;
+
+-- 2. Copy batch table
+CREATE TABLE version4.batch LIKE version3.batch;
+INSERT INTO version4.batch SELECT * FROM version3.batch;
+
+-- 7. Copy recruiter table
+CREATE TABLE version4.recruiter LIKE version3.recruiter;
+INSERT INTO version4.recruiter SELECT * FROM version3.recruiter;
+
+-- 6. Copy placement table
+CREATE TABLE version4.placement LIKE version3.placement;
+INSERT INTO version4.placement SELECT * FROM version3.placement;
+
+
+------------------------
+POST: http://localhost:8080/api/staff
+{
+  "staffName": "Abhishek Karmore",
+  "photoUrl": "/students/dac_March24/ABHISHEK KARMORE_SMVITA.jpg",
+  "staffMobile": "9876543210",
+  "staffEmail": "abhishek.karmore@example.com",
+  "staffUsername": "abhishek.karmore@example.com",
+  "staffPassword": "passKarmore123",
+  "staffRole": "Teaching Staff"
+}
+POST: http://localhost:8080/api/staff
+{
+  "staffName": "Abhishek Shelke",
+  "photoUrl": "/students/dac_March24/ABHISHEK SHELKE_SMVITA.jpg",
+  "staffMobile": "9123456780",
+  "staffEmail": "abhishek.shelke@example.com",
+  "staffUsername": "abhishek.shelke@example.com",
+  "staffPassword": "passShelke123",
+  "staffRole": "Non Teaching"
+}
+---------------------
+
+
+
+
+
+-- 3. Copy closure_reason table
+CREATE TABLE version4.closure_reason LIKE version3.closure_reason;
+INSERT INTO version4.closure_reason SELECT * FROM version3.closure_reason;
+
+-- 5. Copy enquiry table
+CREATE TABLE version4.enquiry LIKE version3.enquiry;
+INSERT INTO version4.enquiry SELECT * FROM version3.enquiry;
+
+
+-- 8. Copy student table
+CREATE TABLE version4.student LIKE version3.student;
+INSERT INTO version4.student SELECT * FROM version3.student;
+
