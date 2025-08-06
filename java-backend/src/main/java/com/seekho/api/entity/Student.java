@@ -3,6 +3,8 @@ package com.seekho.api.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -41,8 +43,12 @@ public class Student {
     @JoinColumn(name = "enquiry_id", referencedColumnName = "enquiry_id")
     private Enquiry enquiry;
 
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Payment> payments = new ArrayList<>();
+
     public Student(){}
-    public Student(int studentId, double paymentDue, String photoUrl, String studentGender, LocalDate studentDob, String studentQualification, Batch batch, Course course, Enquiry enquiry) {
+    public Student(int studentId, double paymentDue, String photoUrl, String studentGender, LocalDate studentDob, String studentQualification, Batch batch, Course course, Enquiry enquiry, List<Payment> payments) {
         this.studentId = studentId;
         this.paymentDue = paymentDue;
         this.photoUrl = photoUrl;
@@ -52,6 +58,7 @@ public class Student {
         this.batch = batch;
         this.course = course;
         this.enquiry = enquiry;
+        this.payments = payments;
     }
 
     public int getStudentId() {
@@ -124,5 +131,13 @@ public class Student {
 
     public void setEnquiry(Enquiry enquiry) {
         this.enquiry = enquiry;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }

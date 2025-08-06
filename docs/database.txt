@@ -64,3 +64,13 @@ INSERT INTO version4.enquiry SELECT * FROM version3.enquiry;
 CREATE TABLE version4.student LIKE version3.student;
 INSERT INTO version4.student SELECT * FROM version3.student;
 
+
+-- 9. insert into payments type table
+
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('Cash');
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('Credit Card');
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('Debit Card');
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('UPI');
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('Bank Transfer');
+INSERT INTO payment_type_master (payment_type_desc) VALUES ('Cheque');
+
