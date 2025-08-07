@@ -74,3 +74,6 @@ INSERT INTO payment_type_master (payment_type_desc) VALUES ('UPI');
 INSERT INTO payment_type_master (payment_type_desc) VALUES ('Bank Transfer');
 INSERT INTO payment_type_master (payment_type_desc) VALUES ('Cheque');
 
+//docker 
+before build
+mvn clean package -DskipTests
