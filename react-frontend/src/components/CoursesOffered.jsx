@@ -21,39 +21,32 @@ const CoursesOffered = () => {
   return (
     <div className="courses-container">
       <h2 className="courses-heading">All Courses</h2>
-      <div className="courses-grid">
-        <a onClick={handleRedirect}>
+      <div className="courses-scroll-wrapper">
         {courses.map((course) => (
-          <div className="course-card" key={course.courseId}>
+          <div
+            className="course-card"
+            key={course.courseId}
+            onClick={handleRedirect}
+          >
             <img
               src={course.coverPhoto}
               alt={course.courseName}
               className="course-image"
               onError={(e) => {
-                e.target.src = "/default-course.jpg"; // fallback image
+                e.target.src = "/default-course.jpg";
               }}
             />
             <div className="course-info">
               <h3>{course.courseName}</h3>
-              <p><strong>Duration:</strong> {course.courseDuration} Months</p>
-              {/* <p><strong>Fee:</strong> ₹{course.courseFee}</p>
-              <p><strong>Age Group:</strong> {course.ageGrpType}</p>
-              <p><strong>Status:</strong> {course.courseIsActive ? "Active" : "Inactive"}</p>
-              <p className="course-description">{course.courseDescription}</p>
-              <details>
-                <summary>View Syllabus</summary>
-                <p>{course.courseSyllabus}</p>
-              </details> */}
+              <p>
+                <strong>Duration:</strong> {course.courseDuration} Months
+              </p>
             </div>
           </div>
-          
         ))}
-        </a>
-        
       </div>
-      
     </div>
   );
 };
-// Export the component to be used in other parts of the app
+
 export default CoursesOffered;
