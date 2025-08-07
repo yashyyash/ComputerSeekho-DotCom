@@ -25,20 +25,6 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private StudentRepo studentRepository;
 
-//    @Override
-//    public Payment savePayment(PaymentDTO paymentDTO) {
-//        // Fetch the student entity
-//        Student student = studentRepository.findById(paymentDTO.getStudent_id())
-//                .orElseThrow(() -> new RuntimeException("Student not found with ID: " + paymentDTO.getStudent_id()));
-//
-//        // Map DTO to Entity (mapper already sets receipt)
-//        Payment payment = PaymentMapper.toPayment(paymentDTO, student);
-//
-//        // ✅ DO NOT create a new receipt again here
-//
-//        // Save payment (receipt is saved due to cascade)
-//        return paymentRepository.save(payment);
-//    }
 
     @Override
     public Payment savePayment(PaymentDTO paymentDTO) {
@@ -80,5 +66,17 @@ public class PaymentServiceImpl implements PaymentService {
     private String generateReceiptNumber() {
         return "RCPT-" + System.currentTimeMillis();
     }
+
+
+    @Override
+    public List<Payment> getPaymentsByStudentId(int studentId) {
+        // Optional: throw error if student doesn't exist
+        if (!studentRepository.existsById(studentId)) {
+            throw new RuntimeException("Student not found with ID: " + studentId);
+        }
+        return paymentRepository.findByStudentStudentId(studentId);
+    }
+
+
 }
 

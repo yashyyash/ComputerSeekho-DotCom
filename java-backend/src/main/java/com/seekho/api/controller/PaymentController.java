@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:5173")
+
+
+
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
@@ -42,5 +46,18 @@ public class PaymentController {
         Payment payment = paymentService.getPaymentById(id);
         return ResponseEntity.ok(PaymentMapper.toPaymentDTO(payment));
     }
+
+
+    @GetMapping("/student/{studentId}")
+    public ResponseEntity<List<PaymentDTO>> getPaymentsByStudentId(@PathVariable int studentId) {
+        List<Payment> payments = paymentService.getPaymentsByStudentId(studentId);
+        List<PaymentDTO> paymentDTOs = payments.stream()
+                .map(PaymentMapper::toPaymentDTO)
+                .toList();
+
+        return ResponseEntity.ok(paymentDTOs);
+    }
+
+
 }
 
