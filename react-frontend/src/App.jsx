@@ -28,6 +28,7 @@ import ReceiptPage from './pages/ReceiptPage';
 
 import CampusLife from './pages/CampusLife';
 import Campus from './pages/Campus';
+import Student from './pages/Student';
 
 
 
@@ -89,6 +90,35 @@ const App = () => {
           }
         />
         <Route
+  path="/student/:studentId"
+  element={
+    <ProtectedRoute>
+      <Student />
+    </ProtectedRoute>
+  }
+/>
+
+
+        <Route
+          path="/payments/:studentId"
+          element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+        path="/receipt/:receiptId"
+        element={
+          <ProtectedRoute>
+            <ReceiptPage />
+          </ProtectedRoute>
+        }
+      />
+
+
+        <Route
           path="/manage-staff"
           element={
             <ProtectedRoute>
@@ -141,34 +171,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
-        {/* <Route
-          path="/payments"
-          element={
-            <ProtectedRoute>
-              <PaymentPage />
-            </ProtectedRoute>
-          }
-        /> */}
-
-        <Route
-          path="/payments/:studentId"
-          element={
-            <ProtectedRoute>
-              <PaymentPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-        path="/receipt/:receiptId"
-        element={
-          <ProtectedRoute>
-            <ReceiptPage />
-          </ProtectedRoute>
-        }
-      />
-
 
 
         <Route
