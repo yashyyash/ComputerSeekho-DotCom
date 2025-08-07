@@ -18,13 +18,16 @@ public class PaymentMapper {
         Receipt receipt = payment.getReceipt();
         if (receipt != null) {
             paymentDTO.setReceipt_id(receipt.getReceipt_id());
+
             paymentDTO.setPayment_type(payment.getPayment_type().getPayment_type_id());
+
         }
 
         Student student = payment.getStudent();
         if(payment.getStudent() != null) {
             paymentDTO.setStudent_id(student.getStudentId());
         }
+
 
 
 

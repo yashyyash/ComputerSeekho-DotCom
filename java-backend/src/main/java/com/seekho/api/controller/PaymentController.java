@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @CrossOrigin(origins = "http://localhost:5173")
+
+
+
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
@@ -43,6 +47,7 @@ public class PaymentController {
         return ResponseEntity.ok(PaymentMapper.toPaymentDTO(payment));
     }
 
+
     @GetMapping("/student/{studentId}")
     public ResponseEntity<List<PaymentDTO>> getPaymentsByStudentId(@PathVariable int studentId) {
         List<Payment> payments = paymentService.getPaymentsByStudentId(studentId);
@@ -52,5 +57,7 @@ public class PaymentController {
 
         return ResponseEntity.ok(paymentDTOs);
     }
+
+
 }
 

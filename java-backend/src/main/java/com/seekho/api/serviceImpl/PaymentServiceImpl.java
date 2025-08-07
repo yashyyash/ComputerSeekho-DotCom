@@ -67,6 +67,7 @@ public class PaymentServiceImpl implements PaymentService {
         return "RCPT-" + System.currentTimeMillis();
     }
 
+
     @Override
     public List<Payment> getPaymentsByStudentId(int studentId) {
         // Optional: throw error if student doesn't exist
@@ -75,6 +76,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
         return paymentRepository.findByStudentStudentId(studentId);
     }
+
 
 }
 
