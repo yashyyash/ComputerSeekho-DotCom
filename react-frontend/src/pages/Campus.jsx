@@ -22,7 +22,7 @@ const Campus = () => {
         {campusData.map(item => (
           <div key={item.id} className="border rounded-lg shadow-md p-4">
             <img
-              src={`http://localhost:5173${item.imageUrl}`}
+              src={`http://localhost:5173/${item.imageUrl}`}
               alt={item.title}
               className="w-full h-48 object-cover rounded"
             />
