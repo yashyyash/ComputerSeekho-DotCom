@@ -1,0 +1,64 @@
+.faculty-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.faculty-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.faculty-form input {
+  flex: 1 1 30%;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.faculty-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.faculty-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.faculty-card {
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.faculty-photo img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.faculty-info {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.faculty-actions button {
+  margin: 5px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}

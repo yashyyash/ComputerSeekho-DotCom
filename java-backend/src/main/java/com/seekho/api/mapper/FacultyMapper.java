@@ -3,7 +3,8 @@ package com.seekho.api.mapper;
 import com.seekho.api.dto.FacultyDTO;
 import com.seekho.api.entity.Faculty;
 
-public class FacultyMapper {
+public class
+FacultyMapper {
 
     public static FacultyDTO toDTO(Faculty faculty) {
         FacultyDTO dto = new FacultyDTO();
@@ -12,6 +13,7 @@ public class FacultyMapper {
         dto.setSubject(faculty.getSubject());
         dto.setEmail(faculty.getEmail());
         dto.setPhotoUrl(faculty.getPhotoUrl());
+        dto.setActive(faculty.isActive()); // ✅ map active
         return dto;
     }
 
@@ -22,9 +24,7 @@ public class FacultyMapper {
         faculty.setSubject(dto.getSubject());
         faculty.setEmail(dto.getEmail());
         faculty.setPhotoUrl(dto.getPhotoUrl());
-        faculty.setActive(true); // default active
+        faculty.setActive(dto.isActive()); // ✅ use actual checkbox value
         return faculty;
     }
 }
-
-

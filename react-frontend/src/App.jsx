@@ -28,7 +28,12 @@ import ReceiptPage from './pages/ReceiptPage';
 
 import CampusLife from './pages/CampusLife';
 import Campus from './pages/Campus';
+
+import AddFaculty from './pages/AddFaculty';
+import FacultyList from './pages/FacultyList';
+
 import Student from './pages/Student';
+
 
 
 
@@ -51,7 +56,13 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/batchwise-placed-students/:batchId" element={<BatchwisePlacedStudents />} />
         <Route path="/campuslife" element={<Campus />} />
+
+       <Route path="/add-faculty" element={<AddFaculty />} />
+       <Route path="/faculty" element={<FacultyList />} />
+    
+
         <Route path="/Getintouch" element={<GetInTouch />} />
+
        
 
         <Route
