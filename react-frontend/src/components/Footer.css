@@ -45,7 +45,7 @@
 
 .footer-section.social-icons {
   grid-column: span 3; 
-  background-color: #0a1c2e;
+  background-color: #4d014d;
   display: flex;
   justify-content: right;
   align-items: center;
@@ -74,8 +74,9 @@
 }
   
 .footer-section.quick-links li a:hover {
-  color: red;
+  color:#ff8c00;
   text-decoration: none;
+  cursor: pointer;
 }
 
 

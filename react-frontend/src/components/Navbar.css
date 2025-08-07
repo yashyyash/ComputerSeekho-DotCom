@@ -19,7 +19,7 @@
 
 .nav-link {
   text-decoration: none;
-  color: #002f6c;
+  color: rgb(15, 14, 14);
   font-weight: bold;
   font-size: 0.9rem;
   text-transform: uppercase;
@@ -28,7 +28,7 @@
 }
 
 .nav-link:hover {
-  color: #d60000;
+  color: #ff8c00;
 }
 
 .nav-link::after {
@@ -38,7 +38,7 @@
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: #d60000;
+  background-color:#ff8c00;
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.3s ease-in-out;

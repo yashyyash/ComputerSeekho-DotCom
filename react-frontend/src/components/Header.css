@@ -3,12 +3,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 15rem;
-  height: 100px;
+  padding: 0 2rem;
+  height: 150px;
   box-sizing: border-box;
+  position: relative;
 }
 
-.header img {
-  height: 80px;
+/* Make the left logo bigger and move right */
+.header img:first-child {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  margin-left: 30px; /* move logo right */
+}
+
+/* Center image absolutely centered and move right */
+.header img:last-child {
+  position: absolute;
+  left: 55%; /* move center logo slightly right */
+  transform: translateX(-50%);
+  height: 165px;
+  width: auto;
   object-fit: contain;
 }

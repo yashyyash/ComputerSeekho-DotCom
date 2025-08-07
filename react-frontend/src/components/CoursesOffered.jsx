@@ -1,54 +1,48 @@
-// Import core React library
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./CoursesOffered.css";
 
-// Import component-specific CSS
-import './CoursesOffered.css';
+const CoursesOffered = () => {
+  const [courses, setCourses] = useState([]);
 
-// Array of course data (static for now, can later be fetched from an API)
-const courses = [
-  {
-    title: 'PG DAC',
-    description: 'Post Graduate Diploma in Advanced Computing (PG DAC) grooms engineers and IT professionals for a career in Software Development.',
-  },
-  {
-    title: 'PG DBDA',
-    description: 'Post Graduate Diploma in Big Data Analytics (PG DBDA) enables students to explore the fundamental concepts of big data analytics.',
-  },
-  {
-    title: 'Pre CAT',
-    description: 'The admission to all PG Courses by C-DAC ACTS is through an All-India C-DAC Common Admission Test (C-CAT).',
-  },
-];
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/course")
+      .then((res) => setCourses(res.data))
+      .catch((err) => console.error("Error fetching courses:", err));
+  }, []);
 
-// Functional component to render the list of courses
-function CoursesOffered() {
   return (
-    <div className="app">
-      {/* Section heading */}
-      <h1 className="title">Courses Offered</h1>
-
-      {/* Decorative underline below heading */}
-      <div className="underline"></div>
-
-      {/* Course cards container */}
-      <div className="course-container">
-        {/* Map through the courses array and render a card for each course */}
-        {courses.map((course, index) => (
-          <div className="course-card" key={index}>
-            {/* Course title */}
-            <h2>{course.title}</h2>
-
-            {/* Course description */}
-            <p>{course.description}</p>
-
-            {/* Call-to-action button */}
-            <button>Click to know more</button>
+    <div className="courses-container">
+      <h2 className="courses-heading">All Courses</h2>
+      <div className="courses-grid">
+        {courses.map((course) => (
+          <div className="course-card" key={course.courseId}>
+            <img
+              src={course.coverPhoto}
+              alt={course.courseName}
+              className="course-image"
+              onError={(e) => {
+                e.target.src = "/default-course.jpg"; // fallback image
+              }}
+            />
+            <div className="course-info">
+              <h3>{course.courseName}</h3>
+              <p><strong>Duration:</strong> {course.courseDuration} Months</p>
+              {/* <p><strong>Fee:</strong> ₹{course.courseFee}</p>
+              <p><strong>Age Group:</strong> {course.ageGrpType}</p>
+              <p><strong>Status:</strong> {course.courseIsActive ? "Active" : "Inactive"}</p>
+              <p className="course-description">{course.courseDescription}</p>
+              <details>
+                <summary>View Syllabus</summary>
+                <p>{course.courseSyllabus}</p>
+              </details> */}
+            </div>
           </div>
         ))}
       </div>
     </div>
   );
-}
-
+};
 // Export the component to be used in other parts of the app
 export default CoursesOffered;
