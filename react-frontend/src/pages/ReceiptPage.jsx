@@ -1,22 +1,37 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./ReceiptPage.css";
 
 const ReceiptPage = () => {
+  const location = useLocation();
   const [receipt, setReceipt] = useState(null);
-  const receiptId = 2; // static for now
+  const [error, setError] = useState(null);
+  const receiptId = location.state?.receiptId;
 
   useEffect(() => {
+    if (!receiptId) {
+      setError("❌ Receipt ID not provided.");
+      return;
+    }
+
     fetch(`http://localhost:8080/api/receipt/${receiptId}`)
-      .then((res) => res.json())
-      .then((data) => setReceipt(data))
-      .catch((err) => console.error("Error fetching receipt:", err));
-  }, []);
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch receipt");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Fetched receipt:", data);
+        setReceipt(data);
+      })
+      .catch((err) => {
+        console.error("Error fetching receipt:", err);
+        setError("❌ Failed to load receipt");
+      });
+  }, [receiptId]);
 
   const handleDownloadPDF = () => {
-    fetch(`http://localhost:8080/api/receipt/${receiptId}/pdf`, {
-      method: "GET",
-    })
-      .then((response) => response.blob())
+    fetch(`http://localhost:8080/api/receipt/${receiptId}/pdf`)
+      .then((res) => res.blob())
       .then((blob) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -25,12 +40,11 @@ const ReceiptPage = () => {
         a.click();
         window.URL.revokeObjectURL(url);
       })
-      .catch((error) => console.error("Error downloading PDF:", error));
+      .catch((err) => console.error("❌ Error downloading PDF:", err));
   };
 
-  if (!receipt) {
-    return <div className="receipt-container">Loading receipt...</div>;
-  }
+  if (error) return <div className="receipt-container">{error}</div>;
+  if (!receipt) return <div className="receipt-container">⏳ Loading...</div>;
 
   return (
     <div className="receipt-container">

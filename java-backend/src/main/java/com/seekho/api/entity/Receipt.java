@@ -58,6 +58,8 @@
 
 package com.seekho.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -73,9 +75,15 @@ public class Receipt {
     private LocalDate receipt_date;
     private Double receipt_amount;
 
+//    @OneToOne
+//    @JoinColumn(name = "payment_id")
+//    private Payment payment;
+
     @OneToOne
-    @JoinColumn(name = "payment_id")
+    @JoinColumn(name = "payment_id", referencedColumnName = "payment_id")
+    @JsonBackReference
     private Payment payment;
+
 
     // Getters and Setters
 
