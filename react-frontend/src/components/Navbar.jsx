@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation(); 
+
   useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
   }, [location]); 
@@ -22,7 +23,7 @@ const Navbar = () => {
   const adminLink = isLoggedIn ? "/admin" : "/login";
 
   return (
-    <nav className="navbar">
+    <nav className="container-fluid d-flex justify-content-center navbar">
       <ul className="nav-list">
         {navItems.map((item, index) => (
           <li key={index} className="nav-item">
