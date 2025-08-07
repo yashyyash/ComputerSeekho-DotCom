@@ -12,20 +12,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CampusLifeServiceImpl implements CampusLifeService {
+public class CampusLifeServiceImpl implements CampusLifeService
+{
 
     @Autowired
     private CampusLifeRepository campusLifeRepository;
 
     @Override
-    public CampusLifeDto createCampusLife(CampusLifeDto dto) {
+    public CampusLifeDto createCampusLife(CampusLifeDto dto)
+    {
         CampusLife entity = CampusLifeMapper.toEntity(dto);
         CampusLife saved = campusLifeRepository.save(entity);
         return CampusLifeMapper.toDto(saved);
     }
 
     @Override
-    public List<CampusLifeDto> getAllCampusLife() {
+    public List<CampusLifeDto> getAllCampusLife()
+    {
         return campusLifeRepository.findAll()
                 .stream()
                 .map(CampusLifeMapper::toDto)
@@ -33,14 +36,16 @@ public class CampusLifeServiceImpl implements CampusLifeService {
     }
 
     @Override
-    public CampusLifeDto getCampusLifeById(Long id) {
+    public CampusLifeDto getCampusLifeById(Long id)
+    {
         return campusLifeRepository.findById(id)
                 .map(CampusLifeMapper::toDto)
                 .orElse(null);
     }
 
     @Override
-    public CampusLifeDto updateCampusLife(Long id, CampusLifeDto dto) {
+    public CampusLifeDto updateCampusLife(Long id, CampusLifeDto dto)
+    {
         CampusLife existing = campusLifeRepository.findById(id).orElse(null);
         if (existing == null) return null;
 
