@@ -12,12 +12,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface PaymentRepository extends JpaRepository<Payment, Integer>{
+public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     List<Payment> findByStudentStudentId(int studentId);
-
-@Repository
-@Transactional
-public interface PaymentRepository extends JpaRepository<Payment, Integer>{
-
 
 }
