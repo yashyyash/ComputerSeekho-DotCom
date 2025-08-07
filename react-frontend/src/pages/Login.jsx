@@ -20,7 +20,9 @@ const Login = () => {
 
       if (response.ok) {
         const staffData = await response.json();
-        localStorage.setItem("isLoggedIn", "true");
+        // localStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("token", staffData.token);
         localStorage.setItem("staffData", JSON.stringify(staffData));
         navigate("/admin");
       } else {

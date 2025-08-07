@@ -1,5 +1,7 @@
 package com.seekho.api.dto;
 
+import java.util.UUID;
+
 public class StaffResponseDto {
     private Long staffId;
     private String staffName;
@@ -7,6 +9,17 @@ public class StaffResponseDto {
     private String staffMobile;
     private String staffEmail;
     private String staffRole;
+    private String token = UUID.randomUUID().toString();
+//private String token;
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
+    public String getToken() {
+        return token;
+    }
 
     public StaffResponseDto(){}
     public StaffResponseDto(Long staffId, String staffName, String photoUrl, String staffMobile, String staffEmail, String staffRole) {
