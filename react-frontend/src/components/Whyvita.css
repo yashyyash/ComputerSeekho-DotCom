@@ -1,7 +1,7 @@
 
 
 .why-vita {
-  background-color: #3d5c7f;
+  background-color:rgb(255, 250, 147);
   color: white;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -10,9 +10,10 @@
 }
 
 .why-vita-image {
-  padding:  60px;
+  padding:  30px;
   display: flex;
   justify-content: center;
+  
 }
 
 .why-vita-content {

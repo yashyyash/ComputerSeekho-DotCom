@@ -1,5 +1,6 @@
 import React from 'react';
 import './MajorRecruiters.css'; // CSS file
+import { useNavigate } from "react-router-dom";
 
 const recruiters = [
   { name: 'Atos Worldline', logo: '/Logos/atos.png' },
@@ -12,7 +13,13 @@ const recruiters = [
   { name: 'OnMobile', logo: '/Logos/onmobile.png' },
 ];
 
- function MajorRecruiters() {
+const MajorRecruiters = () => {
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/Recruiters");
+  };
+
   return (
     <section className="recruiters-section">
       <h2 className="recruiters-title">Major Recruiters</h2>
@@ -23,9 +30,11 @@ const recruiters = [
           </div>
         ))}
       </div>
-      <button className="see-more-btn">SEE MORE</button>
+      <button className="see-more-btn" onClick={handleRedirect}>
+        SEE MORE
+      </button>
     </section>
   );
-}
+};
 
 export default MajorRecruiters;
