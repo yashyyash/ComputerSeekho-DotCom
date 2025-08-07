@@ -10,19 +10,19 @@ const AdminPage = () => {
   const staffData = JSON.parse(localStorage.getItem("staffData")) || {};
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("isLoggedIn");
     window.location.href = "/login";
     navigate("/");
   };
 
   // Auto-logout after 10 min
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
     if (!isLoggedIn) {
       window.location.href = "/login";
     }
     setTimeout(() => {
-      localStorage.clear();
+      sessionStorage.clear();
       window.location.href = "/login";
     }, 10 * 60 * 1000);
   }, []);
@@ -61,6 +61,8 @@ const AdminPage = () => {
               Welcome, <span>{staffData.staffName || "Staff"}</span>
             </h1>
             <p>Role: {staffData.staffRole || "N/A"}</p>
+            <small>Token: {staffData.token || "N/A"}</small>
+
           </div>
           <img
             src={staffData.photoUrl || "/default-staff.jpg"}
@@ -73,20 +75,17 @@ const AdminPage = () => {
         <div className="admin-actions">
           <button
             className="btn btn-green"
-            onClick={() => navigate("/manage-enquiry")}
-          >
+            onClick={() => navigate("/manage-enquiry")}>
             ➕ Manage Enquiry
           </button>
           <button
             className="btn btn-blue"
-            onClick={() => navigate("/manage-data")}
-          >
+            onClick={() => navigate("/manage-data")}>
             📂 Manage Website Data
           </button>
           <button
             className="btn btn-purple"
-            onClick={() => navigate("/manage-staff")}
-          >
+            onClick={() => navigate("/manage-staff")}>
             👥 Manage Staff
           </button>
           <button className="btn btn-red" onClick={handleLogout}>
@@ -109,37 +108,35 @@ const AdminPage = () => {
             </tr>
           </thead>
           <tbody>
-  {followUps.length > 0 ? (
-    [...followUps] // copy array so original state is not mutated
-      .sort((a, b) => {
-        const today = new Date();
-        const diffA = Math.abs(new Date(a.followUpDate) - today);
-        const diffB = Math.abs(new Date(b.followUpDate) - today);
-        return diffA - diffB; // smaller difference comes first
-      })
-      .map((entry) => (
-        <tr key={entry.enquiryId}>
-          <td>{entry.enquiryId}</td>
-          <td>{entry.enquirerName}</td>
-          <td>{entry.enquirerMobile}</td>
-          <td>{entry.followUpDate}</td>
-          <td>
-            <button
-              onClick={() => handleEditRedirect(entry)}
-              className="btn btn-yellow"
-            >
-              📞 Call
-            </button>
-          </td>
-        </tr>
-      ))
-  ) : (
-    <tr>
-      <td colSpan="6">No Follow-Ups Found</td>
-    </tr>
-  )}
-</tbody>
-
+            {followUps.length > 0 ? (
+              [...followUps] // copy array so original state is not mutated
+                .sort((a, b) => {
+                  const today = new Date();
+                  const diffA = Math.abs(new Date(a.followUpDate) - today);
+                  const diffB = Math.abs(new Date(b.followUpDate) - today);
+                  return diffA - diffB; // smaller difference comes first
+                })
+                .map((entry) => (
+                  <tr key={entry.enquiryId}>
+                    <td>{entry.enquiryId}</td>
+                    <td>{entry.enquirerName}</td>
+                    <td>{entry.enquirerMobile}</td>
+                    <td>{entry.followUpDate}</td>
+                    <td>
+                      <button
+                        onClick={() => handleEditRedirect(entry)}
+                        className="btn btn-yellow">
+                        📞 Call
+                      </button>
+                    </td>
+                  </tr>
+                ))
+            ) : (
+              <tr>
+                <td colSpan="6">No Follow-Ups Found</td>
+              </tr>
+            )}
+          </tbody>
         </table>
       </div>
     </div>

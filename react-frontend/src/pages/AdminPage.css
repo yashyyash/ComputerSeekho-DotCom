@@ -30,7 +30,10 @@
   font-size: 1rem;
   color: #666;
 }
-
+.admin-info small{
+  font-size: 10px;
+  opacity: 0.6;
+}
 .staff-photo {
   width: 70px;
   height: 70px;
