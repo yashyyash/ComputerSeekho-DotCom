@@ -19,25 +19,36 @@ const Courses = () => {
         {courses.map((course) => (
           <div className="course-card" key={course.courseId}>
             <img
-              src={course.coverPhoto}
-              alt={course.courseName}
-              className="course-image"
-              onError={(e) => {
-                e.target.src = "/default-course.jpg"; // fallback
-              }}
-            />
-            <div className="course-info">
-              <h3>{course.courseName}</h3>
-              <p><strong>Fee:</strong> ₹{course.courseFee}</p>
-              <p><strong>Duration:</strong> {course.courseDuration} Months</p>
-              <p><strong>Age Group:</strong> {course.ageGrpType}</p>
-              <p><strong>Status:</strong> {course.courseIsActive ? "Active" : "Inactive"}</p>
-              <p className="course-description">{course.courseDescription}</p>
-              <details>
-                <summary>View Syllabus</summary>
-                <p>{course.courseSyllabus}</p>
-              </details>
-            </div>
+  src={course.coverPhoto || "/default-course.jpg"}
+  alt={course.courseName}
+  className="course-image"
+  onError={(e) => {
+    e.target.src = "/default-course.jpg";
+  }}
+/>
+            
+           <div className="course-info">
+  <h3 className="course-title">{course.courseName}</h3>
+  <ul className="course-details-list">
+    <li><span>💰 Fee:</span> ₹{course.courseFee}</li>
+    <li><span>⏳ Duration:</span> {course.courseDuration} Months</li>
+    <li><span>👦 Age Group:</span> {course.ageGrpType}</li>
+    <li>
+      <span>📌 Status:</span>
+      <span className={course.courseIsActive ? "status active" : "status inactive"}>
+        {course.courseIsActive ? "Active" : "Inactive"}
+      </span>
+    </li>
+  </ul>
+
+  <p className="course-description">{course.courseDescription}</p>
+
+  <details className="syllabus-toggle">
+    <summary>📚 View Syllabus</summary>
+    <div className="syllabus-content">{course.courseSyllabus}</div>
+  </details>
+</div>
+
           </div>
         ))}
       </div>

@@ -1,8 +1,6 @@
-/* CoursesOffered.css */
-
 /* Container */
 .courses-container {
-  padding: 60px 40px;
+  padding: 50px 30px;
   background: linear-gradient(to right, #f8faff, #eef3f8);
   color: #333;
   border-radius: 20px;
@@ -12,20 +10,20 @@
 /* Heading */
 .courses-heading {
   text-align: center;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   color: #1a1a1a;
   position: relative;
 }
 
 .courses-heading::after {
   content: '';
-  width: 80px;
-  height: 4px;
+  width: 60px;
+  height: 3px;
   background: #007bff;
   display: block;
-  margin: 12px auto 0;
+  margin: 10px auto 0;
   border-radius: 10px;
 }
 
@@ -33,15 +31,15 @@
 .courses-scroll-wrapper {
   display: flex;
   overflow-x: auto;
-  padding: 20px 0;
-  gap: 24px;
+  padding: 16px 0;
+  gap: 20px;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #cccccc transparent;
 }
 
 .courses-scroll-wrapper::-webkit-scrollbar {
-  height: 10px;
+  height: 8px;
 }
 
 .courses-scroll-wrapper::-webkit-scrollbar-thumb {
@@ -56,11 +54,11 @@
 /* Course Card */
 .course-card {
   flex: 0 0 auto;
-  width: 260px;
+  width: 240px;
   background: #ffffffcc;
   backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
@@ -68,56 +66,56 @@
 }
 
 .course-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 /* Course Image */
 .course-image {
   width: 100%;
-  height: 160px;
+  height: 130px; /* Reduced height */
   object-fit: cover;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   transition: transform 0.3s ease;
 }
 
 .course-card:hover .course-image {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 /* Course Info */
 .course-info {
-  padding: 16px;
+  padding: 12px;
   text-align: left;
 }
 
 .course-info h3 {
-  margin: 0 0 10px;
-  font-size: 1.3rem;
+  margin: 0 0 8px;
+  font-size: 1.1rem;
   color: #222;
   font-weight: 600;
 }
 
 .course-info p {
-  margin: 4px 0;
-  font-size: 1rem;
+  margin: 2px 0;
+  font-size: 0.9rem;
   color: #555;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .courses-container {
-    padding: 40px 20px;
+    padding: 30px 15px;
   }
 
   .courses-heading {
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .course-card {
-    width: 80%;
+    width: 85%;
     margin: 0 auto;
   }
 }

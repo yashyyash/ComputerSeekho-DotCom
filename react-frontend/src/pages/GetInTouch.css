@@ -1,190 +1,132 @@
-/* Container */
 .getintouch-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 48px 24px;
-  font-family: 'Poppins', sans-serif;
-  color: #4f5665;
-  background: #fff;
+  background: #f9f9fb;
+  padding: 60px 20px;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-/* Layout: Two columns */
 .contact-section {
   display: flex;
-  gap: 60px;
   flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: auto;
 }
 
-/* LEFT COLUMN */
-.contact-details {
+.contact-details, .contact-map-form {
   flex: 1 1 450px;
-  max-width: 480px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-details:hover, .contact-map-form:hover {
+  transform: translateY(-5px);
 }
 
 .section-title {
-  font-weight: 900;
-  font-size: 28px;
-  color: #0e3a69; /* Deep Blue */
-  border-bottom: 3px solid #b31b25; /* red underline */
-  padding-bottom: 6px;
-  width: fit-content;
-  margin-bottom: 24px; /* Default bottom margin */
-}
-
-/* NEW: Reduce space below "Reach us at" */
-.reach-us-title {
-  margin-bottom: 8px; /* Reduced from 24px */
+  font-size: 26px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
+  border-left: 6px solid #2979ff;
+  padding-left: 12px;
 }
 
 .section-text {
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 1.7;
-  color: #545d75;
-  margin-bottom: 20px;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
 }
 
-/* NEW: Remove top margin on paragraph below "Reach us at" */
-.reach-us-text {
-  margin-top: 0;
-  margin-bottom: 20px;
+.reach-us-title {
+  margin-top: 40px;
 }
 
-.section-text strong {
-  font-weight: 700;
-  color: #3a3f53;
-}
-
-.section-text a {
-  color: #3a3f53;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.section-text a:hover {
-  text-decoration: underline;
-}
-
-/* RIGHT COLUMN */
-.contact-map-form {
-  flex: 1 1 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-/* Map */
-.map-container {
-  height: 280px;
+.contact-map-form .map-container {
+  width: 100%;
+  height: 250px;
+  margin-bottom: 30px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 12px 24px rgb(0 0 0 / 0.12);
 }
 
-.map-container iframe {
+.contact-map-form iframe {
   width: 100%;
   height: 100%;
   border: none;
 }
 
-/* Form */
 .contact-form {
-  background: #f9fafc;
-  padding: 36px 32px;
-  border-radius: 12px;
-  box-shadow: 0 12px 24px rgb(0 0 0 / 0.1);
   display: flex;
   flex-direction: column;
 }
 
 .form-title {
-  font-weight: 900;
-  font-size: 28px;
-  color: #0e3a69;
-  margin-bottom: 4px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2979ff;
+  margin-bottom: 5px;
 }
 
 .form-subtitle {
-  font-weight: 400;
   font-size: 14px;
-  color: #545d75;
+  color: #777;
   margin-bottom: 20px;
 }
 
-/* Inputs */
 .contact-form input,
 .contact-form textarea {
-  width: 100%;
-  padding: 14px 16px;
-  margin-top: 16px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
   font-size: 15px;
-  border: 1.5px solid #d9dee8;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  color: #4f5665;
-  resize: vertical;
+  border: 1px solid #ddd;
+  border-radius: 10px;
   transition: border-color 0.3s ease;
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: #a6afc9;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: #b31b25;
+  border-color: #2979ff;
+  box-shadow: 0 0 5px rgba(41, 121, 255, 0.2);
 }
 
-.contact-form textarea {
-  min-height: 140px;
-  max-height: 320px;
-}
-
-/* Button */
 .contact-form button {
-  margin-top: 28px;
-  width: 100%;
-  padding: 16px 0;
-  background-color: #b31b25;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 16px;
+  background: #2979ff;
   color: white;
+  border: none;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .contact-form button:hover {
-  background-color: #8a1319;
+  background: #155ab5;
 }
 
-/* Status message */
 .status-message {
-  margin-top: 20px;
-  font-weight: 600;
+  margin-top: 12px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .status-message.success {
-  color: #198754; /* green */
+  color: green;
 }
 
 .status-message.error {
-  color: #dc3545; /* red */
+  color: red;
 }
 
-/* Responsive for mobile */
-@media (max-width: 900px) {
+/* Responsive */
+@media (max-width: 768px) {
   .contact-section {
     flex-direction: column;
-  }
-
-  .contact-details,
-  .contact-map-form {
-    max-width: 100%;
-    flex: 1 1 100%;
+    padding: 0;
   }
 }
