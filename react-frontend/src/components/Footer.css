@@ -30,7 +30,7 @@
 }
 
 .footer li a {
-  color: rgb(189, 189, 189);
+  color: azure;
   text-decoration: none;
   display: block; 
 }
@@ -70,6 +70,7 @@
 
 .footer-section.quick-links li {
   padding: 10px 10px 10px 10px;
+  color:azure;
   
 }
   

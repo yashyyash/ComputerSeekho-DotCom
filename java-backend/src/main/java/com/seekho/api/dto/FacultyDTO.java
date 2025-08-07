@@ -7,6 +7,16 @@ public class FacultyDTO {
     private String subject;
     private String email;
     private String photoUrl;
+    private boolean active; // ✅ Corrected from int to boolean
+
+    // --- Getters and Setters ---
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public Long getId() {
         return id;
@@ -48,5 +58,3 @@ public class FacultyDTO {
         this.photoUrl = photoUrl;
     }
 }
-
-

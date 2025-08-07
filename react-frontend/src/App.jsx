@@ -28,6 +28,11 @@ import ReceiptPage from './pages/ReceiptPage';
 
 import CampusLife from './pages/CampusLife';
 import Campus from './pages/Campus';
+import AddFaculty from './pages/AddFaculty';
+import FacultyList from './pages/FacultyList';
+
+
+
 
 
 
@@ -51,6 +56,8 @@ const App = () => {
 
 
         <Route path="/campuslife" element={<Campus />} />
+       <Route path="/add-faculty" element={<AddFaculty />} />
+       <Route path="/faculty" element={<FacultyList />} />
     
        
 

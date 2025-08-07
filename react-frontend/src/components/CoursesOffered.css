@@ -1,66 +1,77 @@
 .courses-container {
-  padding: 20px;
-  font-family: sans-serif;
-  max-width: 800px;
-  margin: auto;
+  padding: 2rem;
+  background: #f4f4f4;
 }
 
 .courses-heading {
   text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
+  margin-bottom: 1rem;
+  font-size: 2rem;
   color: #333;
 }
 
+/* Make the container horizontally scrollable */
 .courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+  /* optional: hide scrollbar (Webkit) */
+}
+
+.courses-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.courses-grid::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.courses-grid::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .course-card {
-  border: 1px solid #ddd;
+  flex: 0 0 250px; /* fixed width cards */
+  background: #fff;
   border-radius: 8px;
-  overflow: hidden;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .course-image {
   width: 100%;
   height: 150px;
   object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .course-info {
-  padding: 15px;
+  padding: 1rem;
 }
 
 .course-info h3 {
-  margin: 0 0 10px;
-  font-size: 20px;
-  color: #007acc;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  color: #007bff;
 }
 
 .course-info p {
-  margin: 4px 0;
-  font-size: 14px;
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #555;
 }
 
 .course-description {
-  margin-top: 10px;
-  font-style: italic;
-  color: #555;
-}
-
-details summary {
-  cursor: pointer;
-  color: #555;
-  margin-top: 8px;
-}
-
-details p {
-  margin-top: 5px;
-  font-size: 13px;
-  color: #333;
+  margin-top: 0.5rem;
+  color: #666;
 }

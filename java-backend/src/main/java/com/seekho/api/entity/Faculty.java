@@ -1,4 +1,5 @@
 package com.seekho.api.entity;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,17 +10,31 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "active")
+    private boolean active; // ✅ FIXED: Changed from int to boolean
+
     private String name;
     private String subject;
     private String email;
-    private String photoUrl; // Store image URL or file path
+    private String photoUrl;
+
+    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
     }
 
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getName() {
@@ -53,19 +68,4 @@ public class Faculty {
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
     }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active;
-
-    // Getters & Setters
 }
-
-

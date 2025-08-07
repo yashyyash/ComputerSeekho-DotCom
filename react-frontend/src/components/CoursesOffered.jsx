@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CoursesOffered.css";
+import { useNavigate } from "react-router-dom";
 
 const CoursesOffered = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate("/courses");
+  };
 
   useEffect(() => {
     axios
@@ -16,6 +22,7 @@ const CoursesOffered = () => {
     <div className="courses-container">
       <h2 className="courses-heading">All Courses</h2>
       <div className="courses-grid">
+        <a onClick={handleRedirect}>
         {courses.map((course) => (
           <div className="course-card" key={course.courseId}>
             <img
@@ -39,8 +46,12 @@ const CoursesOffered = () => {
               </details> */}
             </div>
           </div>
+          
         ))}
+        </a>
+        
       </div>
+      
     </div>
   );
 };
