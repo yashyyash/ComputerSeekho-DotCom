@@ -18,7 +18,7 @@ target/
 /src/main/resources/application.properties
 
 ### ignoring logs 
-logs
+**/logs
 
 ### IntelliJ IDEA ###
 .idea
