@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ManageEnquiry.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaSearch, FaPlus, FaTimes, FaEdit, FaTrash, FaUserCheck } from "react-icons/fa";
 
 const ManageEnquiry = () => {
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ const ManageEnquiry = () => {
 
   const location = useLocation();
 
-  // Fetch Courses and Staff for dropdowns
   const fetchDropdownData = async () => {
     try {
       const [courseRes, staffRes] = await Promise.all([
@@ -44,7 +44,6 @@ const ManageEnquiry = () => {
     }
   };
 
-  // Fetch Enquiries
   const fetchEnquiries = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/enquiry");
@@ -54,7 +53,6 @@ const ManageEnquiry = () => {
     }
   };
 
-  // Fetch By Staff ID
   const fetchByStaffId = async () => {
     if (!staffSearch.trim()) {
       fetchEnquiries();
@@ -71,13 +69,11 @@ const ManageEnquiry = () => {
     }
   };
 
-  // On page load
   useEffect(() => {
     fetchDropdownData();
     fetchEnquiries();
   }, []);
 
-  // If edit data is passed from another page
   useEffect(() => {
     if (location.state?.editData) {
       const data = location.state.editData;
@@ -110,27 +106,22 @@ const ManageEnquiry = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let updatedForm = { ...formData };
 
-    // Attach staff object if staffId exists
     if (formData.staffId) {
       updatedForm.staff = { staffId: formData.staffId };
       delete updatedForm.staffId;
     }
 
-if (formData.enquiryDate) {
-  const baseDate = new Date(formData.enquiryDate);
-  baseDate.setDate(baseDate.getDate() + 3);
-  updatedForm.followUpDate = baseDate.toISOString().split("T")[0];
-}
+    if (formData.enquiryDate) {
+      const baseDate = new Date(formData.enquiryDate);
+      baseDate.setDate(baseDate.getDate() + 3);
+      updatedForm.followUpDate = baseDate.toISOString().split("T")[0];
+    }
 
-if (formData.enquiryId) {
-  updatedForm.enquiryCounter = (formData.enquiryCounter || 0) + 1;
-} else {
-  updatedForm.enquiryCounter = 0; // first time
-}
-
+    updatedForm.enquiryCounter = formData.enquiryId
+      ? (formData.enquiryCounter || 0) + 1
+      : 0;
 
     try {
       if (formData.enquiryId) {
@@ -213,7 +204,9 @@ if (formData.enquiryId) {
 
   return (
     <div className="enquiry-container">
-      <h2 ref={formRef}>{formData.enquiryId ? "Edit Enquiry" : "Add Enquiry"}</h2>
+      <h2 ref={formRef} className="title">
+        {formData.enquiryId ? "Edit Enquiry" : "Add Enquiry"}
+      </h2>
 
       <div className="search-bar">
         <input
@@ -222,8 +215,8 @@ if (formData.enquiryId) {
           value={staffSearch}
           onChange={(e) => setStaffSearch(e.target.value)}
         />
-        <button onClick={fetchByStaffId}>Search</button>
-        <button onClick={fetchEnquiries}>Reset</button>
+        <button onClick={fetchByStaffId}><FaSearch /> Search</button>
+        <button onClick={fetchEnquiries}><FaTimes /> Reset</button>
       </div>
 
       <form className="enquiry-form" onSubmit={handleSubmit}>
@@ -234,7 +227,6 @@ if (formData.enquiryId) {
         <input type="date" name="enquiryDate" value={formData.enquiryDate} onChange={handleChange} required />
         <textarea name="enquirerQuery" placeholder="Enquirer Query" value={formData.enquirerQuery} onChange={handleChange}></textarea>
 
-        {/* Dropdown for Course */}
         <select name="courseName" value={formData.courseName} onChange={handleChange} required>
           <option value="">Select Course</option>
           {courses.map(course => (
@@ -244,7 +236,6 @@ if (formData.enquiryId) {
           ))}
         </select>
 
-        {/* Dropdown for Staff */}
         <select name="staffId" value={formData.staffId || ""} onChange={handleChange}>
           <option value="">Assign Staff</option>
           {staffList.map(staff => (
@@ -260,11 +251,11 @@ if (formData.enquiryId) {
         <label>
           Active: <input type="checkbox" name="enquiryIsActive" checked={formData.enquiryIsActive} onChange={handleChange} />
         </label>
-        <button type="submit">{formData.enquiryId ? "Update" : "Add"}</button>
-        {formData.enquiryId && <button type="button" onClick={resetForm}>Cancel</button>}
+        <button type="submit">{formData.enquiryId ? <FaEdit /> : <FaPlus />} {formData.enquiryId ? "Update" : "Add"}</button>
+        {formData.enquiryId && <button type="button" onClick={resetForm}><FaTimes /> Cancel</button>}
       </form>
 
-      <h3>All Enquiries</h3>
+      <h3 className="subtitle">All Enquiries</h3>
       <table className="enquiry-table">
         <thead>
           <tr>
@@ -290,18 +281,11 @@ if (formData.enquiryId) {
                 <td>{enq.enquiryCounter}</td>
                 <td>{enq.enquiryIsActive ? "✅" : "❌"}</td>
                 <td>
-                  <button 
-                    onClick={() => navigate("/register", { state: { enquiryData: enq } })} 
-                    className="register-btn"
-                  >
-                    Register
-                  </button>
-                  <button onClick={() => handleEdit(enq)}>Edit</button>
-                  <button onClick={() => handleDelete(enq.enquiryId)} className="delete-btn">Delete</button>
+                  <button onClick={() => navigate("/register", { state: { enquiryData: enq } })} className="register-btn"><FaUserCheck /></button>
+                  <button onClick={() => handleEdit(enq)}><FaEdit /></button>
+                  <button onClick={() => handleDelete(enq.enquiryId)} className="delete-btn"><FaTrash /></button>
                   {enq.enquiryIsActive && (
-                    <button onClick={() => handleCloseEnquiry(enq.enquiryId)} className="close-btn">
-                      Close
-                    </button>
+                    <button onClick={() => handleCloseEnquiry(enq.enquiryId)} className="close-btn"><FaTimes /></button>
                   )}
                 </td>
               </tr>

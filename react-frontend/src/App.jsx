@@ -33,12 +33,7 @@ import AddFaculty from './pages/AddFaculty';
 import FacultyList from './pages/FacultyList';
 
 import Student from './pages/Student';
-
-
-
-
-
-
+import ScrollToTopButton from './components/ScrollToTopButton'; // attractive button
 
 const App = () => {
   return (
@@ -48,7 +43,6 @@ const App = () => {
       <NotificationBar />
 
       <Routes>
-
         <Route path="/" element={<Home />} />
         <Route path="/placement" element={<BatchwisePlacement />} />
         <Route path="/courses" element={<Courses />} />
@@ -56,149 +50,28 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/batchwise-placed-students/:batchId" element={<BatchwisePlacedStudents />} />
         <Route path="/campuslife" element={<Campus />} />
-
-       <Route path="/add-faculty" element={<AddFaculty />} />
-       <Route path="/faculty" element={<FacultyList />} />
-    
-
+        <Route path="/add-faculty" element={<AddFaculty />} />
+        <Route path="/faculty" element={<FacultyList />} />
         <Route path="/Getintouch" element={<GetInTouch />} />
 
-       
-
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute>
-              <AdminPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/manage-data"
-          element={
-            <ProtectedRoute>
-              <ManageWebsiteData />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/manage-enquiry"
-          element={
-            <ProtectedRoute>
-              <ManageEnquiry />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <ProtectedRoute>
-              <Register />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-  path="/student/:studentId"
-  element={
-    <ProtectedRoute>
-      <Student />
-    </ProtectedRoute>
-  }
-/>
-
-
-        <Route
-          path="/payments/:studentId"
-          element={
-            <ProtectedRoute>
-              <PaymentPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-        path="/receipt/:receiptId"
-        element={
-          <ProtectedRoute>
-            <ReceiptPage />
-          </ProtectedRoute>
-        }
-      />
-
-
-        <Route
-          path="/manage-staff"
-          element={
-            <ProtectedRoute>
-              <ManageStaff />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/add-course"
-          element={
-            <ProtectedRoute>
-              <AddCourse />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/add-batch-placement"
-          element={
-            <ProtectedRoute>
-              <AddBatchPlacement />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/add-marquee"
-          element={
-            <ProtectedRoute>
-              <AddMarquee />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/manage-recruiter"
-          element={
-            <ProtectedRoute>
-              <ManageRecruiter />
-            </ProtectedRoute>
-          }
-        />
-               
-
-        <Route
-          path="/edit-batchwise-placed-students/:batchId"
-          element={
-            <ProtectedRoute>
-              <EditBatchwisePlacedStudents />
-            </ProtectedRoute>
-          }
-        />
-
-
-        <Route
-          path="/add-campus-life"
-          element={
-          <ProtectedRoute>
-            <CampusLife />
-          </ProtectedRoute>
-        }
-        />
-
-
+        <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
+        <Route path="/manage-data" element={<ProtectedRoute><ManageWebsiteData /></ProtectedRoute>} />
+        <Route path="/manage-enquiry" element={<ProtectedRoute><ManageEnquiry /></ProtectedRoute>} />
+        <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
+        <Route path="/student/:studentId" element={<ProtectedRoute><Student /></ProtectedRoute>} />
+        <Route path="/payments/:studentId" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
+        <Route path="/receipt/:receiptId" element={<ProtectedRoute><ReceiptPage /></ProtectedRoute>} />
+        <Route path="/manage-staff" element={<ProtectedRoute><ManageStaff /></ProtectedRoute>} />
+        <Route path="/add-course" element={<ProtectedRoute><AddCourse /></ProtectedRoute>} />
+        <Route path="/add-batch-placement" element={<ProtectedRoute><AddBatchPlacement /></ProtectedRoute>} />
+        <Route path="/add-marquee" element={<ProtectedRoute><AddMarquee /></ProtectedRoute>} />
+        <Route path="/manage-recruiter" element={<ProtectedRoute><ManageRecruiter /></ProtectedRoute>} />
+        <Route path="/edit-batchwise-placed-students/:batchId" element={<ProtectedRoute><EditBatchwisePlacedStudents /></ProtectedRoute>} />
+        <Route path="/add-campus-life" element={<ProtectedRoute><CampusLife /></ProtectedRoute>} />
       </Routes>
 
-
-
       <Footer />
+      <ScrollToTopButton />
     </>
   );
 };
