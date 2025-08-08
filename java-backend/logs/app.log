@@ -1,0 +1,108 @@
+[2025-08-07 21:41:33] INFO  ApiApplication:53 - Starting ApiApplication using Java 21.0.7 with PID 26324 (C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend\target\classes started by siddh in C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend)
+[2025-08-07 21:41:33] DEBUG ApiApplication:54 - Running with Spring Boot v3.5.4, Spring v6.2.9
+[2025-08-07 21:41:33] INFO  ApiApplication:652 - No active profile set, falling back to 1 default profile: "default"
+[2025-08-07 21:41:44] INFO  ApiApplication:59 - Started ApiApplication in 11.873 seconds (process running for 14.845)
+[2025-08-07 21:42:47] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:42:48] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:43:37] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:43:37] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:44:30] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:44:30] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:46:09] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:46:09] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:46:55] INFO  PaymentController:58 - Fetching payments for student ID: 32
+[2025-08-07 21:46:55] INFO  PaymentController:63 - Found 0 payments for student ID: 32
+[2025-08-07 21:47:05] INFO  PaymentController:29 - Saving new payment: com.seekho.api.dto.PaymentDTO@6a460bd8
+[2025-08-07 21:47:05] INFO  PaymentController:32 - Saved payment with ID: 11
+[2025-08-07 21:47:05] INFO  PaymentController:58 - Fetching payments for student ID: 32
+[2025-08-07 21:47:05] INFO  PaymentController:63 - Found 1 payments for student ID: 32
+[2025-08-07 21:53:32] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:53:32] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:53:44] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:53:44] INFO  CourseController:42 - Total courses found: 4
+[2025-08-07 21:57:39] INFO  CourseController:40 - Fetching all courses
+[2025-08-07 21:57:39] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 00:46:12] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 00:46:12] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 01:31:46] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 01:31:46] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 01:31:54] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 01:31:54] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 01:32:11] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 01:32:11] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:28:39] INFO  ApiApplication:53 - Starting ApiApplication using Java 21.0.7 with PID 19736 (C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend\target\classes started by siddh in C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend)
+[2025-08-08 02:28:39] DEBUG ApiApplication:54 - Running with Spring Boot v3.5.4, Spring v6.2.9
+[2025-08-08 02:28:39] INFO  ApiApplication:652 - No active profile set, falling back to 1 default profile: "default"
+[2025-08-08 02:28:49] INFO  ApiApplication:59 - Started ApiApplication in 10.181 seconds (process running for 12.635)
+[2025-08-08 02:29:44] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:29:44] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:30:58] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:30:58] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:31:41] INFO  PaymentController:58 - Fetching payments for student ID: 33
+[2025-08-08 02:31:41] INFO  PaymentController:63 - Found 0 payments for student ID: 33
+[2025-08-08 02:31:53] INFO  PaymentController:29 - Saving new payment: com.seekho.api.dto.PaymentDTO@1455843b
+[2025-08-08 02:31:53] INFO  PaymentController:32 - Saved payment with ID: 12
+[2025-08-08 02:31:53] INFO  PaymentController:58 - Fetching payments for student ID: 33
+[2025-08-08 02:31:53] INFO  PaymentController:63 - Found 1 payments for student ID: 33
+[2025-08-08 02:32:04] INFO  PaymentController:58 - Fetching payments for student ID: 33
+[2025-08-08 02:32:05] INFO  PaymentController:63 - Found 1 payments for student ID: 33
+[2025-08-08 02:32:25] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:32:25] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:32:25] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:32:25] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:32:29] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:32:29] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:34:38] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:34:38] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:39:39] INFO  ApiApplication:53 - Starting ApiApplication using Java 21.0.7 with PID 31668 (C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend\target\classes started by siddh in C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend)
+[2025-08-08 02:39:39] DEBUG ApiApplication:54 - Running with Spring Boot v3.5.4, Spring v6.2.9
+[2025-08-08 02:39:39] INFO  ApiApplication:652 - No active profile set, falling back to 1 default profile: "default"
+[2025-08-08 02:39:50] INFO  ApiApplication:59 - Started ApiApplication in 11.189 seconds (process running for 13.166)
+[2025-08-08 02:40:16] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:40:16] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:41:36] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:41:36] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:45:26] INFO  ApiApplication:53 - Starting ApiApplication using Java 21.0.7 with PID 29576 (C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend\target\classes started by siddh in C:\Users\siddh\Desktop\cdac\project\Test\version7\ComputerSeekho-DotCom\java-backend)
+[2025-08-08 02:45:26] DEBUG ApiApplication:54 - Running with Spring Boot v3.5.4, Spring v6.2.9
+[2025-08-08 02:45:26] INFO  ApiApplication:652 - No active profile set, falling back to 1 default profile: "default"
+[2025-08-08 02:45:34] INFO  ApiApplication:59 - Started ApiApplication in 8.967 seconds (process running for 11.185)
+[2025-08-08 02:45:45] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:45:46] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:45:46] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:45:46] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:46:51] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:46:51] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:54:01] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:54:01] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:54:50] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:54:50] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:56:46] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:56:46] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:57:30] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:57:30] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 02:57:35] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 02:57:35] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:00:28] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:00:28] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:01:30] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:01:30] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:01:51] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:01:51] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:02:04] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:02:04] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:09:53] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:09:53] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:12:14] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:12:14] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:16:20] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:16:20] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:18:34] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:18:34] INFO  CourseController:42 - Total courses found: 4
+[2025-08-08 03:19:33] INFO  PaymentController:58 - Fetching payments for student ID: 37
+[2025-08-08 03:19:33] INFO  PaymentController:63 - Found 0 payments for student ID: 37
+[2025-08-08 03:19:43] INFO  PaymentController:29 - Saving new payment: com.seekho.api.dto.PaymentDTO@1c61125a
+[2025-08-08 03:19:43] INFO  PaymentController:32 - Saved payment with ID: 13
+[2025-08-08 03:19:43] INFO  PaymentController:58 - Fetching payments for student ID: 37
+[2025-08-08 03:19:43] INFO  PaymentController:63 - Found 1 payments for student ID: 37
+[2025-08-08 03:21:03] INFO  CourseController:40 - Fetching all courses
+[2025-08-08 03:21:03] INFO  CourseController:42 - Total courses found: 4

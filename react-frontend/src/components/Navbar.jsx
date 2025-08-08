@@ -17,7 +17,7 @@ const Navbar = () => {
   const location = useLocation(); 
 
   useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    setIsLoggedIn(sessionStorage.getItem("isLoggedIn") === "true");
   }, [location]); 
 
   const adminLink = isLoggedIn ? "/admin" : "/login";
