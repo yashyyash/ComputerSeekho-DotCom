@@ -52,3 +52,45 @@
   font-size: 14px;
   margin-top: 5px;
 }
+
+/* Skeleton Loading Styles */
+.skeleton {
+  opacity: 0.6;
+  background-color: #e0e0e0;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-img {
+  width: 100%;
+  height: 150px;
+  background-color: #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.skeleton-text {
+  height: 16px;
+  background-color: #ccc;
+  margin: 5px 0;
+  border-radius: 4px;
+}
+
+.skeleton-text.title {
+  width: 60%;
+}
+
+.skeleton-text.percent {
+  width: 40%;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #d0d0d0;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
