@@ -1,7 +1,7 @@
 // Student.jsx (styled version)
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import "./student.css";
+import "./Student.css";
 
 const Student = () => {
   const navigate = useNavigate();

@@ -10,12 +10,14 @@ const BatchwisePlacement = () => {
   useEffect(() => {
     fetch("http://localhost:8080/api/batch")
       .then((res) => res.json())
+
       .then((data) => {
         setTimeout(() => {
           setPlacementData(data);
           setLoading(false);
         }, 1200); 
       })
+
       .catch((err) => console.error(err));
   }, []);
 
@@ -27,6 +29,7 @@ const BatchwisePlacement = () => {
     <div className="batchwise-placement">
       <h2>PG-DAC Batchwise Placement</h2>
       <div className="placement-grid">
+
         {loading
           ? Array(6)
               .fill(0)
@@ -49,6 +52,7 @@ const BatchwisePlacement = () => {
                 <p className="percent">{batch.batchPlacedPercent}% Placement</p>
               </div>
             ))}
+
       </div>
     </div>
   );

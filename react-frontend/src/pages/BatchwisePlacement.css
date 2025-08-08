@@ -1,56 +1,58 @@
 .batchwise-placement {
-  padding: 1rem 12rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa, #e4ecf1);
+  min-height: 100vh;
   text-align: center;
 }
 
 .batchwise-placement h2 {
-  font-size: 28px;
-  color: #002855;
-  margin-bottom: 30px;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #003366;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .placement-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
   justify-items: center;
 }
 
 .placement-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  width: 200px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  padding-bottom: 1rem;
 }
 
 .placement-card:hover {
-  transform: scale(1.03);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
 }
 
 .placement-card img {
   width: 100%;
-  height: 200px;
-  object-fit: contain;
-  border-radius: 4px;
+  height: 180px;
+  object-fit: cover;
 }
 
-.title {
-  font-weight: bold;
-  color: #d80000;
-  margin-top: 10px;
-  border: 1px solid #ff8c00;
-  border-radius: 20px;
-  padding: 4px 8px;
-  display: inline-block;
+.placement-card .title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin: 1rem 0 0.3rem;
 }
 
-.percent {
-  color: #333;
-  font-size: 14px;
-  margin-top: 5px;
+.placement-card .percent {
+  font-size: 1rem;
+  color: #008000;
+  font-weight: 500;
 }
 
 /* Skeleton Loading Styles */
