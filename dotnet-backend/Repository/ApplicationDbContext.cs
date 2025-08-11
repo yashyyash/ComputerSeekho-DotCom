@@ -5,26 +5,12 @@ namespace dotnet_backend.Repositories
 {
     public class ApplicationDbContext : DbContext
     {
-        // Constructor for runtime DI
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
         }
 
-        // Parameterless constructor for design-time usage
-        public ApplicationDbContext()
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connectionString = "server=localhost;port=3306;database=computerseekhodbnewkushal;user=root;password=root;SslMode=none;";
-                optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
-            }
-        }
-
-        // Your DbSets and OnModelCreating remain unchanged
+        // DbSets
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<BatchCourse> BatchCourses { get; set; }
@@ -43,29 +29,11 @@ namespace dotnet_backend.Repositories
         public DbSet<StaffRole> StaffRoles { get; set; }
         public DbSet<Student> Students { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
-
-        //    modelBuilder.Entity<BatchCourse>()
-        //        .HasKey(bc => new { bc.BatchId, bc.CourseId });
-
-        //    modelBuilder.Entity<BatchCourse>()
-        //        .HasOne(bc => bc.Batch)
-        //        .WithMany(b => b.BatchCourses)
-        //        .HasForeignKey(bc => bc.BatchId);
-
-        //    modelBuilder.Entity<BatchCourse>()
-        //        .HasOne(bc => bc.Course)
-        //        .WithMany(c => c.BatchCourses)
-        //        .HasForeignKey(bc => bc.CourseId);
-        //}
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Existing composite key for BatchCourse
+            // Composite key for BatchCourse
             modelBuilder.Entity<BatchCourse>()
                 .HasKey(bc => new { bc.BatchId, bc.CourseId });
 
@@ -79,10 +47,10 @@ namespace dotnet_backend.Repositories
                 .WithMany(c => c.BatchCourses)
                 .HasForeignKey(bc => bc.CourseId);
 
-            // Specify precision and scale for decimal properties
+            // Decimal precision settings
             modelBuilder.Entity<Course>()
                 .Property(c => c.CourseFee)
-                .HasPrecision(18, 2);  // or adjust precision and scale as needed
+                .HasPrecision(18, 2);
 
             modelBuilder.Entity<Payment>()
                 .Property(p => p.TotalAmount)
@@ -96,6 +64,5 @@ namespace dotnet_backend.Repositories
                 .Property(s => s.DueAmount)
                 .HasPrecision(18, 2);
         }
-
     }
 }
