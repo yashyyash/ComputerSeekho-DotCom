@@ -1,0 +1,2 @@
+﻿Migration command: dotnet ef migrations add "your-task"
+Update database command:-dotnet ef database update

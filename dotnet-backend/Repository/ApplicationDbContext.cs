@@ -1,7 +1,7 @@
 ﻿using dotnet_backend.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_backend.Data
+namespace dotnet_backend.Repositories
 {
     public class ApplicationDbContext : DbContext
     {
