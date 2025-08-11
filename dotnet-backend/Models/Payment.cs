@@ -27,6 +27,7 @@ namespace dotnet_backend.Models
         public DateTime CreatedAt { get; set; }
 
         public ICollection<PaymentInstallment> PaymentInstallments { get; set; }
+
     }
 
 

@@ -5,5 +5,6 @@
         Open = 1,
         Close = 2,
         Registered = 3
+
     }
 }

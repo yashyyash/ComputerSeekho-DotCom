@@ -6,6 +6,7 @@
         Parent = 2,
         Sibling = 3,
         Spouse = 4,
-        Other = 5
+        Other = 5,
+
     }
 }

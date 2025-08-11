@@ -69,6 +69,7 @@ namespace dotnet_backend.Models
 
         public ICollection<FollowUp> FollowUps { get; set; }
         public ICollection<Student> Students { get; set; }
+
     }
 
 

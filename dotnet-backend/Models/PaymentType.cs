@@ -8,5 +8,6 @@
         UPI = 4,
         BankTransfer = 5,
         Cheque = 6
+
     }
 }
