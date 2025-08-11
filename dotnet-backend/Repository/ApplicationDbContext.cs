@@ -19,7 +19,7 @@ namespace dotnet_backend.Repositories
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = "server=localhost;port=3306;database=computerseekhodotnetnew;user=root;password=Kushal@22;SslMode=none;";
+                var connectionString = "server=localhost;port=3306;database=computerseekhodbnewkushal;user=root;password=root;SslMode=none;";
                 optionsBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
             }
         }
