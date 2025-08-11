@@ -13,6 +13,9 @@ namespace dotnet_backend.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PaymentId { get; set; }
 
+        [Column("payment_type")]
+        public PaymentType PaymentType { get; set; }
+
         [Column("student_id")]
         public int StudentId { get; set; }
         public Student Student { get; set; }
