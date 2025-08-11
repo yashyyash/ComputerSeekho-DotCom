@@ -25,7 +25,7 @@ namespace dotnet_backend.Models
         public string EnquirerName { get; set; }
 
         [Column("enquirer_relation")]
-        public string EnquirerRelation { get; set; }
+        public EnquirerRelation EnquirerRelation { get; set; }
 
         [Column("enquiry_address")]
         public string EnquiryAddress { get; set; }
@@ -38,6 +38,9 @@ namespace dotnet_backend.Models
 
         [Column("student_age")]
         public int StudentAge { get; set; }
+
+        [Column("student_gender")]
+        public string StudentGender { get; set; }
 
         [Column("student_dob")]
         public DateTime StudentDob { get; set; }
@@ -52,7 +55,7 @@ namespace dotnet_backend.Models
         public string EnquiryQuery { get; set; }
 
         [Column("status")]
-        public string Status { get; set; }
+        public EnquiryStatus Status { get; set; }
 
         [Column("closure_reason_id")]
         public int? ClosureReasonId { get; set; }
@@ -66,6 +69,7 @@ namespace dotnet_backend.Models
 
         public ICollection<FollowUp> FollowUps { get; set; }
         public ICollection<Student> Students { get; set; }
+
     }
 
 
