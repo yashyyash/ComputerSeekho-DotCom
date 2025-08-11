@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_backend.Controllers
@@ -28,6 +29,22 @@ namespace dotnet_backend.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        ////  JWT-protected test endpoint
+        //[Authorize]
+        //[HttpGet("secure-data")]
+        //public IActionResult GetSecureData()
+        //{
+        //    return Ok("You are authenticated!");
+        //}
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("secure-data")]
+        public IActionResult GetSecureData()
+        {
+            return Ok("Only teaching staff can access this!");
         }
     }
 }
