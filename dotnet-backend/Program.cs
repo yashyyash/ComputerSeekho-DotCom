@@ -32,26 +32,5 @@ namespace dotnet_backend
 
             app.Run();
         }
-
-        // This is important for EF Core tools at design-time
-        //public static IHostBuilder CreateHostBuilder(string[] args) =>
-        //    Host.CreateDefaultBuilder(args)
-        //        .ConfigureWebHostDefaults(webBuilder =>
-        //        {
-        //            webBuilder.UseStartup<StartupDummy>();
-        //        });
     }
-
-    // Dummy Startup just so EF Core tools can build the DbContext
-    //public class StartupDummy
-    //{
-    //    public void ConfigureServices(IServiceCollection services)
-    //    {
-    //        // EF Tools will use Program's configuration anyway
-    //    }
-
-    //    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    //    {
-    //    }
-    //}
 }

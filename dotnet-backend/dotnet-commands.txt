@@ -1,2 +1,8 @@
-﻿Migration command: dotnet ef migrations add "your-task"
-Update database command:-dotnet ef database update
+﻿Install Dotnet ef
+>  dotnet tool install --global dotnet-ef
+
+Migration command: 
+	>  dotnet ef migrations add "your-task"
+Update database command:-
+	>  dotnet ef database update
+
