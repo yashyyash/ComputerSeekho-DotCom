@@ -1,3 +1,5 @@
+using dotnet_backend.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_backend
 {
@@ -7,30 +9,49 @@ namespace dotnet_backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add DbContext with MySQL connection
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    new MySqlServerVersion(new Version(8, 0, 36))
+                ));
 
+            // Add services
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            // builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
+            // Configure middleware
             app.UseHttpsRedirection();
-
+            app.UseRouting();
             app.UseAuthorization();
-
 
             app.MapControllers();
 
             app.Run();
         }
+
+        // This is important for EF Core tools at design-time
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //    Host.CreateDefaultBuilder(args)
+        //        .ConfigureWebHostDefaults(webBuilder =>
+        //        {
+        //            webBuilder.UseStartup<StartupDummy>();
+        //        });
     }
+
+    // Dummy Startup just so EF Core tools can build the DbContext
+    //public class StartupDummy
+    //{
+    //    public void ConfigureServices(IServiceCollection services)
+    //    {
+    //        // EF Tools will use Program's configuration anyway
+    //    }
+
+    //    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    //    {
+    //    }
+    //}
 }
