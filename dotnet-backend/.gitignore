@@ -49,6 +49,7 @@ appsettings.Development.json
 appsettings.Local.json
 secrets.json
 appsettings.json
+Migrations
 
 # Coverage reports
 coverage*.xml

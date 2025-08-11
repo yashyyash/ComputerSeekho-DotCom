@@ -1,4 +1,4 @@
-using dotnet_backend.Data;
+using dotnet_backend.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_backend
