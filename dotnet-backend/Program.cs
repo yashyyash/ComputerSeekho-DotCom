@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens; 
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace dotnet_backend
 {
@@ -23,17 +24,18 @@ namespace dotnet_backend
                     new MySqlServerVersion(new Version(8, 0, 36))
                 ));
 
-
+            builder.Services.AddControllers().AddJsonOptions(options =>
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
+
             builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
             builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
 
-
-
-
-
+            builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
+            builder.Services.AddScoped<IEnquiryService, EnquiryService>();
+          
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -56,16 +58,11 @@ namespace dotnet_backend
             });
 
 
-
-
-
-
-
-
             // Add services
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
