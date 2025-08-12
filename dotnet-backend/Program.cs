@@ -23,6 +23,9 @@ namespace dotnet_backend
                     new MySqlServerVersion(new Version(8, 0, 36))
                 ));
 
+            // DI Registration
+            builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
+            builder.Services.AddScoped<IAnnouncementService, AnnouncementServiceImplementation>();
 
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
@@ -52,13 +55,6 @@ namespace dotnet_backend
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
             });
-
-
-
-
-
-
-
 
             // Add services
             builder.Services.AddControllers();
