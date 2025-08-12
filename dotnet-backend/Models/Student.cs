@@ -47,6 +47,7 @@ namespace dotnet_backend.Models
 
         [Column("due_amount")]
         public double DueAmount { get; set; }
+         
 
         public ICollection<Payment> Payments { get; set; }
     }

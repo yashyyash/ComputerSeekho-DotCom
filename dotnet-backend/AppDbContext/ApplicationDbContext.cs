@@ -56,7 +56,8 @@ namespace dotnet_backend.AppDbContext
                 .Property(p => p.TotalAmount)
                 .HasPrecision(18, 2);
 
-            
+             
+
 
             modelBuilder.Entity<Student>()
                 .Property(s => s.DueAmount)

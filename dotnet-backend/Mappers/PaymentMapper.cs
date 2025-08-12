@@ -20,6 +20,7 @@ namespace dotnet_backend.Mappers
                 CreatedAt = payment.CreatedAt
             };
 
+
             if (payment.Student != null)
             {
                 double totalDueAmount = payment.Student.DueAmount;

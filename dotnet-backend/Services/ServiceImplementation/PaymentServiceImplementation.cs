@@ -111,6 +111,7 @@ namespace dotnet_backend.Services.ServiceImplementation
             _context.Payments.Remove(payment);
             await _context.SaveChangesAsync();
 
+
             return true;
         }
 

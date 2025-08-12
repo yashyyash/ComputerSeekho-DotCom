@@ -10,6 +10,7 @@ namespace dotnet_backend.Services
         Task<PaymentDto> UpdatePaymentAsync(int id, PaymentDto paymentDto);
         Task<bool> DeletePaymentAsync(int id);
 
+
         Task<byte[]> GeneratePaymentPdfAsync(int paymentId);
     }
 }

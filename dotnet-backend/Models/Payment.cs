@@ -8,6 +8,7 @@ namespace dotnet_backend.Models
     [Table("payment")]
     public class Payment
     {
+
         [Key]
         [Column("payment_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
