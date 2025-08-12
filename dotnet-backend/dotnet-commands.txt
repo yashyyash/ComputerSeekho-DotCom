@@ -6,3 +6,140 @@ Migration command:
 Update database command:-
 	>  dotnet ef database update
 
+
+DATA INSERTION
+
+SELECT * FROM announcement;		-- done
+SELECT * FROM batch;			-- done
+SELECT * FROM batch_course;		-- done
+SELECT * FROM campus_life;		-- done
+SELECT * FROM closure_reason;	-- done
+SELECT * FROM course;			-- done
+SELECT * FROM enquiry;			-- done
+SELECT * FROM faculty;			-- done
+SELECT * FROM follow_up;	    -- done
+SELECT * FROM get_in_touch;		-- done
+SELECT * FROM payment;			-- done
+SELECT * FROM placement;		-- done
+SELECT * FROM recruiter;		-- done
+SELECT * FROM staff;			-- done
+SELECT * FROM staff_role;		-- done
+SELECT * FROM student;			-- done
+
+
+
+-- Insert into `staff_role`
+INSERT INTO `staff_role` (`role_name`) VALUES
+('ADMIN'),
+('MARKETING'),
+('HR');
+
+-- Insert into `staff`
+INSERT INTO `staff` (`staff_name`, `staff_username`, `password_hash`, `staff_email`, `staff_photo_url`, `staff_role_id`, `last_login`, `is_active`) VALUES
+('Alice Admin', 'alice.admin', 'hashed_password_1', 'alice.admin@example.com', 'https://example.com/photos/alice.jpg', 1, NOW(), TRUE),
+('Mark Mkt', 'mark.mkt', 'hashed_password_2', 'mark.mkt@example.com', 'https://example.com/photos/mark.jpg', 2, NOW(), TRUE),
+('Mia HR', 'mia.hr', 'hashed_password_3', 'mia.hr@example.com', 'https://example.com/photos/mia.jpg', 3, NOW(), TRUE);
+
+-- Insert into `announcement`
+INSERT INTO `announcement` (`announcement_text`) VALUES
+('Campus will remain closed on 15th August for Independence Day celebrations.'),
+('New batch for Full Stack Development starts from 1st September.'),
+('Guest lecture on AI & Machine Learning scheduled for 20th August.'),
+('Midterm examinations will begin from 5th October.'),
+('All students must update their contact details by the end of this month.');
+
+-- Insert into `campus_life`
+INSERT INTO `campus_life` (`photo_url`, `description`) VALUES
+('https://example.com/images/campus_library.jpg', 'Students enjoying a quiet afternoon of study in the campus library.'),
+('https://example.com/images/sports_day.jpg', 'Annual sports day with inter-departmental football and cricket matches.'),
+('https://example.com/images/cultural_fest.jpg', 'Colorful performances and cultural activities during the college fest.'),
+('https://example.com/images/lab_session.jpg', 'Hands-on coding and experimentation in the computer science lab.'),
+('https://example.com/images/cafeteria.jpg', 'Friends relaxing and enjoying snacks at the campus cafeteria.');
+
+-- Insert into `course`
+INSERT INTO `course` (`course_name`, `course_fee`, `course_photo_url`, `duration_months`, `syllabus`) VALUES
+('PG-DAC', 150000.00, 'https://example.com/photos/pgdac.jpg', 6, 'Advanced Computing syllabus covering Java,.NET, Web Technologies, and DBMS'),
+('PG-DBDA', 180000.00, 'https://example.com/photos/dbda.jpg', 6, 'Data Science syllabus covering Python, R, Machine Learning, and Big Data'),
+('MS-CIT', 5000.00, 'https://example.com/photos/mscit.jpg', 3, 'Basic IT literacy syllabus covering MS Office, Internet, and Computer Fundamentals');
+
+-- Insert into `batch`
+INSERT INTO `batch` (`batch_name`, `batch_photo_url`, `start_date`, `end_date`) VALUES
+('PG-DAC August 2025', 'pgdac_aug25.jpg', '2025-08-10 09:00:00', '2026-02-10 17:00:00'),
+('PG-DBDA September 2025', 'pgdbda_sep25.jpg', '2025-09-05 09:00:00', '2026-03-05 17:00:00'),
+('MS-CIT October 2025', 'mscit_oct25.jpg', '2025-10-01 09:00:00', '2025-12-31 17:00:00');
+
+-- Insert into `batch_course`
+INSERT INTO `batch_course` (`batch_id`, `course_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
+
+-- Insert into `recruiter`
+INSERT INTO `recruiter` (`company_name`, `recruiter_photo_url`) VALUES
+('Tech Solutions Pvt Ltd', 'https://example.com/recruiters/techsolutions.jpg'),
+('Bright Future Ltd', 'https://example.com/recruiters/brightfuture.jpg'),
+('Global Innovators', 'https://example.com/recruiters/globalinnovators.jpg'),
+('NextGen IT Services', 'https://example.com/recruiters/nextgenit.jpg');
+
+-- Insert into `placement`
+INSERT INTO `placement` (`batch_id`, `course_id`, `recruiter_id`, `placed_students`) VALUES
+(1, 1, 1, 15),
+(1, 1, 2, 10),
+(2, 2, 3, 20),
+(3, 3, 4, 8);
+
+-- Insert into `get_in_touch`
+INSERT INTO `get_in_touch` (`name`, `email`, `message`) VALUES
+('Rahul Verma', 'rahul.verma@example.com', 'I would like to know more about your PG-DAC course.'),
+('Priya Sharma', 'priya.sharma@example.com', 'Can you share the fee structure for PG-DBDA?'),
+('Ankit Mehta', 'ankit.mehta@example.com', 'I am interested in campus placement opportunities.'),
+('Sneha Nair', 'sneha.nair@example.com', 'Is there an evening batch available for MS-CIT?'),
+('Vikas Gupta', 'vikas.gupta@example.com', 'Please send me details about the admission process.');
+
+-- Insert into `closure_reason`
+INSERT INTO `closure_reason` (`reason_text`) VALUES
+('Course Full'),
+('Not Interested'),
+('Joined Competitor'),
+('Financial Constraints'),
+('Other');
+
+-- Insert into `enquiry`
+INSERT INTO `enquiry` (`staff_id`, `course_id`, `enquirer_name`, `enquirer_relation`, `enquiry_address`, `inquirer_email`, `student_name`, `student_age`, `student_gender`, `student_dob`, `student_email`, `enquiry_query`, `status`, `is_active`) VALUES
+(2, 1, 'John Doe', 'Parent', '123 Main St, Anytown', 'john.doe@email.com', 'Jane Doe', 20, 'Female', '2005-03-15', 'jane.doe@email.com', 'Interested in the PG-DAC course curriculum.', 0, TRUE),
+(2, 2, 'Emily White', 'Self', '456 Oak Ave, Othercity', 'emily.white@email.com', 'Emily White', 22, 'Female', '2003-08-21', 'emily.white@email.com', 'Enquiry about fees and scholarship options for PG-DBDA.', 1, TRUE),
+(2, 3, 'David Brown', 'Guardian', '789 Pine Rd, Smallville', 'david.brown@email.com', 'Liam Brown', 19, 'Male', '2006-05-10', 'liam.brown@email.com', 'Wants to know about the next batch start date for MS-CIT.', 2, TRUE),
+(3, 1, 'Sarah Davis', 'Parent', '321 Elm St, New Town', 'sarah.davis@email.com', 'Oliver Davis', 21, 'Male', '2004-11-20', 'oliver.davis@email.com', 'Query regarding placement success rate for PG-DAC.', 1, TRUE),
+(3, 2, 'Michael Chen', 'Self', '654 Maple Ln, Big City', 'michael.chen@email.com', 'Michael Chen', 23, 'Male', '2002-04-01', 'michael.chen@email.com', 'Has a few questions about the PG-DBDA course syllabus and faculty.', 2, TRUE),
+(3, 1, 'Jessica Parker', 'Self', '987 Birch Ct, Eastville', 'jessica.parker@email.com', 'Jessica Parker', 20, 'Female', '2005-01-08', 'jessica.parker@email.com', 'Follow-up on a previous enquiry about PG-DAC.', 0, TRUE);
+
+-- Insert into `follow_up`
+INSERT INTO `follow_up` (`enquiry_id`, `followup_date`, `notes`, `status`) VALUES
+(1, NOW(), 'Called enquirer, sent brochure via email.', 'Pending'),
+(2, NOW(), 'Discussed fee structure, student wants to think about it.', 'Pending'),
+(3, NOW(), 'Student closed the enquiry, enrolled in another institute.', 'Closed'),
+(4, NOW(), 'Provided placement data, parent is satisfied.', 'Pending'),
+(5, NOW(), 'Answered all questions, student will decide next week.', 'Pending');
+
+-- Insert into `student`
+INSERT INTO `student` (`enquiry_id`, `student_name`, `student_photo_url`, `age`, `dob`, `email`, `course_id`, `batch_id`, `due_amount`) VALUES
+(1, 'Jane Doe', 'jane_doe.jpg', 20, '2005-03-15', 'jane.doe@email.com', 1, 1, 0.00),
+(2, 'Emily White', 'emily_white.jpg', 22, '2003-08-21', 'emily.white@email.com', 2, 2, 0.00),
+(4, 'Oliver Davis', 'oliver_davis.jpg', 21, '2004-11-20', 'oliver.davis@email.com', 1, 1, 0.00),
+(6, 'Jessica Parker', 'jessica.parker.jpg', 20, '2005-01-08', 'jessica.parker@email.com', 1, 1, 0.00);
+
+
+-- Insert into `payment`
+INSERT INTO `payment` (`payment_type`, `student_id`, `total_amount`, `created_at`) VALUES
+(1, 1, 50000.00, '2025-08-11 10:00:00'),
+(2, 2, 60000.00, '2025-09-02 11:30:00'),
+(3, 3, 50000.00, '2025-08-12 14:00:00'),
+(1, 4, 10000.00, '2025-08-12 15:00:00');
+
+-- Insert into `faculty`
+INSERT INTO `faculty` (`photo_url`, `faculty_name`, `teaching_subject`) VALUES
+('https://example.com/photos/faculty1.jpg', 'Dr. Anil Sharma', 'Java Programming'),
+('https://example.com/photos/faculty2.jpg', 'Prof. Neha Desai', 'Database Management Systems'),
+('https://example.com/photos/faculty3.jpg', 'Dr. Ramesh Kulkarni', 'Data Structures and Algorithms'),
+('https://example.com/photos/faculty4.jpg', 'Ms. Priya Nair', 'Web Development'),
+('https://example.com/photos/faculty5.jpg', 'Mr. Sandeep Verma', 'Machine Learning');
