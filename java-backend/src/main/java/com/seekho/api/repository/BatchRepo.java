@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface BatchRepo extends JpaRepository<Batch,Integer> {
-	
+
 	@Modifying
 	@Query("update Batch b set b.batchIsActive = :batchIsActive where b.batchId = :batchId")
 	void activateBatch(@Param("batchIsActive") boolean batchIsActive, @Param("batchId") int batchId);

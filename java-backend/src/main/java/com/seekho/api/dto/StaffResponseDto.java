@@ -10,7 +10,7 @@ public class StaffResponseDto {
     private String staffEmail;
     private String staffRole;
     private String token = UUID.randomUUID().toString();
-//private String token;
+    //private String token;
 
     public void setToken(String token) {
         this.token = token;
