@@ -29,12 +29,13 @@ namespace dotnet_backend
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
+
+            builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
+            builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
+
             builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
             builder.Services.AddScoped<IEnquiryService, EnquiryService>();
-
-
-
-
+          
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
             {
