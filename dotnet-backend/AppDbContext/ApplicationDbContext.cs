@@ -22,7 +22,7 @@ namespace dotnet_backend.AppDbContext
         public DbSet<FollowUp> FollowUps { get; set; }
         public DbSet<GetInTouch> GetInTouches { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<PaymentInstallment> PaymentInstallments { get; set; }
+        
         public DbSet<Placement> Placements { get; set; }
         public DbSet<Recruiter> Recruiters { get; set; }
         public DbSet<Staff> Staffs { get; set; }
@@ -56,9 +56,7 @@ namespace dotnet_backend.AppDbContext
                 .Property(p => p.TotalAmount)
                 .HasPrecision(18, 2);
 
-            modelBuilder.Entity<PaymentInstallment>()
-                .Property(pi => pi.Amount)
-                .HasPrecision(18, 2);
+            
 
             modelBuilder.Entity<Student>()
                 .Property(s => s.DueAmount)

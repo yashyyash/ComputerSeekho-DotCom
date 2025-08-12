@@ -46,7 +46,7 @@ namespace dotnet_backend.Models
         public Recruiter Recruiter { get; set; }
 
         [Column("due_amount")]
-        public decimal DueAmount { get; set; }
+        public double DueAmount { get; set; }
 
         public ICollection<Payment> Payments { get; set; }
     }
