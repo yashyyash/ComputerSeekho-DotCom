@@ -1,19 +1,16 @@
-﻿using dotnet_backend.Models;
-using dotnet_backend.Repositories;
+﻿using dotnet_backend.AppDbContext;
+using dotnet_backend.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace dotnet_backend.Services.Impl
+namespace dotnet_backend.Services.ServiceImplementation
 {
-    public class StaffService : IStaffService
+    public class StaffServiceImplementations : IStaffService
     {
         private readonly ApplicationDbContext _context;
 
-        public StaffService(ApplicationDbContext context)
+        public StaffServiceImplementations(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -76,5 +73,5 @@ namespace dotnet_backend.Services.Impl
             return Convert.ToBase64String(hash);
         }
     }
-}
 
+}

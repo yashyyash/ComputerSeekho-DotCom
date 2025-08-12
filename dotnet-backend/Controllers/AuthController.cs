@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
-
+using dotnet_backend.AppDbContext;
 namespace dotnet_backend.Controllers
 {
     [ApiController]

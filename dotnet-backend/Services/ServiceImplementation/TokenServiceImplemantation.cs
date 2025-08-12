@@ -1,17 +1,16 @@
-﻿
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using dotnet_backend.Services;
 
-namespace dotnet_backend.Services.Impl
+namespace dotnet_backend.Services.ServiceImplementation
 {
-    public class TokenService : ITokenService
+    public class TokenServiceImplemantation : ITokenService
     {
         private readonly IConfiguration _config;
 
-        public TokenService(IConfiguration config)
+        public TokenServiceImplemantation(IConfiguration config)
         {
             _config = config;
         }

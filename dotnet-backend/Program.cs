@@ -2,7 +2,7 @@
 using dotnet_backend.AppDbContext;
 using dotnet_backend.Repositories;
 using dotnet_backend.Services;
-using dotnet_backend.Services.Impl;
+using dotnet_backend.Services.ServiceImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens; 
@@ -25,8 +25,8 @@ namespace dotnet_backend
 
 
 
-            builder.Services.AddScoped<ITokenService, TokenService>();
-            builder.Services.AddScoped<IStaffService, StaffService>();
+            builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
+            builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
 
 
 
