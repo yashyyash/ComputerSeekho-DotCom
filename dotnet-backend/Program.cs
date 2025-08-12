@@ -57,6 +57,8 @@ namespace dotnet_backend
             builder.Services.AddScoped<IGetInTouchRepository, GetInTouchRepository>();
             builder.Services.AddScoped<IGetInTouchService, GetInTouchServiceImplementation>();
 
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<IStudentService, StudentServiceImplementation>();
 
 
             // Add JWT Authentication
