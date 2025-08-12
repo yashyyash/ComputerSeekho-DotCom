@@ -9,22 +9,22 @@ Update database command:-
 
 DATA INSERTION
 
-SELECT * FROM announcement;		-- done
-SELECT * FROM batch;			-- done
-SELECT * FROM batch_course;		-- done
-SELECT * FROM campus_life;		-- done
-SELECT * FROM closure_reason;	-- done
-SELECT * FROM course;			-- done
-SELECT * FROM enquiry;			-- done
-SELECT * FROM faculty;			-- done
-SELECT * FROM follow_up;	    -- done
-SELECT * FROM get_in_touch;		-- done
-SELECT * FROM payment;			-- done
-SELECT * FROM placement;		-- done
-SELECT * FROM recruiter;		-- done
-SELECT * FROM staff;			-- done
-SELECT * FROM staff_role;		-- done
-SELECT * FROM student;			-- done
+SELECT * FROM announcement;		-- done			CRUD Completed			1
+SELECT * FROM batch;			-- done			CRUD PENDING			0 s
+SELECT * FROM batch_course;		-- done			LINK TABLE				0 s
+SELECT * FROM campus_life;		-- done			CRUD COMPLETED			1
+SELECT * FROM closure_reason;	-- done			CRUD PENDING			0
+SELECT * FROM course;			-- done			CRUD PENDING			0 s
+SELECT * FROM enquiry;			-- done			CRUD COMPLETED			1	
+SELECT * FROM faculty;			-- done			CRUD COMPLETED			1
+SELECT * FROM follow_up;	    -- done			CRUD PENDING			0
+SELECT * FROM get_in_touch;		-- done			CRUD COMPLETED			1
+SELECT * FROM payment;			-- done			CRUD COMPLETED			1
+SELECT * FROM placement;		-- done			CRUD PENDING			0
+SELECT * FROM recruiter;		-- done			CRUD PENDING			0
+SELECT * FROM staff;			-- done			CRUD COMPLETED			1
+SELECT * FROM staff_role;		-- done			NOT NEEDED RIGHT NOW	0
+SELECT * FROM student;			-- done			CRUDE PENDING			1
 
 
 
