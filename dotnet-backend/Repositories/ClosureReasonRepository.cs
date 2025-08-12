@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_backend.Repositories
 {
+
     public class ClosureReasonRepository : IClosureReasonRepository
     {
         private readonly ApplicationDbContext _context;

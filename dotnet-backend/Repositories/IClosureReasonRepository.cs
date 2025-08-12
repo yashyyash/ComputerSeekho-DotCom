@@ -4,6 +4,7 @@ namespace dotnet_backend.Repositories
 {
     public interface IClosureReasonRepository
     {
+
         Task<List<ClosureReason>> GetAllAsync();
         Task<ClosureReason> GetByIdAsync(int id);
         Task<ClosureReason> AddAsync(ClosureReason closureReason);

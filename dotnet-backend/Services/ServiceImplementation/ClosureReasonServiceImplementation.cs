@@ -31,6 +31,7 @@ namespace dotnet_backend.Services.ServiceImplementation
             return closureReason;
         }
 
+
         public async Task<ClosureReason> UpdateAsync(int id, ClosureReason updatedClosureReason)
         {
             var existing = await _context.ClosureReasons.FindAsync(id);

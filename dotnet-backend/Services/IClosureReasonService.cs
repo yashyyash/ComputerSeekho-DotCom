@@ -10,4 +10,6 @@ namespace dotnet_backend.Services
         Task<ClosureReason> UpdateAsync(int id, ClosureReason updatedClosureReason);
         Task<bool> DeleteAsync(int id);
     }
+
 }
+

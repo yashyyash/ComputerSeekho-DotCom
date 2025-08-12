@@ -15,6 +15,7 @@ namespace dotnet_backend.Controllers
             _closureReasonService = closureReasonService;
         }
 
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClosureReason>>> GetClosureReasons()
         {
