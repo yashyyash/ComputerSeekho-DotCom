@@ -27,6 +27,7 @@ namespace dotnet_backend
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
+            builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
 
 
 
