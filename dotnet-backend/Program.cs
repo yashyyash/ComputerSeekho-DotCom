@@ -27,7 +27,8 @@ namespace dotnet_backend
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
-
+            builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
+            builder.Services.AddScoped<IEnquiryService, EnquiryService>();
 
 
 
@@ -54,16 +55,11 @@ namespace dotnet_backend
             });
 
 
-
-
-
-
-
-
             // Add services
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
