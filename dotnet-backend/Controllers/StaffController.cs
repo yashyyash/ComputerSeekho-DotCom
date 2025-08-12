@@ -80,7 +80,7 @@ namespace dotnet_backend.Controllers
     {
         public string StaffName { get; set; }
         public string StaffUsername { get; set; }
-        public string Password { get; set; }  // plain password, hashed in service
+        public string Password { get; set; }  
         public string StaffEmail { get; set; }
         public string StaffPhotoUrl { get; set; }
         public int StaffRoleId { get; set; }
