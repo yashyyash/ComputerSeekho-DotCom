@@ -1,4 +1,4 @@
-using dotnet_backend.DTOs;
+﻿using dotnet_backend.DTOs;
 using dotnet_backend.Mappers;
 using dotnet_backend.Models;
 using dotnet_backend.Repositories;
@@ -6,46 +6,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dotnet_backend.Services.ServiceImplementation
+namespace dotnet_backend.Services
 {
     public class FacultyServiceImplementation : IFacultyService
     {
-        private readonly IFacultyRepository _facultyRepository;
+        private readonly IFacultyRepository _repository;
 
-        public FacultyServiceImplementation(IFacultyRepository facultyRepository)
+        public FacultyServiceImplementation(IFacultyRepository repository)
         {
-            _facultyRepository = facultyRepository;
+            _repository = repository;
         }
 
-        public async Task<IEnumerable<FacultyDTO>> GetAllAsync()
+        public async Task<List<FacultyDto>> GetAllFacultiesAsync()
         {
-            var faculties = await _facultyRepository.GetAllAsync();
-            return faculties.Select(FacultyMapper.ToDTO);
+            var faculties = await _repository.GetAllAsync();
+            return faculties.Select(FacultyMapper.ToDto).ToList();
         }
 
-        public async Task<FacultyDTO> GetByIdAsync(int id)
+        public async Task<FacultyDto> GetFacultyByIdAsync(int id)
         {
-            var faculty = await _facultyRepository.GetByIdAsync(id);
-            return faculty == null ? null : FacultyMapper.ToDTO(faculty);
+            var faculty = await _repository.GetByIdAsync(id);
+            return FacultyMapper.ToDto(faculty);
         }
 
-        public async Task<FacultyDTO> CreateAsync(FacultyDTO facultyDto)
+        public async Task<FacultyDto> CreateFacultyAsync(FacultyDto dto)
         {
-            var faculty = FacultyMapper.ToEntity(facultyDto);
-            var created = await _facultyRepository.AddAsync(faculty);
-            return FacultyMapper.ToDTO(created);
+            var faculty = FacultyMapper.ToEntity(dto);
+            var created = await _repository.AddAsync(faculty);
+            return FacultyMapper.ToDto(created);
         }
 
-        public async Task<FacultyDTO> UpdateAsync(FacultyDTO facultyDto)
+        public async Task<FacultyDto> UpdateFacultyAsync(int id, FacultyDto dto)
         {
-            var faculty = FacultyMapper.ToEntity(facultyDto);
-            var updated = await _facultyRepository.UpdateAsync(faculty);
-            return FacultyMapper.ToDTO(updated);
+            var existing = await _repository.GetByIdAsync(id);
+            if (existing == null)
+                return null;
+
+            // Update fields
+            existing.PhotoUrl = dto.PhotoUrl;
+            existing.FacultyName = dto.FacultyName;
+            existing.TeachingSubject = dto.TeachingSubject;
+
+            var updated = await _repository.UpdateAsync(existing);
+            return FacultyMapper.ToDto(updated);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteFacultyAsync(int id)
         {
-            return await _facultyRepository.DeleteAsync(id);
+            return await _repository.DeleteAsync(id);
         }
     }
 }

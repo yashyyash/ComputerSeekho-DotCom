@@ -6,7 +6,7 @@ namespace dotnet_backend.Repositories
 {
     public interface IFacultyRepository
     {
-        Task<IEnumerable<Faculty>> GetAllAsync();
+        Task<List<Faculty>> GetAllAsync();
         Task<Faculty> GetByIdAsync(int id);
         Task<Faculty> AddAsync(Faculty faculty);
         Task<Faculty> UpdateAsync(Faculty faculty);

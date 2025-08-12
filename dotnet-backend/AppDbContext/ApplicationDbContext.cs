@@ -14,13 +14,13 @@ namespace dotnet_backend.AppDbContext
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<BatchCourse> BatchCourses { get; set; }
-        public DbSet<CampusLife> CampusLives { get; set; }
+        public DbSet<CampusLife> CampusLife { get; set; }
         public DbSet<ClosureReason> ClosureReasons { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enquiry> Enquiries { get; set; }
         public DbSet<Faculty> Faculties { get; set; }
         public DbSet<FollowUp> FollowUps { get; set; }
-        public DbSet<GetInTouch> GetInTouches { get; set; }
+        public DbSet<GetInTouch> GetInTouch { get; set; }
         public DbSet<Payment> Payments { get; set; }
         
         public DbSet<Placement> Placements { get; set; }
