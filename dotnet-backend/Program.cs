@@ -29,6 +29,10 @@ namespace dotnet_backend
 
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
+            builder.Services.AddScoped<IPaymentService, PaymentServiceImplementation>();
+          
+
+
 
             builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
             builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();

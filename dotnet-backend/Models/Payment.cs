@@ -8,6 +8,7 @@ namespace dotnet_backend.Models
     [Table("payment")]
     public class Payment
     {
+
         [Key]
         [Column("payment_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,12 +22,12 @@ namespace dotnet_backend.Models
         public Student Student { get; set; }
 
         [Column("total_amount")]
-        public decimal TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
 
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        public ICollection<PaymentInstallment> PaymentInstallments { get; set; }
+        
 
     }
 
