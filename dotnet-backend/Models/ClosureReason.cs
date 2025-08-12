@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace dotnet_backend.Models
 {
@@ -15,7 +16,8 @@ namespace dotnet_backend.Models
 
         [Column("reason_text")]
         public string ReasonText { get; set; }
-
+        
+        [JsonIgnore]
         public ICollection<Enquiry> Enquiries { get; set; }
     }
 

@@ -34,8 +34,18 @@ namespace dotnet_backend
 
 
 
+            builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
+            builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
 
+            builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
+            builder.Services.AddScoped<IEnquiryService, EnquiryService>();
+          
+            builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
+            builder.Services.AddScoped<IFacultyService, FacultyServiceImplementation>();
+            
 
+            builder.Services.AddScoped<IFollowUpRepository, FollowUpRepository>();
+            builder.Services.AddScoped<IFollowUpService, FollowUpServiceImplementation>();
 
 
             // Add JWT Authentication
@@ -60,16 +70,11 @@ namespace dotnet_backend
             });
 
 
-
-
-
-
-
-
             // Add services
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
