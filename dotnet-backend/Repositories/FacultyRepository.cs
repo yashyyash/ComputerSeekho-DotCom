@@ -15,7 +15,7 @@ namespace dotnet_backend.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Faculty>> GetAllAsync()
+        public async Task<List<Faculty>> GetAllAsync()
         {
             return await _context.Faculties.ToListAsync();
         }

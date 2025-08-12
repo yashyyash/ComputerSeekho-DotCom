@@ -1,4 +1,4 @@
-using dotnet_backend.DTOs;
+﻿using dotnet_backend.DTOs;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -10,24 +10,24 @@ namespace dotnet_backend.Controllers
     [Route("api/[controller]")]
     public class FacultyController : ControllerBase
     {
-        private readonly IFacultyService _facultyService;
+        private readonly IFacultyService _service;
 
-        public FacultyController(IFacultyService facultyService)
+        public FacultyController(IFacultyService service)
         {
-            _facultyService = facultyService;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FacultyDTO>>> GetAll()
+        public async Task<ActionResult<List<FacultyDto>>> GetAll()
         {
-            var faculties = await _facultyService.GetAllAsync();
+            var faculties = await _service.GetAllFacultiesAsync();
             return Ok(faculties);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FacultyDTO>> GetById(int id)
+        public async Task<ActionResult<FacultyDto>> GetById(int id)
         {
-            var faculty = await _facultyService.GetByIdAsync(id);
+            var faculty = await _service.GetFacultyByIdAsync(id);
             if (faculty == null)
                 return NotFound();
 
@@ -35,31 +35,27 @@ namespace dotnet_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<FacultyDTO>> Create(FacultyDTO facultyDto)
+        public async Task<ActionResult<FacultyDto>> Create([FromBody] FacultyDto dto)
         {
-            var createdFaculty = await _facultyService.CreateAsync(facultyDto);
-            return CreatedAtAction(nameof(GetById), new { id = createdFaculty.FacultyId }, createdFaculty);
+            var created = await _service.CreateFacultyAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.FacultyId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, FacultyDTO facultyDto)
+        public async Task<ActionResult<FacultyDto>> Update(int id, [FromBody] FacultyDto dto)
         {
-            if (id != facultyDto.FacultyId)
-                return BadRequest("ID mismatch");
-
-            var existing = await _facultyService.GetByIdAsync(id);
-            if (existing == null)
+            var updated = await _service.UpdateFacultyAsync(id, dto);
+            if (updated == null)
                 return NotFound();
 
-            await _facultyService.UpdateAsync(facultyDto);
-            return NoContent();
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var deleted = await _facultyService.DeleteAsync(id);
-            if (!deleted)
+            var success = await _service.DeleteFacultyAsync(id);
+            if (!success)
                 return NotFound();
 
             return NoContent();
