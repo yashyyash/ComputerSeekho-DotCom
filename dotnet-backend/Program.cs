@@ -36,6 +36,9 @@ namespace dotnet_backend
             builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
             builder.Services.AddScoped<IEnquiryService, EnquiryService>();
           
+            builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
+            builder.Services.AddScoped<IFacultyService, FacultyServiceImplementation>();
+            
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
             {
