@@ -38,6 +38,10 @@ namespace dotnet_backend
           
             builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
             builder.Services.AddScoped<IFacultyService, FacultyServiceImplementation>();
+
+            builder.Services.AddScoped<IGetInTouchRepository, GetInTouchRepository>();
+            builder.Services.AddScoped<IGetInTouchService, GetInTouchServiceImplementation>();
+
             
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
@@ -66,6 +70,8 @@ namespace dotnet_backend
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
 
+
+            builder.WebHost.UseUrls("http://localhost:8080");
 
             var app = builder.Build();
 
