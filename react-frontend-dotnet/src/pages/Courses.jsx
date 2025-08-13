@@ -18,8 +18,6 @@ const Courses = () => {
       <div className="courses-grid">
         {courses.map((course) => (
           <div className="course-card" key={course.courseId}>
-            
-            {/* Course Image */}
             <img
               src={course.coursePhotoUrl || "/default-course.jpg"}
               alt={course.courseName}
@@ -29,15 +27,17 @@ const Courses = () => {
               }}
             />
 
-            {/* Course Info */}
             <div className="course-info">
               <h3 className="course-title">{course.courseName}</h3>
               <ul className="course-details-list">
-                <li><span>💰 Fee:</span> ₹{course.courseFee}</li>
-                <li><span>⏳ Duration:</span> {course.durationMonths} Months</li>
+                <li>
+                  <span>💰 Fee:</span> ₹{course.courseFee}
+                </li>
+                <li>
+                  <span>⏳ Duration:</span> {course.durationMonths} Months
+                </li>
               </ul>
 
-              {/* Syllabus */}
               <details className="syllabus-toggle">
                 <summary>📚 View Syllabus</summary>
                 <div className="syllabus-content">{course.syllabus}</div>
