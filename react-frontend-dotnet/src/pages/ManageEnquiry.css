@@ -28,10 +28,26 @@
   gap: 15px;
 }
 
-.manage-enquiry-container input,
-.manage-enquiry-container textarea,
-.manage-enquiry-container select {
-  padding: 10px 12px;
+/* Horizontal label+input rows */
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.form-row label {
+  min-width: 130px;
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+  flex: 1;
+  padding: 9px 12px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -39,10 +55,10 @@
   transition: border 0.2s ease-in-out;
 }
 
-.manage-enquiry-container input:focus,
-.manage-enquiry-container textarea:focus,
-.manage-enquiry-container select:focus {
-  border-color: #4f46e5; /* Indigo */
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  border-color: #4f46e5;
 }
 
 .manage-enquiry-container textarea {
@@ -125,7 +141,7 @@ button[type="submit"]:hover {
 }
 
 .manage-enquiry-container table td {
-color: black;
+  color: black;
 }
 .manage-enquiry-container table th {
   background-color: #4f46e5;
@@ -167,7 +183,17 @@ color: black;
   .manage-enquiry-container {
     padding: 20px;
   }
-  
+
+  .form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-row label {
+    margin-right: 0;
+    margin-bottom: 4px;
+  }
+
   .follow-up-item {
     flex-direction: column;
   }
