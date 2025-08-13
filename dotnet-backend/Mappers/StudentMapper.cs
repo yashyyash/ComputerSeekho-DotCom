@@ -17,8 +17,9 @@ namespace dotnet_backend.Mappers
                 StudentName = student.StudentName,
                 Email = student.Email,
                 Age = student.Age,
-                DueAmount = student.DueAmount
-            };
+                DueAmount = student.DueAmount,
+                StudentPhotoUrl = student.StudentPhotoUrl
+    };
         }
 
         public static List<StudentDTO> ToDtoList(IEnumerable<Student> students)

@@ -18,7 +18,7 @@ namespace dotnet_backend.Models
         public string CourseName { get; set; }
 
         [Column("course_fee")]
-        public decimal CourseFee { get; set; }
+        public double CourseFee { get; set; }
 
         [Column("course_photo_url")]
         public string CoursePhotoUrl { get; set; }
