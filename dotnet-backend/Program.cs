@@ -63,8 +63,8 @@ namespace dotnet_backend
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseServiceImplementation>();
 
-
-
+            builder.Services.AddScoped<IPlacementRepository, PlacementRepository>();
+            builder.Services.AddScoped<IPlacementService, PlacementService>();
 
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
