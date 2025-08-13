@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using dotnet_backend.AppDbContext;
 using dotnet_backend.Models;
-using dotnet_backend.AppDbContext;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace dotnet_backend.Repositories
 {
@@ -17,12 +18,33 @@ namespace dotnet_backend.Repositories
 
         public async Task<IEnumerable<Placement>> GetAllAsync()
         {
-            return await _context.Placements.ToListAsync();
+            return await _context.Placements
+                .Include(p => p.Student)
+                .Include(p => p.Batch)
+                .Include(p => p.Recruiter)
+                .Include(p => p.Course)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Placement>> GetByBatchIdAsync(int batchId)
+        {
+            return await _context.Placements
+                .Where(p => p.BatchId == batchId)
+                .Include(p => p.Student)
+                .Include(p => p.Batch)
+                .Include(p => p.Recruiter)
+                .Include(p => p.Course)
+                .ToListAsync();
         }
 
         public async Task<Placement> GetByIdAsync(int id)
         {
-            return await _context.Placements.FindAsync(id);
+            return await _context.Placements
+                .Include(p => p.Student)
+                .Include(p => p.Batch)
+                .Include(p => p.Recruiter)
+                .Include(p => p.Course)
+                .FirstOrDefaultAsync(p => p.PlacementId == id);
         }
 
         public async Task AddAsync(Placement placement)

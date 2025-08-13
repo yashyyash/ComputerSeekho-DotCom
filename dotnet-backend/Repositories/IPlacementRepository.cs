@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using dotnet_backend.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using dotnet_backend.Models;
 
 namespace dotnet_backend.Repositories
 {
     public interface IPlacementRepository
     {
         Task<IEnumerable<Placement>> GetAllAsync();
+        Task<IEnumerable<Placement>> GetByBatchIdAsync(int batchId);
         Task<Placement> GetByIdAsync(int id);
         Task AddAsync(Placement placement);
         Task UpdateAsync(Placement placement);
