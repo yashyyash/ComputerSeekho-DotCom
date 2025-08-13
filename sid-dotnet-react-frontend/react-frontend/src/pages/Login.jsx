@@ -15,46 +15,51 @@ const Login = () => {
 
 
  // -----------------
-      sessionStorage.setItem("isLoggedIn", "true");
+//       sessionStorage.setItem("isLoggedIn", "true");
 
-const staffData = {
-  staffId: 1,
-  photoUrl: "/students/dac_March24/ABHISHEK KARMORE_SMVITA.jpg",
-  staffEmail: "abhishek.karmore@example.com",
-  staffMobile: "9876543210",
-  staffName: "Abhishek Karmore",
-  staffRole: "Teaching Staff",
-  staffUsername: "abhishek.karmore@example.com"
-};
+// const staffData = {
+//   staffId: 1,
+//   photoUrl: "/students/dac_March24/ABHISHEK KARMORE_SMVITA.jpg",
+//   staffEmail: "abhishek.karmore@example.com",
+//   staffMobile: "9876543210",
+//   staffName: "Abhishek Karmore",
+//   staffRole: "Teaching Staff",
+//   staffUsername: "abhishek.karmore@example.com"
+// };
 
-localStorage.setItem("staffData", JSON.stringify(staffData));
+// localStorage.setItem("staffData", JSON.stringify(staffData));
 
       // ---------------------
 
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:8080/api/staff/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ staff_username, staff_password })
-      });
+  e.preventDefault();
+  try {
+    const response = await fetch('http://localhost:5062/api/Auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ staffUsername: staff_username, password: staff_password })
+    });
 
-      if (response.ok) {
-        const staffData = await response.json();
-        localStorage.setItem("token", staffData.token);
-        sessionStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("staffData", JSON.stringify(staffData));
-        navigate("/admin");
-      } else {
-        setError('❌ Invalid credentials!');
-      }
-    } catch (err) {
-      console.error("Login error:", err);
-      setError('❌ Server error. Try again later.');
+    if (response.ok) {
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("staffData", JSON.stringify({
+        staffName: data.staffName,
+        role: data.role,
+        staffUsername: staff_username
+      }));
+      sessionStorage.setItem("isLoggedIn", "true");
+      navigate("/admin");
+    } else {
+      setError('❌ Invalid credentials!');
     }
-  };
+  } catch (err) {
+    console.error("Login error:", err);
+    setError('❌ Server error. Try again later.');
+  }
+};
+
 
   return (
     <div className="login-page">

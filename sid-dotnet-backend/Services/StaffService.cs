@@ -1,6 +1,8 @@
 ﻿using dotnet_backend.Models;
 using dotnet_backend.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace dotnet_backend.Services
 {
@@ -15,19 +17,22 @@ namespace dotnet_backend.Services
 
         public async Task<IEnumerable<Staff>> GetAllAsync()
         {
-            // If you want to include Enquiries too, add: .Include(s => s.Enquiries)
             return await _context.Staffs.AsNoTracking().ToListAsync();
         }
 
         public async Task<Staff?> GetByIdAsync(long id)
         {
-            // Include Enquiries if needed:
-            // return await _context.Staffs.Include(s => s.Enquiries).FirstOrDefaultAsync(s => s.StaffId == id);
-            return await _context.Staffs.AsNoTracking().FirstOrDefaultAsync(s => s.StaffId == id);
+            return await _context.Staffs.AsNoTracking()
+                .FirstOrDefaultAsync(s => s.StaffId == id);
         }
 
         public async Task<Staff> CreateAsync(Staff staff)
         {
+            if (!string.IsNullOrEmpty(staff.StaffPassword))
+            {
+                staff.StaffPassword = HashPassword(staff.StaffPassword);
+            }
+
             _context.Staffs.Add(staff);
             await _context.SaveChangesAsync();
             return staff;
@@ -43,8 +48,12 @@ namespace dotnet_backend.Services
             existing.StaffMobile = staff.StaffMobile;
             existing.StaffEmail = staff.StaffEmail;
             existing.StaffUsername = staff.StaffUsername;
-            existing.StaffPassword = staff.StaffPassword;
             existing.StaffRole = staff.StaffRole;
+
+            if (!string.IsNullOrEmpty(staff.StaffPassword))
+            {
+                existing.StaffPassword = HashPassword(staff.StaffPassword);
+            }
 
             await _context.SaveChangesAsync();
             return true;
@@ -58,6 +67,20 @@ namespace dotnet_backend.Services
             _context.Staffs.Remove(existing);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
+        }
+
+        public bool VerifyPassword(string inputPassword, string storedHash)
+        {
+            var inputHash = HashPassword(inputPassword);
+            return inputHash == storedHash;
         }
     }
 }
