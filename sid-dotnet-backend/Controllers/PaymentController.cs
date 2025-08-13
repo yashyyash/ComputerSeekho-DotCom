@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using dotnet_backend.Helpers;
 using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -64,5 +65,19 @@ namespace dotnet_backend.Controllers
             if (!ok) return NotFound();
             return NoContent();
         }
+
+
+        [HttpGet("{id:int}/receipt")]
+        public async Task<IActionResult> GetReceipt(int id)
+        {
+            var payment = await _service.GetByIdAsync(id);
+            if (payment == null) return NotFound();
+
+            // Here we generate PDF dynamically — for now, we’ll keep it simple
+            byte[] pdfBytes = ReceiptPdfGenerator.Generate(payment);
+
+            return File(pdfBytes, "application/pdf", $"receipt_{id}.pdf");
+        }
+
     }
 }
