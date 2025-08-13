@@ -24,7 +24,7 @@ SELECT * FROM placement;		-- done			CRUD PENDING			0
 SELECT * FROM recruiter;		-- done			CRUD PENDING			0
 SELECT * FROM staff;			-- done			CRUD COMPLETED			1
 SELECT * FROM staff_role;		-- done			NOT NEEDED RIGHT NOW	0
-SELECT * FROM student;			-- done			CRUDE PENDING			1
+SELECT * FROM student;			-- done			CRUD COMPLETED			1
 
 
 

@@ -31,9 +31,6 @@ namespace dotnet_backend
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
             builder.Services.AddScoped<IPaymentService, PaymentServiceImplementation>();
           
-
-
-
             builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
             builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
 
@@ -43,8 +40,6 @@ namespace dotnet_backend
             builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             builder.Services.AddScoped<IAnnouncementService, AnnouncementServiceImplementation>();
             
-            
-
             builder.Services.AddScoped<IFollowUpRepository, FollowUpRepository>();
             builder.Services.AddScoped<IFollowUpService, FollowUpServiceImplementation>();
 
@@ -63,7 +58,8 @@ namespace dotnet_backend
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseServiceImplementation>();
 
-
+            builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
+            builder.Services.AddScoped<IRecruiterService, RecruiterServiceImplementation>();
 
 
             // Add JWT Authentication
