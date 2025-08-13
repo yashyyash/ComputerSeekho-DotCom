@@ -104,9 +104,7 @@ const ManageEnquiry = () => {
   // Submit form (create or update)
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Payload matches Postman request
       const payload = {
         enquirerName: enquiry.enquirerName,
         studentName: enquiry.studentName,
@@ -130,16 +128,13 @@ const ManageEnquiry = () => {
       };
 
       if (selectedEnquiryId) {
-        // Update
         await axios.put(`http://localhost:8080/api/enquiry/${selectedEnquiryId}`, payload);
         alert("Enquiry updated successfully!");
       } else {
-        // Create
         await axios.post("http://localhost:8080/api/enquiry", payload);
         alert("Enquiry created successfully!");
       }
 
-      // Reset form
       setSelectedEnquiryId(null);
       setEnquiry({
         enquirerName: "",
@@ -201,33 +196,81 @@ const ManageEnquiry = () => {
     <div className="manage-enquiry-container">
       <h2>{selectedEnquiryId ? "Edit Enquiry" : "Create Enquiry"}</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="enquirerName" value={enquiry.enquirerName} onChange={handleChange} placeholder="Enquirer Name" required />
-        <input type="text" name="studentName" value={enquiry.studentName} onChange={handleChange} placeholder="Student Name" required />
-        <input type="email" name="studentEmail" value={enquiry.studentEmail} onChange={handleChange} placeholder="Student Email" />
-        <input type="email" name="inquirerEmail" value={enquiry.inquirerEmail} onChange={handleChange} placeholder="Inquirer Email" />
-        <input type="text" name="studentGender" value={enquiry.studentGender} onChange={handleChange} placeholder="Student Gender" />
-        <input type="text" name="enquiryAddress" value={enquiry.enquiryAddress} onChange={handleChange} placeholder="Address" />
-        <input type="text" name="studentPhotoUrl" value={enquiry.studentPhotoUrl} onChange={handleChange} placeholder="Photo URL" />
-        <input type="number" name="courseId" value={enquiry.courseId} onChange={handleChange} placeholder="Course ID" />
-        <input type="number" name="staffId" value={enquiry.staffId} onChange={handleChange} placeholder="Staff ID" />
-        <input type="text" name="enquiryQuery" value={enquiry.enquiryQuery} onChange={handleChange} placeholder="Enquiry Query" />
-        <select name="status" value={enquiry.status} onChange={handleChange}>
-          <option value={1}>Open</option>
-          <option value={2}>Close</option>
-          <option value={3}>Registered</option>
-        </select>
-        <input type="text" name="closureReason" value={enquiry.closureReason || ""} onChange={handleChange} placeholder="Closure Reason" />
-        <input type="datetime-local" name="createdAt" value={enquiry.createdAt} onChange={handleChange} required />
+        <div className="form-row">
+          <label htmlFor="enquirerName">Enquirer Name:</label>
+          <input type="text" id="enquirerName" name="enquirerName" value={enquiry.enquirerName} onChange={handleChange} required />
+        </div>
+        <div className="form-row">
+          <label htmlFor="studentName">Student Name:</label>
+          <input type="text" id="studentName" name="studentName" value={enquiry.studentName} onChange={handleChange} required />
+        </div>
+        <div className="form-row">
+          <label htmlFor="studentEmail">Student Email:</label>
+          <input type="email" id="studentEmail" name="studentEmail" value={enquiry.studentEmail} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="inquirerEmail">Inquirer Email:</label>
+          <input type="email" id="inquirerEmail" name="inquirerEmail" value={enquiry.inquirerEmail} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="studentGender">Student Gender:</label>
+          <input type="text" id="studentGender" name="studentGender" value={enquiry.studentGender} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="enquiryAddress">Address:</label>
+          <input type="text" id="enquiryAddress" name="enquiryAddress" value={enquiry.enquiryAddress} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="studentPhotoUrl">Photo URL:</label>
+          <input type="text" id="studentPhotoUrl" name="studentPhotoUrl" value={enquiry.studentPhotoUrl} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="courseId">Course ID:</label>
+          <input type="number" id="courseId" name="courseId" value={enquiry.courseId} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="staffId">Staff ID:</label>
+          <input type="number" id="staffId" name="staffId" value={enquiry.staffId} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="enquiryQuery">Enquiry Query:</label>
+          <input type="text" id="enquiryQuery" name="enquiryQuery" value={enquiry.enquiryQuery} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="status">Status:</label>
+          <select id="status" name="status" value={enquiry.status} onChange={handleChange}>
+            <option value={1}>Open</option>
+            <option value={2}>Close</option>
+            <option value={3}>Registered</option>
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor="closureReason">Closure Reason:</label>
+          <input type="text" id="closureReason" name="closureReason" value={enquiry.closureReason || ""} onChange={handleChange} />
+        </div>
+        <div className="form-row">
+          <label htmlFor="createdAt">Created At:</label>
+          <input type="datetime-local" id="createdAt" name="createdAt" value={enquiry.createdAt} onChange={handleChange} required />
+        </div>
 
         <h3>Follow Ups</h3>
         {enquiry.followUps.map((fu, index) => (
           <div className="follow-up-item" key={fu.followupId}>
-            <input type="datetime-local" name="followupDate" value={fu.followupDate} onChange={(e) => handleFollowUpChange(index, e)} required />
-            <input type="text" name="notes" value={fu.notes} onChange={(e) => handleFollowUpChange(index, e)} placeholder="Notes" required />
-            <select name="status" value={fu.status} onChange={(e) => handleFollowUpChange(index, e)}>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-            </select>
+            <div className="form-row">
+              <label>Follow-up Date:</label>
+              <input type="datetime-local" name="followupDate" value={fu.followupDate} onChange={(e) => handleFollowUpChange(index, e)} required />
+            </div>
+            <div className="form-row">
+              <label>Notes:</label>
+              <input type="text" name="notes" value={fu.notes} onChange={(e) => handleFollowUpChange(index, e)} placeholder="Notes" required />
+            </div>
+            <div className="form-row">
+              <label>Status:</label>
+              <select name="status" value={fu.status} onChange={(e) => handleFollowUpChange(index, e)}>
+                <option value="Pending">Pending</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
             <button type="button" onClick={() => deleteFollowUp(index)}>Delete</button>
           </div>
         ))}
