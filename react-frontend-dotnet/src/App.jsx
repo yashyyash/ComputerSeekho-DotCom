@@ -8,7 +8,7 @@ import AddCourse from './pages/AddCourse';
 import Courses from "./pages/Courses";
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AdminPage from "./pages/AdminPage";
 import ManageWebsiteData from "./pages/ManageWebsiteData";
 import BatchwisePlacedStudents from "./pages/BatchwisePlacedStudents";
@@ -33,7 +33,7 @@ import AddFaculty from './pages/AddFaculty';
 import FacultyList from './pages/FacultyList';
 
 import Student from './pages/Student';
-import ScrollToTopButton from './components/ScrollToTopButton'; // attractive button
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 const App = () => {
   return (

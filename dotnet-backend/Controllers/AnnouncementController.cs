@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace dotnet_backend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/announcements")] // plural to match React frontend
     public class AnnouncementController : ControllerBase
     {
         private readonly IAnnouncementService _service;

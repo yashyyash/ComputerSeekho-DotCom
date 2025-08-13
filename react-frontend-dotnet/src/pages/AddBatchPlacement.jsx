@@ -1,200 +1,3 @@
-//Rev 1
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import "./AddBatchPlacement.css";
-
-// const AddBatchPlacement = () => {
-//   const [formData, setFormData] = useState({
-//     batchId: null,
-//     batchName: "",
-//     placementPercentage: "",
-//     logoFileName: "",
-//     isActive: true,
-//   });
-
-//   const [placements, setPlacements] = useState([]);
-
-//   const fetchPlacements = async () => {
-//     try {
-//       const res = await axios.get("http://localhost:8080/api/batches");
-//       setPlacements(res.data);
-//     } catch (err) {
-//       console.error("Failed to fetch placements:", err);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchPlacements();
-//   }, []);
-
-//   const handleChange = (e) => {
-//     const { name, value, type, checked } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: type === "checkbox" ? checked : value,
-//     });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const payload = {
-//       batchName: formData.batchName,
-//       placementPercentage: formData.placementPercentage,
-//       batchLogoUrl: `/public/batchwisePlacement/${formData.logoFileName.trim()}`,
-//       isActive: formData.isActive,
-//     };
-
-//     try {
-//       if (formData.batchId) {
-//         await axios.put(
-//           `http://localhost:8080/api/batches/${formData.batchId}`,
-//           payload
-//         );
-//         alert("Updated successfully!");
-//       } else {
-//         await axios.post("http://localhost:8080/api/batches", payload);
-//         alert("Added successfully!");
-//       }
-
-//       setFormData({
-//         batchId: null,
-//         batchName: "",
-//         placementPercentage: "",
-//         logoFileName: "",
-//         isActive: true,
-//       });
-//       fetchPlacements();
-//     } catch (err) {
-//       console.error("Save failed:", err.response || err);
-//       alert("Failed to save placement.");
-//     }
-//   };
-
-//   const handleEdit = (placement) => {
-//     const filename = placement.batchLogoUrl?.split("/").pop() || "";
-//     setFormData({
-//       batchId: placement.batchId,
-//       batchName: placement.batchName,
-//       placementPercentage: placement.placementPercentage,
-//       logoFileName: filename,
-//       isActive: placement.isActive,
-//     });
-//   };
-
-//   const handleDelete = async (id) => {
-//     if (window.confirm("Are you sure you want to delete this placement?")) {
-//       try {
-//         await axios.delete(`http://localhost:8080/api/batches/${id}`);
-//         alert("Deleted successfully!");
-//         fetchPlacements();
-//       } catch (err) {
-//         console.error("Delete failed:", err);
-//         alert("Failed to delete placement.");
-//       }
-//     }
-//   };
-
-//   return (
-//     <div className="add-placement-container">
-//       <h2 className="form-heading">
-//         {formData.batchId ? "Edit" : "Add"} Batchwise Placement
-//       </h2>
-//       <form className="add-placement-form" onSubmit={handleSubmit}>
-//         <label>
-//           Batch Name:
-//           <input
-//             type="text"
-//             name="batchName"
-//             value={formData.batchName}
-//             onChange={handleChange}
-//             required
-//           />
-//         </label>
-
-//         <label>
-//           Placement Percentage:
-//           <input
-//             type="number"
-//             name="placementPercentage"
-//             value={formData.placementPercentage}
-//             onChange={handleChange}
-//             step="0.01"
-//             min="0"
-//             max="100"
-//             required
-//           />
-//         </label>
-
-//         <label>
-//           Batch Logo Filename:
-//           <input
-//             type="text"
-//             name="logoFileName"
-//             placeholder="e.g. feb15.png"
-//             value={formData.logoFileName}
-//             onChange={handleChange}
-//             required
-//           />
-//           <small className="note">
-//             Stored as: /public/batchwisePlacement/[filename]
-//           </small>
-//         </label>
-
-//         <button type="submit" className="submit-btn">
-//           {formData.batchId ? "Update" : "Add"} Placement
-//         </button>
-//       </form>
-
-//       <h3 className="form-heading">Passed Out Batches</h3>
-//       <table className="placement-table">
-//         <thead>
-//           <tr>
-//             <th>ID</th>
-//             <th>Batch Name</th>
-//             <th>Percentage</th>
-//             <th>Logo</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {placements.map((placement) => (
-//             <tr key={placement.batchId}>
-//               <td>{placement.batchId}</td>
-//               <td>{placement.batchName}</td>
-//               <td>{placement.placementPercentage}%</td>
-//               <td>
-//                 <img
-//                   src={placement.batchLogoUrl}
-//                   alt="logo"
-//                   style={{ width: "50px", height: "50px", objectFit: "cover" }}
-//                 />
-//               </td>
-//               <td>
-//                 <button
-//                   onClick={() => handleEdit(placement)}
-//                   className="update-btn"
-//                 >
-//                   Edit
-//                 </button>
-//                 <button
-//                   onClick={() => handleDelete(placement.batchId)}
-//                   className="delete-btn"
-//                 >
-//                   Delete
-//                 </button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// export default AddBatchPlacement;
-
-
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -207,17 +10,16 @@ const AddBatchPlacement = () => {
   const [formData, setFormData] = useState({
     batchId: null,
     batchName: "",
-    batchPhoto: "",
-    batchStartTime: "",
-    batchEndTime: "",
-    batchPlacedPercent: "",
-    batchIsActive: true,
+    batchPhotoUrl: "",
+    startDate: "",
+    endDate: "",
     courseId: "", 
   });
 
   const [batches, setBatches] = useState([]);
   const [courses, setCourses] = useState([]);
 
+  // Fetch batches
   const fetchBatches = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/batch");
@@ -227,6 +29,7 @@ const AddBatchPlacement = () => {
     }
   };
 
+  // Fetch courses
   const fetchCourses = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/course");
@@ -242,30 +45,30 @@ const AddBatchPlacement = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Build payload exactly matching BatchDto
     const payload = {
-      batchId: formData.batchId,
-      batchName: formData.batchName,
-      batchPhoto: formData.batchPhoto.trim(),
-      batchStartTime: formData.batchStartTime,
-      batchEndTime: formData.batchEndTime,
-      batchPlacedPercent: parseFloat(formData.batchPlacedPercent) || 0,
-      batchIsActive: formData.batchIsActive,
-      course: { courseId: parseInt(formData.courseId) }
+      BatchId: formData.batchId || 0, // 0 or omit for POST
+      BatchName: formData.batchName,
+      BatchPhotoUrl: formData.batchPhotoUrl.trim(),
+      StartDate: formData.startDate,
+      EndDate: formData.endDate,
+      CourseId: parseInt(formData.courseId),
     };
 
     try {
       if (formData.batchId) {
-        await axios.put("http://localhost:8080/api/batch", payload);
+        // PUT requires id in URL
+        await axios.put(`http://localhost:8080/api/batch/${formData.batchId}`, payload);
         alert("Batch updated successfully!");
       } else {
         await axios.post("http://localhost:8080/api/batch", payload);
@@ -275,18 +78,16 @@ const AddBatchPlacement = () => {
       setFormData({
         batchId: null,
         batchName: "",
-        batchPhoto: "",
-        batchStartTime: "",
-        batchEndTime: "",
-        batchPlacedPercent: "",
-        batchIsActive: true,
+        batchPhotoUrl: "",
+        startDate: "",
+        endDate: "",
         courseId: "",
       });
 
       fetchBatches();
     } catch (err) {
       console.error("Save failed:", err);
-      alert("Failed to save batch.");
+      alert("Failed to save batch. Check console for details.");
     }
   };
 
@@ -294,12 +95,10 @@ const AddBatchPlacement = () => {
     setFormData({
       batchId: batch.batchId,
       batchName: batch.batchName,
-      batchPhoto: batch.batchPhoto,
-      batchStartTime: batch.batchStartTime || "",
-      batchEndTime: batch.batchEndTime || "",
-      batchPlacedPercent: batch.batchPlacedPercent || "",
-      batchIsActive: batch.batchIsActive,
-      courseId: batch.course?.courseId || "",
+      batchPhotoUrl: batch.batchPhotoUrl,
+      startDate: batch.startDate ? batch.startDate.split("T")[0] : "",
+      endDate: batch.endDate ? batch.endDate.split("T")[0] : "",
+      courseId: batch.courseId.toString(),
     });
 
     setTimeout(() => {
@@ -323,9 +122,7 @@ const AddBatchPlacement = () => {
   return (
     <div className="add-placement-container">
       <div ref={formRef}>
-        <h2 className="form-heading">
-          {formData.batchId ? "Edit" : "Add"} Batch
-        </h2>
+        <h2>{formData.batchId ? "Edit" : "Add"} Batch</h2>
         <form className="add-placement-form" onSubmit={handleSubmit}>
           <label>
             Batch Name:
@@ -339,26 +136,23 @@ const AddBatchPlacement = () => {
           </label>
 
           <label>
-            Batch Photo Path:
+            Batch Photo URL:
             <input
               type="text"
-              name="batchPhoto"
+              name="batchPhotoUrl"
               placeholder="/public/batchwisePlacement/file.jpg"
-              value={formData.batchPhoto}
+              value={formData.batchPhotoUrl}
               onChange={handleChange}
               required
             />
-            <small className="note">
-            Stored as: /public/batchwisePlacement/[filename]
-          </small>
           </label>
 
           <label>
             Start Date:
             <input
               type="date"
-              name="batchStartTime"
-              value={formData.batchStartTime}
+              name="startDate"
+              value={formData.startDate}
               onChange={handleChange}
               required
             />
@@ -368,23 +162,10 @@ const AddBatchPlacement = () => {
             End Date:
             <input
               type="date"
-              name="batchEndTime"
-              value={formData.batchEndTime}
+              name="endDate"
+              value={formData.endDate}
               onChange={handleChange}
               required
-            />
-          </label>
-
-          <label>
-            Placement %:
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              max="100"
-              name="batchPlacedPercent"
-              value={formData.batchPlacedPercent}
-              onChange={handleChange}
             />
           </label>
 
@@ -405,29 +186,16 @@ const AddBatchPlacement = () => {
             </select>
           </label>
 
-          <label>
-            Is Active:
-            <input
-              type="checkbox"
-              name="batchIsActive"
-              checked={formData.batchIsActive}
-              onChange={handleChange}
-            />
-          </label>
-
-          <button type="submit" className="submit-btn">
-            {formData.batchId ? "Update" : "Add"} Batch
-          </button>
+          <button type="submit">{formData.batchId ? "Update" : "Add"} Batch</button>
         </form>
       </div>
 
-      <h3 className="form-heading">All Batches</h3>
+      <h3>All Batches</h3>
       <table className="placement-table">
         <thead>
           <tr>
             <th>ID</th>
             <th>Batch Name</th>
-            <th>Placed %</th>
             <th>Photo</th>
             <th>Actions</th>
           </tr>
@@ -437,29 +205,16 @@ const AddBatchPlacement = () => {
             <tr key={batch.batchId}>
               <td>{batch.batchId}</td>
               <td>{batch.batchName}</td>
-              <td>{batch.batchPlacedPercent}%</td>
               <td>
                 <img
-                  src={batch.batchPhoto}
-                  alt="logo"
+                  src={batch.batchPhotoUrl}
+                  alt="Batch"
                   style={{ width: "50px", height: "50px", objectFit: "cover" }}
                 />
               </td>
               <td>
-                <button onClick={() => handleEdit(batch)} className="update-btn">
-                  Edit
-                </button>
-                <button onClick={() => handleDelete(batch.batchId)} className="delete-btn">
-                  Delete
-                </button>
-                <button
-                  onClick={() =>
-                    navigate(`/edit-batchwise-placed-students/${batch.batchId}`)
-                  }
-                  className="students-btn"
-                >
-                  Manage Student
-                </button>
+                <button onClick={() => handleEdit(batch)}>Edit</button>
+                <button onClick={() => handleDelete(batch.batchId)}>Delete</button>
               </td>
             </tr>
           ))}

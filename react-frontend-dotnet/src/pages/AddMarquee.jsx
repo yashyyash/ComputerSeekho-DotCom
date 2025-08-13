@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './AddMarquee.css';
+import React, { useState, useEffect } from "react";
 
 const AddMarquee = () => {
-  const [aDesc, setADesc] = useState('');
-  const [aIsActive, setAIsActive] = useState(true);
-  const [message, setMessage] = useState('');
+  const [marqueeText, setMarqueeText] = useState("");
+  const [loading, setLoading] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
-  const [editingId, setEditingId] = useState(null); // null means we are adding, not editing
+  const [editId, setEditId] = useState(null);
 
+  // Fetch all announcements
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/announcements');
-      setAnnouncements(response.data);
-    } catch (error) {
-      console.error('Error fetching announcements:', error);
+      const res = await fetch("http://localhost:8080/api/announcements");
+      if (!res.ok) throw new Error("Failed to fetch announcements");
+      const data = await res.json();
+      setAnnouncements(data);
+    } catch (err) {
+      console.error("Error fetching announcements:", err);
     }
   };
 
@@ -22,98 +22,135 @@ const AddMarquee = () => {
     fetchAnnouncements();
   }, []);
 
+  // Add or Edit announcement
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!marqueeText.trim()) {
+      alert("Please enter a marquee text");
+      return;
+    }
 
-    const newAnnouncement = {
-      aDesc,
-      aIsActive
-    };
-
+    setLoading(true);
     try {
-      if (editingId === null) {
-        // Add
-        await axios.post('http://localhost:8080/api/announcements', newAnnouncement);
-        setMessage('Announcement added successfully!');
-      } else {
-        // Edit
-        await axios.put(`http://localhost:8080/api/announcements/${editingId}`, newAnnouncement);
-        setMessage('Announcement updated successfully!');
+      let url = "http://localhost:8080/api/announcements";
+      let method = "POST";
+
+      if (editId) {
+        url = `${url}/${editId}`;
+        method = "PUT";
       }
 
-      setADesc('');
-      setAIsActive(true);
-      setEditingId(null);
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          announcementId: editId || 0,
+          announcementText: marqueeText,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to save announcement");
+
+      alert(editId ? "Announcement updated!" : "Announcement added!");
+      setMarqueeText("");
+      setEditId(null);
       fetchAnnouncements();
-    } catch (error) {
-      console.error(error);
-      setMessage('Error saving announcement.');
+    } catch (err) {
+      console.error("Error saving announcement:", err);
+      alert("Error: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleEdit = (announcement) => {
-    setADesc(announcement.aDesc);
-    setAIsActive(announcement.aIsActive);
-    setEditingId(announcement.aId);
-    setMessage('');
+  // Edit handler
+  const handleEdit = (id, text) => {
+    setEditId(id);
+    setMarqueeText(text);
   };
 
+  // Cancel edit
+  const handleCancelEdit = () => {
+    setEditId(null);
+    setMarqueeText("");
+  };
+
+  // Delete handler
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this announcement?")) return;
+
     try {
-      await axios.delete(`http://localhost:8080/api/announcements/${id}`);
-      setMessage('Announcement deleted successfully!');
+      const res = await fetch(`http://localhost:8080/api/announcements/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Failed to delete announcement");
+
+      alert("Announcement deleted!");
       fetchAnnouncements();
-    } catch (error) {
-      console.error(error);
-      setMessage('Error deleting announcement.');
+    } catch (err) {
+      console.error("Error deleting announcement:", err);
+      alert("Error: " + err.message);
     }
   };
 
   return (
-    <div className="add-marquee-container">
-      <h2>{editingId ? 'Edit Announcement' : 'Add New Announcement'}</h2>
+    <div className="container mt-4">
+      <h2>{editId ? "Edit Announcement" : "Add Marquee Announcement"}</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="aDesc">Announcement Description:</label>
+        <div className="mb-3">
+          <label htmlFor="marqueeText" className="form-label">
+            Announcement Text
+          </label>
           <input
             type="text"
-            id="aDesc"
-            value={aDesc}
-            onChange={(e) => setADesc(e.target.value)}
-            required
+            id="marqueeText"
+            className="form-control"
+            value={marqueeText}
+            onChange={(e) => setMarqueeText(e.target.value)}
+            placeholder="Enter announcement"
           />
         </div>
-
-        <div className="form-group">
-          <label htmlFor="aIsActive">Is Active:</label>
-          <select
-            id="aIsActive"
-            value={aIsActive}
-            onChange={(e) => setAIsActive(e.target.value === 'true')}
-          >
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-          </select>
-        </div>
-
-        <button type="submit">{editingId ? 'Update' : 'Add'} Announcement</button>
-        {message && <p className="message">{message}</p>}
+        <button type="submit" className="btn btn-primary me-2" disabled={loading}>
+          {loading ? "Saving..." : editId ? "Update Announcement" : "Add Announcement"}
+        </button>
+        {editId && (
+          <button type="button" className="btn btn-secondary" onClick={handleCancelEdit}>
+            Cancel
+          </button>
+        )}
       </form>
 
       <hr />
-
-      <h3>All Announcements</h3>
-      <ul className="announcement-list">
-        {announcements.map((ann) => (
-          <li key={ann.aId}>
-            <strong>{ann.aDesc}</strong> - <em>{ann.aIsActive ? 'Active' : 'Inactive'}</em>
-            <div className="actions">
-              <button onClick={() => handleEdit(ann)}>Edit</button>
-              <button onClick={() => handleDelete(ann.aId)}>Delete</button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <h3>Existing Announcements</h3>
+      {announcements.length === 0 ? (
+        <p>No announcements found.</p>
+      ) : (
+        <ul className="list-group">
+          {announcements.map((a) => (
+            <li
+              key={a.announcementId}
+              className="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {a.announcementText}
+              <div>
+                <button
+                  className="btn btn-sm btn-warning me-2"
+                  onClick={() => handleEdit(a.announcementId, a.announcementText)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-sm btn-danger"
+                  onClick={() => handleDelete(a.announcementId)}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
