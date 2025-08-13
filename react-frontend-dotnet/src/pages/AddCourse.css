@@ -1,130 +1,112 @@
-.add-course-container {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', sans-serif;
+/* AddCourse.css */
+
+/* Container */
+.course-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
-.form-heading {
+/* Headings */
+.course-container h2,
+.course-container h3 {
   text-align: center;
-  color: #2c3e50;
-  margin: 30px 0 20px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.add-course-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  background-color: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  margin-bottom: 40px;
+/* Message */
+.message {
+  text-align: center;
+  margin-bottom: 15px;
+  color: green;
+  font-weight: bold;
 }
 
-.add-course-form label {
+/* Form */
+.course-form {
   display: flex;
   flex-direction: column;
-  font-weight: 500;
-  font-size: 14px;
-  color: #34495e;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-.add-course-form input,
-.add-course-form textarea {
+.course-form input,
+.course-form textarea {
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 5px;
-  font-size: 14px;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.add-course-form textarea {
+.course-form textarea {
   resize: vertical;
   min-height: 80px;
 }
 
-.add-course-form input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-top: 10px;
-  accent-color: #27ae60;
-}
-
-.submit-btn {
-  grid-column: span 2;
-  background-color: #2ecc71;
-  color: white;
+.course-form button {
   padding: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.submit-btn:hover {
-  background-color: #27ae60;
-}
-
-.course-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-}
-
-.course-table thead {
-  background-color: #3498db;
+  font-size: 1rem;
+  background-color: #007bff;
   color: white;
-}
-
-.course-table th,
-.course-table td {
-  padding: 14px 16px;
-  text-align: center;
-  border-bottom: 1px solid #111010;
-}
-
-.course-table tbody tr {
-  background-color: #f4faff;
-  color: rgb(18, 17, 17);
-}
-
-.course-table img {
-  width: 50px;
-  height: 50px;
+  border: none;
   border-radius: 6px;
-  object-fit: cover;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.update-btn,
-.delete-btn {
+.course-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Course List */
+.course-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.course-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.course-list li strong {
+  font-size: 1.1rem;
+}
+
+.course-list .actions button {
+  margin-left: 10px;
   padding: 6px 12px;
+  font-size: 0.9rem;
   border: none;
-  border-radius: 6px;
-  color: white;
-  font-weight: 500;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 0 4px;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
 }
 
-.update-btn {
-  background-color: #2980b9;
+.course-list .actions button:hover {
+  opacity: 0.8;
 }
 
-.delete-btn {
-  background-color: #e74c3c;
+.course-list .actions button:first-child {
+  background-color: #ffc107;
+  color: #333;
 }
 
-.update-btn:hover,
-.delete-btn:hover {
-  transform: scale(1.05);
+.course-list .actions button:last-child {
+  background-color: #dc3545;
+  color: white;
 }

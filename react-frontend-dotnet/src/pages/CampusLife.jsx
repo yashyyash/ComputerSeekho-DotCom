@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './CampusLife.css';
 
-const API_URL = 'http://localhost:8080/api/campus-life';
+const API_URL = 'http://localhost:8080/api/CampusLife';
 
 const CampusLife = () => {
   const [campusList, setCampusList] = useState([]);
-  const [formData, setFormData] = useState({ title: '', description: '', imageUrl: '' });
+  const [formData, setFormData] = useState({ photoUrl: '', description: '' });
   const [editingId, setEditingId] = useState(null);
 
   // Fetch all records
   const fetchCampusLife = async () => {
-    const response = await axios.get(API_URL);
-    setCampusList(response.data);
+    try {
+      const response = await axios.get(API_URL);
+      setCampusList(response.data);
+    } catch (err) {
+      console.error('Error fetching campus life:', err);
+    }
   };
 
   useEffect(() => {
@@ -33,7 +37,7 @@ const CampusLife = () => {
       } else {
         await axios.post(API_URL, formData);
       }
-      setFormData({ title: '', description: '', imageUrl: '' });
+      setFormData({ photoUrl: '', description: '' });
       setEditingId(null);
       fetchCampusLife();
     } catch (err) {
@@ -44,18 +48,21 @@ const CampusLife = () => {
   // Edit existing
   const handleEdit = (campus) => {
     setFormData({
-      title: campus.title,
+      photoUrl: campus.photoUrl,
       description: campus.description,
-      imageUrl: campus.imageUrl,
     });
-    setEditingId(campus.id);
+    setEditingId(campus.campusLifeId);
   };
 
   // Delete
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
-      await axios.delete(`${API_URL}/${id}`);
-      fetchCampusLife();
+      try {
+        await axios.delete(`${API_URL}/${id}`);
+        fetchCampusLife();
+      } catch (err) {
+        console.error('Error deleting campus life:', err);
+      }
     }
   };
 
@@ -65,9 +72,9 @@ const CampusLife = () => {
       <form className="campus-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
+          name="photoUrl"
+          placeholder="Photo URL"
+          value={formData.photoUrl}
           onChange={handleChange}
           required
         />
@@ -79,25 +86,19 @@ const CampusLife = () => {
           onChange={handleChange}
           required
         />
-        <input
-          type="text"
-          name="imageUrl"
-          placeholder="Image URL"
-          value={formData.imageUrl}
-          onChange={handleChange}
-        />
         <button type="submit">{editingId ? 'Update' : 'Add'}</button>
       </form>
 
       <div className="campus-list">
         {campusList.map((campus) => (
-          <div key={campus.id} className="campus-card">
-            <img src={campus.imageUrl} alt={campus.title} />
-            <h3>{campus.title}</h3>
+          <div key={campus.campusLifeId} className="campus-card">
+            {campus.photoUrl && (
+              <img src={campus.photoUrl} alt="Campus Life" />
+            )}
             <p>{campus.description}</p>
             <div className="card-actions">
               <button onClick={() => handleEdit(campus)}>Edit</button>
-              <button onClick={() => handleDelete(campus.id)}>Delete</button>
+              <button onClick={() => handleDelete(campus.campusLifeId)}>Delete</button>
             </div>
           </div>
         ))}
