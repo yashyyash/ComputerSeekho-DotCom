@@ -1,7 +1,8 @@
 using dotnet_backend.Repositories;
 using dotnet_backend.Services;
-using Microsoft.EntityFrameworkCore;
+using dotnet_backend.Services.ServiceImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -47,7 +48,19 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
-// JWT Authentication
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+
+// Add your services
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<ITokenService, TokenServiceImplementation>();
+
+// Add controllers
+builder.Services.AddControllers();
+
+// Add JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,6 +68,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -63,10 +77,10 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
+
 
 // Authorization
 builder.Services.AddAuthorization();
