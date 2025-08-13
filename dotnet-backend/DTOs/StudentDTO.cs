@@ -7,6 +7,8 @@
         public string Email { get; set; }
         public int Age { get; set; }
         public double DueAmount { get; set; }
+
+        public string StudentPhotoUrl { get; set; }
     }
 
     public class StudentCreateDTO
