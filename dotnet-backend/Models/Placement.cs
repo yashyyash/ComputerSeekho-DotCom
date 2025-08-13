@@ -25,8 +25,12 @@ namespace dotnet_backend.Models
         public int RecruiterId { get; set; }
         public Recruiter Recruiter { get; set; }
 
-        [Column("placed_students")]
-        public int PlacedStudents { get; set; }
+        [Column("student_id")]
+        public int StudentId { get; set; }
+        public Student Student { get; set; }
+
+        //[Column("placed_students_id")]
+        //public int PlacedStudents { get; set; }
     }
 
 }

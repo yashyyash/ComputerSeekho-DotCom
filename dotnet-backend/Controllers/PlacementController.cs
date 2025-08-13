@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using dotnet_backend.DTOs;
+﻿using dotnet_backend.DTOs;
 using dotnet_backend.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dotnet_backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class PlacementController : ControllerBase
     {
         private readonly IPlacementService _placementService;
@@ -18,40 +18,47 @@ namespace dotnet_backend.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PlacementDTO>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var placements = await _placementService.GetAllAsync();
+            var placements = await _placementService.GetAllPlacementsAsync();
             return Ok(placements);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlacementDTO>> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var placement = await _placementService.GetByIdAsync(id);
+            var placement = await _placementService.GetPlacementByIdAsync(id);
             if (placement == null) return NotFound();
             return Ok(placement);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<PlacementDTO>> Create(PlacementCreateDTO dto)
+        [HttpGet("batch/{batchId}")]
+        public async Task<IActionResult> GetByBatchId(int batchId)
         {
-            var createdPlacement = await _placementService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = createdPlacement.PlacementId }, createdPlacement);
+            var placements = await _placementService.GetPlacementsByBatchIdAsync(batchId);
+            return Ok(placements);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] PlacementDto dto)
+        {
+            var created = await _placementService.CreatePlacementAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.PlacementId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlacementDTO>> Update(int id, PlacementUpdateDTO dto)
+        public async Task<IActionResult> Update(int id, [FromBody] PlacementDto dto)
         {
-            var updatedPlacement = await _placementService.UpdateAsync(id, dto);
-            if (updatedPlacement == null) return NotFound();
-            return Ok(updatedPlacement);
+            var updated = await _placementService.UpdatePlacementAsync(id, dto);
+            if (updated == null) return NotFound();
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _placementService.DeleteAsync(id);
-            if (!success) return NotFound();
+            var deleted = await _placementService.DeletePlacementAsync(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

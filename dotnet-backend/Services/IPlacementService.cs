@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using dotnet_backend.DTOs;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using dotnet_backend.DTOs;
 
 namespace dotnet_backend.Services
 {
     public interface IPlacementService
     {
-        Task<IEnumerable<PlacementDTO>> GetAllAsync();
-        Task<PlacementDTO> GetByIdAsync(int id);
-        Task<PlacementDTO> CreateAsync(PlacementCreateDTO dto);
-        Task<PlacementDTO> UpdateAsync(int id, PlacementUpdateDTO dto);
-        Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<PlacementDto>> GetAllPlacementsAsync();
+        Task<IEnumerable<PlacementDto>> GetPlacementsByBatchIdAsync(int batchId);
+        Task<PlacementDto> GetPlacementByIdAsync(int id);
+        Task<PlacementDto> CreatePlacementAsync(PlacementDto placementDto);
+        Task<PlacementDto> UpdatePlacementAsync(int id, PlacementDto placementDto);
+        Task<bool> DeletePlacementAsync(int id);
     }
 }
