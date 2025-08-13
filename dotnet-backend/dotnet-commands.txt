@@ -21,7 +21,7 @@ SELECT * FROM follow_up;	    -- done			CRUD PENDING			0
 SELECT * FROM get_in_touch;		-- done			CRUD COMPLETED			1
 SELECT * FROM payment;			-- done			CRUD COMPLETED			1
 SELECT * FROM placement;		-- done			CRUD PENDING			0
-SELECT * FROM recruiter;		-- done			CRUD PENDING			0
+SELECT * FROM recruiter;		-- done			CRUD COMPLETED   		1
 SELECT * FROM staff;			-- done			CRUD COMPLETED			1
 SELECT * FROM staff_role;		-- done			NOT NEEDED RIGHT NOW	0
 SELECT * FROM student;			-- done			CRUD COMPLETED			1

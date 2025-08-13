@@ -1,4 +1,3 @@
-
 using dotnet_backend.AppDbContext;
 using dotnet_backend.Repositories;
 using dotnet_backend.Services;
@@ -66,6 +65,8 @@ namespace dotnet_backend
             builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
             builder.Services.AddScoped<IRecruiterService, RecruiterServiceImplementation>();
 
+            builder.Services.AddScoped<IPlacementRepository, PlacementRepository>();
+            builder.Services.AddScoped<IPlacementService, PlacementServiceImplementation>();
 
 
             // Add JWT Authentication
