@@ -13,7 +13,7 @@ namespace dotnet_backend.AppDbContext
         // DbSets
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Batch> Batches { get; set; }
-        public DbSet<BatchCourse> BatchCourses { get; set; }
+        
         public DbSet<CampusLife> CampusLife { get; set; }
         public DbSet<ClosureReason> ClosureReasons { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -34,18 +34,10 @@ namespace dotnet_backend.AppDbContext
             base.OnModelCreating(modelBuilder);
 
             // Composite key for BatchCourse
-            modelBuilder.Entity<BatchCourse>()
-                .HasKey(bc => new { bc.BatchId, bc.CourseId });
-
-            modelBuilder.Entity<BatchCourse>()
-                .HasOne(bc => bc.Batch)
-                .WithMany(b => b.BatchCourses)
-                .HasForeignKey(bc => bc.BatchId);
-
-            modelBuilder.Entity<BatchCourse>()
-                .HasOne(bc => bc.Course)
-                .WithMany(c => c.BatchCourses)
-                .HasForeignKey(bc => bc.CourseId);
+            modelBuilder.Entity<Batch>()
+            .HasOne(b => b.Course)
+            .WithMany(c => c.Batches)
+            .HasForeignKey(b => b.CourseId);
 
             // Decimal precision settings
             modelBuilder.Entity<Course>()

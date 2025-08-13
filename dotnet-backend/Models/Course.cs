@@ -29,7 +29,7 @@ namespace dotnet_backend.Models
         [Column("syllabus")]
         public string Syllabus { get; set; }
 
-        public ICollection<BatchCourse> BatchCourses { get; set; }
+        public ICollection<Batch> Batches { get; set; }
         public ICollection<Student> Students { get; set; }
         public ICollection<Enquiry> Enquiries { get; set; }
         public ICollection<Placement> Placements { get; set; }

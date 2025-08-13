@@ -25,7 +25,11 @@ namespace dotnet_backend.Models
         [Column("end_date")]
         public DateTime EndDate { get; set; }
 
-        public ICollection<BatchCourse> BatchCourses { get; set; }
+        [Column("course_id")]
+        public int CourseId { get; set; }
+        public Course Course { get; set; }
+
+        //public ICollection<BatchCourse> BatchCourses { get; set; }
         public ICollection<Placement> Placements { get; set; }
         public ICollection<Student> Students { get; set; }
     }
