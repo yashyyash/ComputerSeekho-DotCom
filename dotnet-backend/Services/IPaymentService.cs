@@ -12,5 +12,7 @@ namespace dotnet_backend.Services
 
 
         Task<byte[]> GeneratePaymentPdfAsync(int paymentId);
+
+        Task<IEnumerable<PaymentDto>> GetPaymentsByStudentIdAsync(int studentId);
     }
 }
