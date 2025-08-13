@@ -61,6 +61,9 @@ namespace dotnet_backend
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseServiceImplementation>();
 
+            builder.Services.AddScoped<IBatchRepository, BatchRepository>();
+            builder.Services.AddScoped<IBatchService, BatchServiceImplementation>();
+
 
 
 
