@@ -7,9 +7,8 @@ const ManageRecruiter = () => {
   const [recruiters, setRecruiters] = useState([]);
   const [formData, setFormData] = useState({
     recruiterId: null,
-    recruiterName: "",
-    recruiterLocation: "",
-    recruiterPhoto: "",
+    companyName: "",
+    recruiterPhotoUrl: "",
   });
 
   // Fetch recruiters
@@ -41,15 +40,16 @@ const ManageRecruiter = () => {
     e.preventDefault();
 
     const payload = {
-      recruiterId: formData.recruiterId,
-      recruiterName: formData.recruiterName.trim(),
-      recruiterLocation: formData.recruiterLocation.trim(),
-      recruiterPhoto: formData.recruiterPhoto.trim(),
+      companyName: formData.companyName.trim(),
+      recruiterPhotoUrl: formData.recruiterPhotoUrl.trim(),
     };
 
     try {
       if (formData.recruiterId) {
-        await axios.put("http://localhost:8080/api/recruiter", payload);
+        await axios.put(
+          `http://localhost:8080/api/recruiter/${formData.recruiterId}`,
+          payload
+        );
         alert("Recruiter updated successfully!");
       } else {
         await axios.post("http://localhost:8080/api/recruiter", payload);
@@ -57,9 +57,8 @@ const ManageRecruiter = () => {
       }
       setFormData({
         recruiterId: null,
-        recruiterName: "",
-        recruiterLocation: "",
-        recruiterPhoto: "",
+        companyName: "",
+        recruiterPhotoUrl: "",
       });
       fetchRecruiters();
     } catch (error) {
@@ -71,9 +70,8 @@ const ManageRecruiter = () => {
   const handleEdit = (rec) => {
     setFormData({
       recruiterId: rec.recruiterId,
-      recruiterName: rec.recruiterName,
-      recruiterLocation: rec.recruiterLocation,
-      recruiterPhoto: rec.recruiterPhoto,
+      companyName: rec.companyName,
+      recruiterPhotoUrl: rec.recruiterPhotoUrl,
     });
     setTimeout(() => {
       formRef.current.scrollIntoView({ behavior: "smooth" });
@@ -103,25 +101,17 @@ const ManageRecruiter = () => {
       <form className="recruiter-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          name="recruiterName"
-          placeholder="Recruiter Name"
-          value={formData.recruiterName}
+          name="companyName"
+          placeholder="Company Name"
+          value={formData.companyName}
           onChange={handleChange}
           required
         />
         <input
           type="text"
-          name="recruiterLocation"
-          placeholder="Location"
-          value={formData.recruiterLocation}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="recruiterPhoto"
-          placeholder="/public/recruiters/logo.png"
-          value={formData.recruiterPhoto}
+          name="recruiterPhotoUrl"
+          placeholder="Logo URL"
+          value={formData.recruiterPhotoUrl}
           onChange={handleChange}
           required
         />
@@ -137,13 +127,12 @@ const ManageRecruiter = () => {
           recruiters.map((rec) => (
             <div className="recruiter-card" key={rec.recruiterId}>
               <img
-                src={rec.recruiterPhoto}
-                alt={rec.recruiterName}
+                src={rec.recruiterPhotoUrl}
+                alt={rec.companyName}
                 className="recruiter-photo"
                 onError={(e) => (e.target.src = "/default-company.png")}
               />
-              <h4>{rec.recruiterName}</h4>
-              <p>{rec.recruiterLocation}</p>
+              <h4>{rec.companyName}</h4>
               <div className="card-actions">
                 <button onClick={() => handleEdit(rec)}>Edit</button>
                 <button

@@ -6,17 +6,14 @@ const AddCourse = () => {
   const [formData, setFormData] = useState({
     courseId: null,
     courseName: "",
-    courseDescription: "",
-    courseDuration: "",
     courseFee: "",
-    courseIsActive: true,
-    courseSyllabus: "",
-    ageGrpType: "",
-    coverPhoto: "",
+    coursePhotoUrl: "",
+    durationMonths: "",
+    syllabus: "",
   });
 
   const [courses, setCourses] = useState([]);
-  const formRef = useRef(null); // 👈 reference for form section
+  const formRef = useRef(null);
 
   const fetchCourses = async () => {
     try {
@@ -32,10 +29,10 @@ const AddCourse = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
@@ -43,14 +40,16 @@ const AddCourse = () => {
     e.preventDefault();
 
     const payload = {
-      ...formData,
+      courseName: formData.courseName,
       courseFee: parseFloat(formData.courseFee) || 0,
-      courseDuration: parseInt(formData.courseDuration) || 0,
+      coursePhotoUrl: formData.coursePhotoUrl,
+      durationMonths: parseInt(formData.durationMonths) || 0,
+      syllabus: formData.syllabus,
     };
 
     try {
       if (formData.courseId) {
-        await axios.put("http://localhost:8080/api/course", payload);
+        await axios.put(`http://localhost:8080/api/course/${formData.courseId}`, payload);
         alert("Course updated successfully!");
       } else {
         await axios.post("http://localhost:8080/api/course", payload);
@@ -60,13 +59,10 @@ const AddCourse = () => {
       setFormData({
         courseId: null,
         courseName: "",
-        courseDescription: "",
-        courseDuration: "",
         courseFee: "",
-        courseIsActive: true,
-        courseSyllabus: "",
-        ageGrpType: "",
-        coverPhoto: "",
+        coursePhotoUrl: "",
+        durationMonths: "",
+        syllabus: "",
       });
 
       fetchCourses();
@@ -115,22 +111,13 @@ const AddCourse = () => {
           </label>
 
           <label>
-            Description:
-            <input
-              type="text"
-              name="courseDescription"
-              value={formData.courseDescription}
-              onChange={handleChange}
-            />
-          </label>
-
-          <label>
             Duration (Months):
             <input
               type="number"
-              name="courseDuration"
-              value={formData.courseDuration}
+              name="durationMonths"
+              value={formData.durationMonths}
               onChange={handleChange}
+              required
             />
           </label>
 
@@ -141,25 +128,7 @@ const AddCourse = () => {
               name="courseFee"
               value={formData.courseFee}
               onChange={handleChange}
-            />
-          </label>
-
-          <label>
-            Syllabus:
-            <textarea
-              name="courseSyllabus"
-              value={formData.courseSyllabus}
-              onChange={handleChange}
-            />
-          </label>
-
-          <label>
-            Age Group:
-            <input
-              type="text"
-              name="ageGrpType"
-              value={formData.ageGrpType}
-              onChange={handleChange}
+              required
             />
           </label>
 
@@ -167,18 +136,17 @@ const AddCourse = () => {
             Cover Photo URL:
             <input
               type="text"
-              name="coverPhoto"
-              value={formData.coverPhoto}
+              name="coursePhotoUrl"
+              value={formData.coursePhotoUrl}
               onChange={handleChange}
             />
           </label>
 
           <label>
-            Is Active:
-            <input
-              type="checkbox"
-              name="courseIsActive"
-              checked={formData.courseIsActive}
+            Syllabus:
+            <textarea
+              name="syllabus"
+              value={formData.syllabus}
               onChange={handleChange}
             />
           </label>
@@ -198,8 +166,8 @@ const AddCourse = () => {
             <th>Name</th>
             <th>Fee</th>
             <th>Duration</th>
-            <th>Status</th>
             <th>Cover</th>
+            <th>Syllabus</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -208,16 +176,16 @@ const AddCourse = () => {
             <tr key={c.courseId}>
               <td>{c.courseId}</td>
               <td>{c.courseName}</td>
-              <td>{c.courseFee}</td>
-              <td>{c.courseDuration} Months</td>
-              <td>{c.courseIsActive ? "Active" : "Inactive"}</td>
+              <td>₹{c.courseFee}</td>
+              <td>{c.durationMonths} Months</td>
               <td>
                 <img
-                  src={c.coverPhoto}
+                  src={c.coursePhotoUrl}
                   alt="cover"
                   style={{ width: "50px", height: "50px", objectFit: "cover" }}
                 />
               </td>
+              <td>{c.syllabus}</td>
               <td>
                 <button className="update-btn" onClick={() => handleEdit(c)}>
                   Edit
