@@ -9,137 +9,156 @@ Update database command:-
 
 DATA INSERTION
 
-SELECT * FROM announcement;		-- done			CRUD Completed			1
-SELECT * FROM batch;			-- done			CRUD PENDING			0 s
-SELECT * FROM batch_course;		-- done			LINK TABLE				0 s
-SELECT * FROM campus_life;		-- done			CRUD COMPLETED			1
-SELECT * FROM closure_reason;	-- done			CRUD PENDING			0
-SELECT * FROM course;			-- done			CRUD PENDING			0 s
-SELECT * FROM enquiry;			-- done			CRUD COMPLETED			1	
-SELECT * FROM faculty;			-- done			CRUD COMPLETED			1
-SELECT * FROM follow_up;	    -- done			CRUD PENDING			0
-SELECT * FROM get_in_touch;		-- done			CRUD COMPLETED			1
-SELECT * FROM payment;			-- done			CRUD COMPLETED			1
-SELECT * FROM placement;		-- done			CRUD PENDING			0
-SELECT * FROM recruiter;		-- done			CRUD PENDING			0
-SELECT * FROM staff;			-- done			CRUD COMPLETED			1
-SELECT * FROM staff_role;		-- done			NOT NEEDED RIGHT NOW	0
-SELECT * FROM student;			-- done			CRUD COMPLETED			1
+DESC announcement;
+DESC batch;
+DESC campus_life;
+DESC closure_reason;
+DESC course;
+DESC enquiry;
+DESC faculty;
+DESC follow_up;
+DESC get_in_touch;
+DESC payment;
+DESC placement;
+DESC recruiter;
+DESC staff;
+DESC staff_role;
+DESC student;
+
+SELECT * FROM announcement;		-- done			
+SELECT * FROM batch;			-- done			
+SELECT * FROM batch_course;		-- done			
+SELECT * FROM campus_life;		-- done			
+SELECT * FROM closure_reason;	-- done			
+SELECT * FROM course;			-- done			
+SELECT * FROM enquiry;			-- done			
+SELECT * FROM faculty;			-- done			
+SELECT * FROM follow_up;	    -- done			
+SELECT * FROM get_in_touch;		-- done			
+SELECT * FROM payment;			-- done			
+SELECT * FROM placement;		-- done			
+SELECT * FROM recruiter;		-- done			
+SELECT * FROM staff;			-- done			
+SELECT * FROM staff_role;		-- done			
+SELECT * FROM student;			-- done			
 
 
+-- Select the database
+USE nysau;
 
--- Insert into `staff_role`
-INSERT INTO `staff_role` (`role_name`) VALUES
-('ADMIN'),
-('MARKETING'),
-('HR');
+-- Insert data into 'announcement' table (no dependencies)
+INSERT INTO announcement (announcement_id, announcement_text) VALUES
+(1, 'Campus will remain closed on 15th August for Independence Day celebrations.'),
+(2, 'New batch for Full Stack Development starts from 1st September.'),
+(3, 'Guest lecture on AI & Machine Learning scheduled for 20th August.'),
+(4, 'Midterm examinations will begin from 5th October.'),
+(5, 'All students must update their contact details by the end of this month.');
 
--- Insert into `staff`
-INSERT INTO `staff` (`staff_name`, `staff_username`, `password_hash`, `staff_email`, `staff_photo_url`, `staff_role_id`, `last_login`, `is_active`) VALUES
-('Alice Admin', 'alice.admin', 'hashed_password_1', 'alice.admin@example.com', 'https://example.com/photos/alice.jpg', 1, NOW(), TRUE),
-('Mark Mkt', 'mark.mkt', 'hashed_password_2', 'mark.mkt@example.com', 'https://example.com/photos/mark.jpg', 2, NOW(), TRUE),
-('Mia HR', 'mia.hr', 'hashed_password_3', 'mia.hr@example.com', 'https://example.com/photos/mia.jpg', 3, NOW(), TRUE);
+-- Insert data into 'campus_life' table (no dependencies)
+INSERT INTO campus_life (campus_life_id, photo_url, description) VALUES
+(1, 'https://example.com/images/campus_library.jpg', 'Students enjoying a quiet afternoon of study in the campus library.'),
+(2, 'https://example.com/images/sports_day.jpg', 'Annual sports day with inter-departmental football and cricket matches.'),
+(3, 'https://example.com/images/cultural_fest.jpg', 'Colorful performances and cultural activities during the college fest.'),
+(4, 'https://example.com/images/lab_session.jpg', 'Hands-on coding and experimentation in the computer science lab.'),
+(5, 'https://example.com/images/cafeteria.jpg', 'Friends relaxing and enjoying snacks at the campus cafeteria.');
 
--- Insert into `announcement`
-INSERT INTO `announcement` (`announcement_text`) VALUES
-('Campus will remain closed on 15th August for Independence Day celebrations.'),
-('New batch for Full Stack Development starts from 1st September.'),
-('Guest lecture on AI & Machine Learning scheduled for 20th August.'),
-('Midterm examinations will begin from 5th October.'),
-('All students must update their contact details by the end of this month.');
+-- Insert data into 'closure_reason' table (no dependencies)
+INSERT INTO closure_reason (closure_reason_id, reason_text) VALUES
+(1, 'Course Full'),
+(2, 'Not Interested'),
+(3, 'Joined Competitor'),
+(4, 'Financial Constraints'),
+(5, 'Other');
 
--- Insert into `campus_life`
-INSERT INTO `campus_life` (`photo_url`, `description`) VALUES
-('https://example.com/images/campus_library.jpg', 'Students enjoying a quiet afternoon of study in the campus library.'),
-('https://example.com/images/sports_day.jpg', 'Annual sports day with inter-departmental football and cricket matches.'),
-('https://example.com/images/cultural_fest.jpg', 'Colorful performances and cultural activities during the college fest.'),
-('https://example.com/images/lab_session.jpg', 'Hands-on coding and experimentation in the computer science lab.'),
-('https://example.com/images/cafeteria.jpg', 'Friends relaxing and enjoying snacks at the campus cafeteria.');
+-- Insert data into 'course' table (no dependencies)
+INSERT INTO course (course_id, course_name, course_fee, course_photo_url, duration_months, syllabus) VALUES
+(1, 'PG-DAC', 150000.00, 'https://example.com/photos/pgdac.jpg', 6, 'Advanced Computing syllabus covering Java,.NET, Web Technologies, and DBMS'),
+(2, 'PG-DBDA', 180000.00, 'https://example.com/photos/dbda.jpg', 6, 'Data Science syllabus covering Python, R, Machine Learning, and Big Data'),
+(3, 'MS-CIT', 5000.00, 'https://example.com/photos/mscit.jpg', 3, 'Basic IT literacy syllabus covering MS Office, Internet, and Computer Fundamentals');
 
--- Insert into `course`
-INSERT INTO `course` (`course_name`, `course_fee`, `course_photo_url`, `duration_months`, `syllabus`) VALUES
-('PG-DAC', 150000.00, 'https://example.com/photos/pgdac.jpg', 6, 'Advanced Computing syllabus covering Java,.NET, Web Technologies, and DBMS'),
-('PG-DBDA', 180000.00, 'https://example.com/photos/dbda.jpg', 6, 'Data Science syllabus covering Python, R, Machine Learning, and Big Data'),
-('MS-CIT', 5000.00, 'https://example.com/photos/mscit.jpg', 3, 'Basic IT literacy syllabus covering MS Office, Internet, and Computer Fundamentals');
+-- Insert data into 'faculty' table (no dependencies)
+INSERT INTO faculty (faculty_id, photo_url, faculty_name, teaching_subject) VALUES
+(1, 'https://example.com/photos/faculty1.jpg', 'Dr. Anil Sharma', 'Java Programming'),
+(2, 'https://example.com/photos/faculty2.jpg', 'Prof. Neha Desai', 'Database Management Systems'),
+(3, 'https://example.com/photos/faculty3.jpg', 'Dr. Ramesh Kulkarni', 'Data Structures and Algorithms'),
+(4, 'https://example.com/photos/faculty4.jpg', 'Ms. Priya Nair', 'Web Development'),
+(5, 'https://example.com/photos/faculty5.jpg', 'Mr. Sandeep Verma', 'Machine Learning');
 
--- Insert into `batch`
-INSERT INTO `batch` (`batch_name`, `batch_photo_url`, `start_date`, `end_date`) VALUES
-('PG-DAC August 2025', 'pgdac_aug25.jpg', '2025-08-10 09:00:00', '2026-02-10 17:00:00'),
-('PG-DBDA September 2025', 'pgdbda_sep25.jpg', '2025-09-05 09:00:00', '2026-03-05 17:00:00'),
-('MS-CIT October 2025', 'mscit_oct25.jpg', '2025-10-01 09:00:00', '2025-12-31 17:00:00');
+-- Insert data into 'get_in_touch' table (no dependencies)
+INSERT INTO get_in_touch (contact_id, name, email, message) VALUES
+(1, 'Rahul Verma', 'rahul.verma@example.com', 'I would like to know more about your PG-DAC course.'),
+(2, 'Priya Sharma', 'priya.sharma@example.com', 'Can you share the fee structure for PG-DBDA?'),
+(3, 'Ankit Mehta', 'ankit.mehta@example.com', 'I am interested in campus placement opportunities.'),
+(4, 'Sneha Nair', 'sneha.nair@example.com', 'Is there an evening batch available for MS-CIT?'),
+(5, 'Vikas Gupta', 'vikas.gupta@example.com', 'Please send me details about the admission process.');
 
--- Insert into `batch_course`
-INSERT INTO `batch_course` (`batch_id`, `course_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+-- Insert data into 'recruiter' table (no dependencies)
+INSERT INTO recruiter (recruiter_id, company_name, recruiter_photo_url) VALUES
+(1, 'Tech Solutions Pvt Ltd', 'https://example.com/recruiters/techsolutions.jpg'),
+(2, 'Bright Future Ltd', 'https://example.com/recruiters/brightfuture.jpg'),
+(3, 'Global Innovators', 'https://example.com/recruiters/globalinnovators.jpg'),
+(4, 'NextGen IT Services', 'https://example.com/recruiters/nextgenit.jpg');
 
--- Insert into `recruiter`
-INSERT INTO `recruiter` (`company_name`, `recruiter_photo_url`) VALUES
-('Tech Solutions Pvt Ltd', 'https://example.com/recruiters/techsolutions.jpg'),
-('Bright Future Ltd', 'https://example.com/recruiters/brightfuture.jpg'),
-('Global Innovators', 'https://example.com/recruiters/globalinnovators.jpg'),
-('NextGen IT Services', 'https://example.com/recruiters/nextgenit.jpg');
+-- Insert data into 'staff_role' table (no dependencies)
+INSERT INTO staff_role (staff_role_id, role_name) VALUES
+(1, 'ADMIN'),
+(2, 'MARKETING'),
+(3, 'HR');
 
--- Insert into `placement`
-INSERT INTO `placement` (`batch_id`, `course_id`, `recruiter_id`, `placed_students`) VALUES
-(1, 1, 1, 15),
-(1, 1, 2, 10),
-(2, 2, 3, 20),
-(3, 3, 4, 8);
+-- Now, insert data into tables that depend on the above
+-- Insert data into the 'staff' table (depends on staff_role)
+INSERT INTO staff (staff_id, staff_name, staff_username, password_hash, staff_email, staff_photo_url, staff_role_id, last_login, is_active, created_at, updated_at) VALUES
+(1, 'Alice Johnson', 'alice.admin', 'hashed_password_admin_1', 'alice.j@example.com', 'https://example.com/staff/alice.jpg', 1, '2025-08-12 10:00:00', 1, '2024-01-01 09:00:00', '2025-08-12 10:00:00'),
+(2, 'Bob Williams', 'bob.marketing', 'hashed_password_marketing_2', 'bob.w@example.com', 'https://example.com/staff/bob.jpg', 2, '2025-08-13 09:30:00', 1, '2024-02-15 10:00:00', '2025-08-13 09:30:00'),
+(3, 'Carol Davis', 'carol.hr', 'hashed_password_hr_3', 'carol.d@example.com', 'https://example.com/staff/carol.jpg', 3, '2025-08-11 11:00:00', 1, '2024-03-01 09:00:00', '2025-08-11 11:00:00');
 
--- Insert into `get_in_touch`
-INSERT INTO `get_in_touch` (`name`, `email`, `message`) VALUES
-('Rahul Verma', 'rahul.verma@example.com', 'I would like to know more about your PG-DAC course.'),
-('Priya Sharma', 'priya.sharma@example.com', 'Can you share the fee structure for PG-DBDA?'),
-('Ankit Mehta', 'ankit.mehta@example.com', 'I am interested in campus placement opportunities.'),
-('Sneha Nair', 'sneha.nair@example.com', 'Is there an evening batch available for MS-CIT?'),
-('Vikas Gupta', 'vikas.gupta@example.com', 'Please send me details about the admission process.');
+-- Insert data into the 'batch' table (depends on course)
+INSERT INTO batch (batch_id, batch_name, batch_photo_url, start_date, end_date, course_id) VALUES
+(1, 'PG-DAC Sep 2024', 'https://example.com/batches/pgdac_sep24.jpg', '2024-09-01 09:00:00', '2025-03-01 17:00:00', 1), -- Past batch
+(2, 'PG-DBDA Oct 2024', 'https://example.com/batches/pgdbda_oct24.jpg', '2024-10-01 09:00:00', '2025-04-01 17:00:00', 2), -- Past batch
+(3, 'MS-CIT Aug 2025', 'https://example.com/batches/mscit_aug25.jpg', '2025-08-05 10:00:00', '2025-11-05 16:00:00', 3), -- Current batch
+(4, 'PG-DAC Mar 2025', 'https://example.com/batches/pgdac_mar25.jpg', '2025-03-01 09:00:00', '2025-09-01 17:00:00', 1), -- Current/Ending soon batch
+(5, 'PG-DBDA Sep 2025', 'https://example.com/batches/pgdbda_sep25.jpg', '2025-09-01 09:00:00', '2026-03-01 17:00:00', 2); -- Future batch
 
--- Insert into `closure_reason`
-INSERT INTO `closure_reason` (`reason_text`) VALUES
-('Course Full'),
-('Not Interested'),
-('Joined Competitor'),
-('Financial Constraints'),
-('Other');
+-- Insert data into the 'enquiry' table (depends on staff, course, closure_reason)
+-- Added new enquiry records (6, 7, 8) for direct admissions to satisfy NOT NULL constraint in student table
+INSERT INTO enquiry (enquiry_id, staff_id, course_id, enquirer_name, enquirer_relation, enquiry_address, inquirer_email, student_name, student_age, student_gender, student_dob, student_email, student_photo_url, enquiry_query, status, closure_reason_id, is_active, created_at) VALUES
+(1, 2, 1, 'Amit Kumar', 1, '123, Gandhi Nagar, Delhi', 'amit.k@example.com', 'Amit Kumar', 22, 'Male', '2003-05-10 00:00:00', 'amit.k@example.com', 'https://example.com/students/amit.jpg', 'Interested in PG-DAC course details and fees.', 1, NULL, 1, '2025-07-20 10:00:00'),
+(2, 2, 2, 'Priya Singh', 2, '456, Nehru Road, Mumbai', 'priya.s@example.com', 'Rohan Singh', 19, 'Male', '2006-01-15 00:00:00', 'rohan.s@example.com', 'https://example.com/students/rohan.jpg', 'My son is interested in PG-DBDA. What are the career prospects?', 1, NULL, 1, '2025-07-22 11:30:00'),
+(3, 2, 3, 'Sneha Gupta', 1, '789, MG Road, Bangalore', 'sneha.g@example.com', 'Sneha Gupta', 20, 'Female', '2005-03-20 00:00:00', 'sneha.g@example.com', 'https://example.com/students/sneha.jpg', 'Looking for basic computer course like MS-CIT.', 3, 1, 0, '2025-07-25 14:00:00'), -- Closed: Course Full (closure_reason_id 1)
+(4, 2, 1, 'Rajesh Sharma', 1, '101, Park Street, Kolkata', 'rajesh.s@example.com', 'Rajesh Sharma', 24, 'Male', '2001-11-01 00:00:00', 'rajesh.s@example.com', 'https://example.com/students/rajesh.jpg', 'Enquiring about the next batch of PG-DAC.', 3, 4, 0, '2025-07-28 09:00:00'), -- Closed: Financial Constraints (closure_reason_id 4)
+(5, 2, 2, 'Divya Patel', 1, '202, ABC Colony, Chennai', 'divya.p@example.com', 'Divya Patel', 21, 'Female', '2004-08-05 00:00:00', 'divya.p@example.com', 'https://example.com/students/divya.jpg', 'Interested in Data Science course.', 1, NULL, 1, '2025-08-01 16:00:00'),
+(6, 2, 2, 'Anjali Devi', 1, 'Direct Admission', 'anjali.d@example.com', 'Anjali Devi', 20, 'Female', '2005-02-28 00:00:00', 'anjali.d@example.com', 'https://example.com/students/anjali.jpg', 'Direct admission for PG-DBDA.', 2, NULL, 1, '2024-09-20 09:00:00'), -- New enquiry for direct admission
+(7, 2, 1, 'Vikram Reddy', 1, 'Direct Admission', 'vikram.r@example.com', 'Vikram Reddy', 23, 'Male', '2002-07-01 00:00:00', 'vikram.r@example.com', 'https://example.com/students/vikram.jpg', 'Direct admission for PG-DAC.', 2, NULL, 1, '2024-08-25 09:00:00'), -- New enquiry for direct admission
+(8, 2, 3, 'Suresh Rao', 1, 'Direct Admission', 'suresh.r@example.com', 'Suresh Rao', 25, 'Male', '2000-04-20 00:00:00', 'suresh.r@example.com', 'https://example.com/students/suresh.jpg', 'Direct admission for MS-CIT.', 2, NULL, 1, '2025-08-01 09:00:00'); -- New enquiry for direct admission
 
--- Insert into `enquiry`
-INSERT INTO `enquiry` (`staff_id`, `course_id`, `enquirer_name`, `enquirer_relation`, `enquiry_address`, `inquirer_email`, `student_name`, `student_age`, `student_gender`, `student_dob`, `student_email`, `enquiry_query`, `status`, `is_active`) VALUES
-(2, 1, 'John Doe', 'Parent', '123 Main St, Anytown', 'john.doe@email.com', 'Jane Doe', 20, 'Female', '2005-03-15', 'jane.doe@email.com', 'Interested in the PG-DAC course curriculum.', 0, TRUE),
-(2, 2, 'Emily White', 'Self', '456 Oak Ave, Othercity', 'emily.white@email.com', 'Emily White', 22, 'Female', '2003-08-21', 'emily.white@email.com', 'Enquiry about fees and scholarship options for PG-DBDA.', 1, TRUE),
-(2, 3, 'David Brown', 'Guardian', '789 Pine Rd, Smallville', 'david.brown@email.com', 'Liam Brown', 19, 'Male', '2006-05-10', 'liam.brown@email.com', 'Wants to know about the next batch start date for MS-CIT.', 2, TRUE),
-(3, 1, 'Sarah Davis', 'Parent', '321 Elm St, New Town', 'sarah.davis@email.com', 'Oliver Davis', 21, 'Male', '2004-11-20', 'oliver.davis@email.com', 'Query regarding placement success rate for PG-DAC.', 1, TRUE),
-(3, 2, 'Michael Chen', 'Self', '654 Maple Ln, Big City', 'michael.chen@email.com', 'Michael Chen', 23, 'Male', '2002-04-01', 'michael.chen@email.com', 'Has a few questions about the PG-DBDA course syllabus and faculty.', 2, TRUE),
-(3, 1, 'Jessica Parker', 'Self', '987 Birch Ct, Eastville', 'jessica.parker@email.com', 'Jessica Parker', 20, 'Female', '2005-01-08', 'jessica.parker@email.com', 'Follow-up on a previous enquiry about PG-DAC.', 0, TRUE);
+-- Insert data into the 'follow_up' table (depends on enquiry)
+INSERT INTO follow_up (followup_id, enquiry_id, followup_date, notes, status) VALUES
+(1, 1, '2025-07-21 10:30:00', 'Called Amit, provided course brochure. He will review and get back.', 'Pending'),
+(2, 1, '2025-07-26 11:00:00', 'Followed up with Amit. He has some questions about placement. Scheduled a call for next week.', 'Pending'),
+(3, 2, '2025-07-23 12:00:00', 'Spoke to Priya, explained PG-DBDA prospects. She will discuss with Rohan.', 'Pending'),
+(4, 3, '2025-07-26 15:00:00', 'Informed Sneha that MS-CIT August batch is full. Suggested next batch.', 'Closed'),
+(5, 4, '2025-07-29 10:00:00', 'Rajesh cited financial constraints. Offered installment plan, but he declined.', 'Closed'),
+(6, 5, '2025-08-02 10:00:00', 'Sent Divya details about PG-DBDA. Awaiting response.', 'Pending');
 
--- Insert into `follow_up`
-INSERT INTO `follow_up` (`enquiry_id`, `followup_date`, `notes`, `status`) VALUES
-(1, NOW(), 'Called enquirer, sent brochure via email.', 'Pending'),
-(2, NOW(), 'Discussed fee structure, student wants to think about it.', 'Pending'),
-(3, NOW(), 'Student closed the enquiry, enrolled in another institute.', 'Closed'),
-(4, NOW(), 'Provided placement data, parent is satisfied.', 'Pending'),
-(5, NOW(), 'Answered all questions, student will decide next week.', 'Pending');
+-- Insert data into the 'student' table (depends on enquiry, course, batch, recruiter)
+-- Updated enquiry_id for direct admissions (students 2, 3, 5) to link to new enquiry records (6, 7, 8)
+INSERT INTO student (student_id, enquiry_id, student_name, student_photo_url, age, dob, email, course_id, batch_id, recruiter_id, due_amount) VALUES
+(1, 1, 'Amit Kumar', 'https://example.com/students/amit_enrolled.jpg', 22, '2003-05-10 00:00:00', 'amit.k@example.com', 1, 4, NULL, 50000.00), -- Amit from enquiry 1, enrolled in PG-DAC Mar 2025 (batch 4), partial payment
+(2, 6, 'Anjali Devi', 'https://example.com/students/anjali.jpg', 20, '2005-02-28 00:00:00', 'anjali.d@example.com', 2, 2, NULL, 0.00), -- Direct admission, linked to new enquiry 6
+(3, 7, 'Vikram Reddy', 'https://example.com/students/vikram.jpg', 23, '2002-07-01 00:00:00', 'vikram.r@example.com', 1, 1, 1, 0.00), -- Direct admission, linked to new enquiry 7, placed with Tech Solutions (recruiter_id 1)
+(4, 5, 'Divya Patel', 'https://example.com/students/divya_enrolled.jpg', 21, '2004-08-05 00:00:00', 'divya.p@example.com', 2, 5, NULL, 180000.00), -- Divya from enquiry 5, enrolled in PG-DBDA Sep 2025 (batch 5), full due
+(5, 8, 'Suresh Rao', 'https://example.com/students/suresh.jpg', 25, '2000-04-20 00:00:00', 'suresh.r@example.com', 3, 3, NULL, 2500.00); -- Direct admission, linked to new enquiry 8, enrolled in MS-CIT Aug 2025 (batch 3), partial payment
 
--- Insert into `student`
-INSERT INTO `student` (`enquiry_id`, `student_name`, `student_photo_url`, `age`, `dob`, `email`, `course_id`, `batch_id`, `due_amount`) VALUES
-(1, 'Jane Doe', 'jane_doe.jpg', 20, '2005-03-15', 'jane.doe@email.com', 1, 1, 0.00),
-(2, 'Emily White', 'emily_white.jpg', 22, '2003-08-21', 'emily.white@email.com', 2, 2, 0.00),
-(4, 'Oliver Davis', 'oliver_davis.jpg', 21, '2004-11-20', 'oliver.davis@email.com', 1, 1, 0.00),
-(6, 'Jessica Parker', 'jessica.parker.jpg', 20, '2005-01-08', 'jessica.parker@email.com', 1, 1, 0.00);
+-- Insert data into the 'payment' table (depends on student)
+INSERT INTO payment (payment_id, payment_type, student_id, total_amount, created_at) VALUES
+(1, 1, 1, 100000.00, '2025-08-05 14:00:00'), -- Payment for Amit Kumar (PG-DAC fee 150000, paid 100000, due 50000)
+(2, 1, 2, 180000.00, '2024-09-25 10:00:00'), -- Payment for Anjali Devi (PG-DBDA fee 180000, paid 180000, due 0)
+(3, 1, 3, 150000.00, '2024-08-28 11:00:00'), -- Payment for Vikram Reddy (PG-DAC fee 150000, paid 150000, due 0)
+(4, 1, 5, 2500.00, '2025-08-06 16:00:00'); -- Payment for Suresh Rao (MS-CIT fee 5000, paid 2500, due 2500)
 
-
--- Insert into `payment`
-INSERT INTO `payment` (`payment_type`, `student_id`, `total_amount`, `created_at`) VALUES
-(1, 1, 50000.00, '2025-08-11 10:00:00'),
-(2, 2, 60000.00, '2025-09-02 11:30:00'),
-(3, 3, 50000.00, '2025-08-12 14:00:00'),
-(1, 4, 10000.00, '2025-08-12 15:00:00');
-
--- Insert into `faculty`
-INSERT INTO `faculty` (`photo_url`, `faculty_name`, `teaching_subject`) VALUES
-('https://example.com/photos/faculty1.jpg', 'Dr. Anil Sharma', 'Java Programming'),
-('https://example.com/photos/faculty2.jpg', 'Prof. Neha Desai', 'Database Management Systems'),
-('https://example.com/photos/faculty3.jpg', 'Dr. Ramesh Kulkarni', 'Data Structures and Algorithms'),
-('https://example.com/photos/faculty4.jpg', 'Ms. Priya Nair', 'Web Development'),
-('https://example.com/photos/faculty5.jpg', 'Mr. Sandeep Verma', 'Machine Learning');
+-- Insert data into the 'placement' table (depends on batch, course, recruiter)
+INSERT INTO placement (placement_id, batch_id, course_id, recruiter_id, placed_students) VALUES
+(1, 1, 1, 1, 15), -- 15 students from PG-DAC Sep 2024 batch placed with Tech Solutions
+(2, 1, 1, 2, 10), -- 10 students from PG-DAC Sep 2024 batch placed with Bright Future
+(3, 2, 2, 3, 8); -- 8 students from PG-DBDA Oct 2024 batch placed with Global Innovators

@@ -4,7 +4,7 @@
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; }
-        public decimal CourseFee { get; set; }
+        public double CourseFee { get; set; }
         public string CoursePhotoUrl { get; set; }
         public int DurationMonths { get; set; }
         public string Syllabus { get; set; }

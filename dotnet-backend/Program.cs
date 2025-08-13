@@ -53,6 +53,13 @@ namespace dotnet_backend
             builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
             builder.Services.AddScoped<IRecruiterService, RecruiterServiceImplementation>();
 
+
+
+            builder.Services.AddScoped<IPlacementRepository, PlacementRepository>();
+            builder.Services.AddScoped<IPlacementService, PlacementServiceImplementation>();
+
+
+
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
             {
