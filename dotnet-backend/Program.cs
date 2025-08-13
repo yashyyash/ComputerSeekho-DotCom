@@ -1,11 +1,10 @@
-
 using dotnet_backend.AppDbContext;
 using dotnet_backend.Repositories;
 using dotnet_backend.Services;
 using dotnet_backend.Services.ServiceImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens; 
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -27,46 +26,32 @@ namespace dotnet_backend
             builder.Services.AddControllers().AddJsonOptions(options =>
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+            // Add custom services
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
             builder.Services.AddScoped<IPaymentService, PaymentServiceImplementation>();
-          
             builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
             builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
-
             builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
             builder.Services.AddScoped<IEnquiryService, EnquiryService>();
-
             builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             builder.Services.AddScoped<IAnnouncementService, AnnouncementServiceImplementation>();
-            
             builder.Services.AddScoped<IFollowUpRepository, FollowUpRepository>();
             builder.Services.AddScoped<IFollowUpService, FollowUpServiceImplementation>();
-
             builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
             builder.Services.AddScoped<IFacultyService, FacultyServiceImplementation>();
-
             builder.Services.AddScoped<ICampusLifeRepository, CampusLifeRepository>();
             builder.Services.AddScoped<ICampusLifeService, CampusLifeServiceImplementation>();
-
             builder.Services.AddScoped<IGetInTouchRepository, GetInTouchRepository>();
             builder.Services.AddScoped<IGetInTouchService, GetInTouchServiceImplementation>();
-
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IStudentService, StudentServiceImplementation>();
-
             builder.Services.AddScoped<ICourseRepository, CourseRepository>();
             builder.Services.AddScoped<ICourseService, CourseServiceImplementation>();
-
-
             builder.Services.AddScoped<IBatchRepository, BatchRepository>();
             builder.Services.AddScoped<IBatchService, BatchServiceImplementation>();
-
-
             builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
             builder.Services.AddScoped<IRecruiterService, RecruiterServiceImplementation>();
-
-
 
             // Add JWT Authentication
             builder.Services.AddAuthentication(options =>
@@ -89,21 +74,31 @@ namespace dotnet_backend
                 };
             });
 
+            // ? Add CORS Policy
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173") // React app origin
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
 
-            // Add services
-            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             // builder.Services.AddSwaggerGen();
 
-
             var app = builder.Build();
+
+            // ? Use CORS before Authentication/Authorization
+            app.UseCors("AllowFrontend");
 
             // Configure middleware
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.MapControllers();
 
