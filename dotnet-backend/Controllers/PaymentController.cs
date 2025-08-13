@@ -74,5 +74,17 @@ namespace dotnet_backend.Controllers
             // Return PDF file
             return File(pdfBytes, "application/pdf", $"payment_{id}.pdf");
         }
+
+
+        [HttpGet("student/{studentId}")]
+        public async Task<IActionResult> GetPaymentsByStudent(int studentId)
+        {
+            var payments = await _paymentService.GetPaymentsByStudentIdAsync(studentId);
+            if (payments == null || !payments.Any())
+                return NotFound();
+
+            return Ok(payments);
+        }
+
     }
 }
