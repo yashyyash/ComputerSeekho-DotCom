@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './PaymentPage.css';
 
 const PAYMENT_TYPES = {
@@ -13,7 +13,6 @@ const PAYMENT_TYPES = {
 
 const PaymentPage = () => {
   const { studentId } = useParams();
-  const navigate = useNavigate();
   const [payments, setPayments] = useState([]);
   const [studentData, setStudentData] = useState(null);
   const [formData, setFormData] = useState({
@@ -22,6 +21,7 @@ const PaymentPage = () => {
     paymentType: ''
   });
 
+  // 🔹 Fetch all payments for the student
   const fetchPayments = async () => {
     try {
       const res = await fetch(`https://localhost:7094/api/Payment/by-student/${studentId}`);
@@ -32,6 +32,7 @@ const PaymentPage = () => {
     }
   };
 
+  // 🔹 Fetch student info (for payment due calculation)
   const fetchStudent = async () => {
     try {
       const res = await fetch(`https://localhost:7094/api/Student/${studentId}`);
@@ -49,6 +50,7 @@ const PaymentPage = () => {
     }
   }, [studentId]);
 
+  // 🔹 Form input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -57,10 +59,10 @@ const PaymentPage = () => {
     }));
   };
 
+  // 🔹 Submit payment
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Guard: Prevent payment if no due left
     if (paymentDue <= 0) {
       alert("No further payments required. Payment due is already cleared.");
       return;
@@ -84,7 +86,7 @@ const PaymentPage = () => {
           paymentDate: new Date().toISOString().split('T')[0],
           paymentType: ''
         });
-        fetchStudent(); // refresh payment due
+        fetchStudent();
         fetchPayments();
       } else {
         alert('Failed to create payment.');
@@ -94,13 +96,33 @@ const PaymentPage = () => {
     }
   };
 
-  const handleViewReceipt = (receiptId) => {
-    if (receiptId) {
-      navigate(`/receipt/${studentId}`, { state: { receiptId } });
+  // 🔹 Download receipt as PDF
+  const handleDownloadReceipt = async (paymentId) => {
+    try {
+      const res = await fetch(`https://localhost:7094/api/Payment/${paymentId}/receipt`, {
+        method: 'GET'
+      });
+      if (!res.ok) throw new Error("Failed to fetch receipt");
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a hidden link and trigger download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `receipt_${paymentId}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error downloading receipt:", err);
+      alert("Could not download receipt.");
     }
   };
 
-  // Calculate payment due
+  // 🔹 Calculate payment due
   const paymentDue = studentData
     ? studentData.paymentDue - payments.reduce((sum, p) => sum + p.amount, 0)
     : 0;
@@ -164,7 +186,6 @@ const PaymentPage = () => {
             <th>Date</th>
             <th>Payment Type</th>
             <th>Receipt</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -174,22 +195,19 @@ const PaymentPage = () => {
               <td>₹{payment.amount.toFixed(2)}</td>
               <td>{payment.paymentDate?.split('T')[0]}</td>
               <td>{payment.paymentType}</td>
-              <td>{payment.receiptId || '—'}</td>
               <td>
-                {payment.receiptId ? (
-                  <button
-                    className="view-btn"
-                    onClick={() => handleViewReceipt(payment.receiptId)}
-                  >
-                    View Receipt
-                  </button>
-                ) : 'N/A'}
+                <button
+                  className="view-btn"
+                  onClick={() => handleDownloadReceipt(payment.paymentId)}
+                >
+                  Download PDF
+                </button>
               </td>
             </tr>
           ))}
           {payments.length === 0 && (
             <tr>
-              <td colSpan="6" style={{ textAlign: 'center' }}>
+              <td colSpan="5" style={{ textAlign: 'center' }}>
                 No payments found.
               </td>
             </tr>
