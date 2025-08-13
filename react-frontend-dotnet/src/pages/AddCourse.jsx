@@ -12,9 +12,11 @@ const AddCourse = () => {
     syllabus: "",
   });
 
+  const [errors, setErrors] = useState({});
   const [courses, setCourses] = useState([]);
   const formRef = useRef(null);
 
+  // Fetch all courses
   const fetchCourses = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/course");
@@ -28,34 +30,62 @@ const AddCourse = () => {
     fetchCourses();
   }, []);
 
+  // Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+    setErrors({
+      ...errors,
+      [name]: "", // clear error when user types
+    });
   };
 
+  // Form validation
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.courseName.trim()) newErrors.courseName = "Course Name is required.";
+    if (!formData.durationMonths || formData.durationMonths <= 0)
+      newErrors.durationMonths = "Duration must be a positive number.";
+    if (!formData.courseFee || formData.courseFee <= 0)
+      newErrors.courseFee = "Fee must be a positive number.";
+    return newErrors;
+  };
+
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Prepare payload
     const payload = {
+      courseId: formData.courseId, // include for PUT
       courseName: formData.courseName,
-      courseFee: parseFloat(formData.courseFee) || 0,
+      courseFee: parseFloat(formData.courseFee),
       coursePhotoUrl: formData.coursePhotoUrl,
-      durationMonths: parseInt(formData.durationMonths) || 0,
+      durationMonths: parseInt(formData.durationMonths),
       syllabus: formData.syllabus,
     };
 
     try {
       if (formData.courseId) {
+        // Update course
         await axios.put(`http://localhost:8080/api/course/${formData.courseId}`, payload);
         alert("Course updated successfully!");
       } else {
+        // Add new course
         await axios.post("http://localhost:8080/api/course", payload);
         alert("Course added successfully!");
       }
 
+      // Reset form
       setFormData({
         courseId: null,
         courseName: "",
@@ -64,22 +94,26 @@ const AddCourse = () => {
         durationMonths: "",
         syllabus: "",
       });
+      setErrors({});
 
       fetchCourses();
     } catch (err) {
       console.error("Save failed:", err);
-      alert("Failed to save course.");
+      if (err.response?.data?.message) {
+        alert(`Error: ${err.response.data.message}`);
+      } else {
+        alert("Failed to save course.");
+      }
     }
   };
 
+  // Edit course
   const handleEdit = (course) => {
     setFormData({ ...course });
-
-    setTimeout(() => {
-      formRef.current.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setTimeout(() => formRef.current.scrollIntoView({ behavior: "smooth" }), 100);
   };
 
+  // Delete course
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
       try {
@@ -95,7 +129,6 @@ const AddCourse = () => {
 
   return (
     <div className="add-course-container">
-      {/* Form Section */}
       <div ref={formRef}>
         <h2 className="form-heading">{formData.courseId ? "Edit" : "Add"} Course</h2>
         <form className="add-course-form" onSubmit={handleSubmit}>
@@ -108,6 +141,7 @@ const AddCourse = () => {
               onChange={handleChange}
               required
             />
+            {errors.courseName && <span className="error">{errors.courseName}</span>}
           </label>
 
           <label>
@@ -119,6 +153,7 @@ const AddCourse = () => {
               onChange={handleChange}
               required
             />
+            {errors.durationMonths && <span className="error">{errors.durationMonths}</span>}
           </label>
 
           <label>
@@ -130,6 +165,7 @@ const AddCourse = () => {
               onChange={handleChange}
               required
             />
+            {errors.courseFee && <span className="error">{errors.courseFee}</span>}
           </label>
 
           <label>
@@ -157,7 +193,6 @@ const AddCourse = () => {
         </form>
       </div>
 
-      {/* Courses Table */}
       <h3 className="form-heading">Existing Courses</h3>
       <table className="course-table">
         <thead>
@@ -179,11 +214,13 @@ const AddCourse = () => {
               <td>₹{c.courseFee}</td>
               <td>{c.durationMonths} Months</td>
               <td>
-                <img
-                  src={c.coursePhotoUrl}
-                  alt="cover"
-                  style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                />
+                {c.coursePhotoUrl && (
+                  <img
+                    src={c.coursePhotoUrl}
+                    alt="cover"
+                    style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                  />
+                )}
               </td>
               <td>{c.syllabus}</td>
               <td>

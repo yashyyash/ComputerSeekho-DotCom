@@ -1,113 +1,132 @@
+/* ManageStaff.css */
+
+/* Container */
 .manage-staff-container {
   max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  background: #f9fafb;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
-  font-family: "Segoe UI", sans-serif;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #6c63ff; /* purple background */
+  color: #fff;
 }
 
-h2 {
+/* Headings */
+.manage-staff-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
   text-align: center;
-  color: #2c3e50;
-  margin-bottom: 25px;
 }
 
+/* Staff form */
 .staff-form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 15px;
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  margin-bottom: 40px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .staff-form input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
 }
 
 .staff-form button {
-  padding: 12px;
-  grid-column: span 2;
-  background: #27ae60;
-  color: white;
+  padding: 0.6rem 1rem;
+  background-color: #28a745;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  color: white;
   font-weight: bold;
-  transition: background-color 0.3s;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .staff-form button:hover {
-  background: #219150;
+  background-color: #218838;
 }
 
 .cancel-btn {
-  background-color: #e74c3c !important;
+  background-color: #dc3545;
 }
 
+.cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* Staff table */
 .staff-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #dbdbdb;
-  border-radius: 10px;
+  text-align: center;
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-.staff-table thead {
-  background-color: #3498db;
-  color: rgb(15, 13, 13);
 }
 
 .staff-table th,
 .staff-table td {
-  padding: 12px 15px;
-  text-align: center;
-  border-bottom: 1px solid #4d4c4d;
-  color: rgb(15, 13, 13);
+  padding: 0.8rem;
+  border: 1px solid #ddd;
 }
 
-.staff-table tbody tr:hover {
-  background-color: #c6c5c5;
+.staff-table th {
+  background-color: #f1f1f1;
+  color: #333;
 }
 
 .staff-photo {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border: 1px solid #ccc;
 }
 
+/* Action buttons */
 .staff-table button {
-  margin: 0 4px;
-  padding: 6px 10px;
-  font-size: 14px;
+  padding: 0.4rem 0.8rem;
+  margin: 0 0.2rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  font-size: 0.85rem;
 }
 
-.staff-table button:hover {
-  transform: scale(1.05);
-}
-
-.delete-btn {
-  background-color: #e74c3c;
+.staff-table .delete-btn {
+  background-color: #dc3545;
   color: white;
+}
+
+.staff-table .delete-btn:hover {
+  background-color: #c82333;
 }
 
 .staff-table button:not(.delete-btn) {
-  background-color: #2980b9;
+  background-color: #28a745;
   color: white;
+}
+
+.staff-table button:not(.delete-btn):hover {
+  background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .staff-form {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-table th,
+  .staff-table td {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+
+  .staff-photo {
+    width: 50px;
+    height: 50px;
+  }
 }

@@ -1,3 +1,4 @@
+// src/pages/ManageStaff.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ManageStaff.css";
@@ -7,14 +8,15 @@ const API_URL = "http://localhost:8080/api/staff";
 const ManageStaff = () => {
   const [staffList, setStaffList] = useState([]);
   const [formData, setFormData] = useState({
-    staffId: "",
-    staffName: "",
-    photoUrl: "",
-    staffMobile: "",
-    staffEmail: "",
-    staffUsername: "",
-    staffPassword: "",
-    staffRole: ""
+    StaffId: "",
+    StaffName: "",
+    StaffPhotoUrl: "",
+    StaffMobile: "",
+    StaffEmail: "",
+    StaffUsername: "",
+    StaffPassword: "",
+    StaffRoleId: "",
+    IsActive: true
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -25,9 +27,25 @@ const ManageStaff = () => {
   const fetchStaff = async () => {
     try {
       const response = await axios.get(API_URL);
-      setStaffList(response.data);
+      console.log("Fetched staff:", response.data);
+
+      // If backend uses different field names, fix here
+      const fixedData = response.data.map((staff, index) => ({
+        StaffId: staff.StaffId || staff.id || index + 1,
+        StaffName: staff.StaffName || staff.name || "N/A",
+        StaffPhotoUrl: staff.StaffPhotoUrl
+          ? staff.StaffPhotoUrl.replace(/^public[\\\/]/, "").replace(/\\/g, "/")
+          : "",
+        StaffMobile: staff.StaffMobile || staff.mobile || "N/A",
+        StaffEmail: staff.StaffEmail || staff.email || "N/A",
+        StaffUsername: staff.StaffUsername || staff.username || "N/A",
+        StaffRoleId: staff.StaffRoleId || staff.roleId || "N/A",
+        IsActive: staff.IsActive !== undefined ? staff.IsActive : true
+      }));
+      setStaffList(fixedData);
     } catch (error) {
       console.error("Error fetching staff:", error);
+      setStaffList([]); // Ensure table renders empty state
     }
   };
 
@@ -37,13 +55,15 @@ const ManageStaff = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (isEditing) {
-        await axios.put(`${API_URL}/${formData.staffId}`, formData);
+        const updateData = { ...formData };
+        delete updateData.StaffPassword;
+        await axios.put(`${API_URL}/${formData.StaffId}`, updateData);
         alert("Staff updated successfully");
       } else {
-        await axios.post(API_URL, formData);
+        const postData = { ...formData };
+        await axios.post(API_URL, postData);
         alert("Staff added successfully");
       }
       resetForm();
@@ -55,7 +75,10 @@ const ManageStaff = () => {
   };
 
   const handleEdit = (staff) => {
-    setFormData(staff);
+    setFormData({
+      ...staff,
+      StaffPassword: ""
+    });
     setIsEditing(true);
   };
 
@@ -73,14 +96,15 @@ const ManageStaff = () => {
 
   const resetForm = () => {
     setFormData({
-      staffId: "",
-      staffName: "",
-      photoUrl: "",
-      staffMobile: "",
-      staffEmail: "",
-      staffUsername: "",
-      staffPassword: "",
-      staffRole: ""
+      StaffId: "",
+      StaffName: "",
+      StaffPhotoUrl: "",
+      StaffMobile: "",
+      StaffEmail: "",
+      StaffUsername: "",
+      StaffPassword: "",
+      StaffRoleId: "",
+      IsActive: true
     });
     setIsEditing(false);
   };
@@ -89,20 +113,76 @@ const ManageStaff = () => {
     <div className="manage-staff-container">
       <h2>{isEditing ? "Edit Staff" : "Add Staff"}</h2>
       <form onSubmit={handleSubmit} className="staff-form">
-        <input type="text" name="staffName" placeholder="Name" value={formData.staffName} onChange={handleChange} required />
-        <input type="text" name="photoUrl" placeholder="Photo URL" value={formData.photoUrl} onChange={handleChange} />
-        <input type="text" name="staffMobile" placeholder="Mobile" value={formData.staffMobile} onChange={handleChange} required />
-        <input type="email" name="staffEmail" placeholder="Email" value={formData.staffEmail} onChange={handleChange} required />
-        <input type="text" name="staffUsername" placeholder="Username" value={formData.staffUsername} onChange={handleChange} required />
+        <input
+          type="text"
+          name="StaffName"
+          placeholder="Name"
+          value={formData.StaffName}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="StaffPhotoUrl"
+          placeholder="Photo filename in public folder"
+          value={formData.StaffPhotoUrl}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="StaffMobile"
+          placeholder="Mobile"
+          value={formData.StaffMobile}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="email"
+          name="StaffEmail"
+          placeholder="Email"
+          value={formData.StaffEmail}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="StaffUsername"
+          placeholder="Username"
+          value={formData.StaffUsername}
+          onChange={handleChange}
+          required
+        />
         {!isEditing && (
-          <input type="password" name="staffPassword" placeholder="Password" value={formData.staffPassword} onChange={handleChange} required />
+          <input
+            type="password"
+            name="StaffPassword"
+            placeholder="Password"
+            value={formData.StaffPassword}
+            onChange={handleChange}
+            required
+          />
         )}
-        <input type="text" name="staffRole" placeholder="Role" value={formData.staffRole} onChange={handleChange} required />
+        <input
+          type="number"
+          name="StaffRoleId"
+          placeholder="Role ID"
+          value={formData.StaffRoleId}
+          onChange={handleChange}
+          required
+        />
         <button type="submit">{isEditing ? "Update" : "Add"}</button>
-        {isEditing && <button type="button" onClick={resetForm} className="cancel-btn">Cancel</button>}
+        {isEditing && (
+          <button type="button" onClick={resetForm} className="cancel-btn">
+            Cancel
+          </button>
+        )}
       </form>
 
       <h2>Staff List</h2>
+
+      {/* Debug output */}
+      <pre>{JSON.stringify(staffList, null, 2)}</pre>
+
       <table className="staff-table">
         <thead>
           <tr>
@@ -112,32 +192,50 @@ const ManageStaff = () => {
             <th>Mobile</th>
             <th>Email</th>
             <th>Username</th>
-            <th>Role</th>
+            <th>Role ID</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {staffList.map((staff) => (
-            <tr key={staff.staffId}>
-              <td>{staff.staffId}</td>
-              <td>
-                {staff.photoUrl ? (
-                  <img src={staff.photoUrl} alt={staff.staffName} className="staff-photo" />
-                ) : (
-                  "No photo"
-                )}
-              </td>
-              <td>{staff.staffName}</td>
-              <td>{staff.staffMobile}</td>
-              <td>{staff.staffEmail}</td>
-              <td>{staff.staffUsername}</td>
-              <td>{staff.staffRole}</td>
-              <td>
-                <button onClick={() => handleEdit(staff)}>Edit</button>
-                <button className="delete-btn" onClick={() => handleDelete(staff.staffId)}>Delete</button>
-              </td>
+          {staffList.length === 0 ? (
+            <tr>
+              <td colSpan="8">No staff found</td>
             </tr>
-          ))}
+          ) : (
+            staffList.map((staff) => (
+              <tr key={staff.StaffId}>
+                <td>{staff.StaffId}</td>
+                <td>
+                  {staff.StaffPhotoUrl ? (
+                    <img
+                      src={`/${staff.StaffPhotoUrl}`}
+                      alt={staff.StaffName}
+                      className="staff-photo"
+                      onError={(e) =>
+                        (e.currentTarget.src = "/fallback-image.jpg")
+                      }
+                    />
+                  ) : (
+                    "No photo"
+                  )}
+                </td>
+                <td>{staff.StaffName}</td>
+                <td>{staff.StaffMobile}</td>
+                <td>{staff.StaffEmail}</td>
+                <td>{staff.StaffUsername}</td>
+                <td>{staff.StaffRoleId}</td>
+                <td>
+                  <button onClick={() => handleEdit(staff)}>Edit</button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(staff.StaffId)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
