@@ -75,7 +75,7 @@ namespace dotnet_backend.Services.ServiceImplementation
             enquiry.StudentEmail = dto.StudentEmail;
             enquiry.StudentPhotoUrl = dto.StudentPhotoUrl;
             enquiry.EnquiryQuery = dto.EnquiryQuery;
-            //enquiry.Status = EnquiryStatus.Open;
+            enquiry.Status = dto.Status;
             //enquiry.CreatedAt = DateTime.UtcNow;
 
             await _repository.UpdateAsync(enquiry);

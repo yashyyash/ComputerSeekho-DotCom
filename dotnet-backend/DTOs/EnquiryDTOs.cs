@@ -1,4 +1,6 @@
-﻿namespace dotnet_backend.DTOs
+﻿using dotnet_backend.Models;
+
+namespace dotnet_backend.DTOs
 {
     public class EnquiryRequestDto
     {
@@ -14,6 +16,7 @@
         public string StudentEmail { get; set; }
         public string StudentPhotoUrl { get; set; }
         public string EnquiryQuery { get; set; }
+        public EnquiryStatus Status { get; set; }
     }
 
     public class EnquiryResponseDto

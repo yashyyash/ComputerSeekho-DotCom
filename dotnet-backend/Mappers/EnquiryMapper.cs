@@ -22,7 +22,7 @@ namespace dotnet_backend.Mappers
                 StudentEmail = dto.StudentEmail,
                 StudentPhotoUrl = dto.StudentPhotoUrl,
                 EnquiryQuery = dto.EnquiryQuery,
-                Status = EnquiryStatus.Open,
+                Status = dto.Status,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true,
                 FollowUps = new List<FollowUp>()

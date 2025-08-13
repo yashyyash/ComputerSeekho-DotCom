@@ -1,298 +1,266 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ManageEnquiry.css";
-import { useLocation, useNavigate } from "react-router-dom";
-import { FaSearch, FaPlus, FaTimes, FaEdit, FaTrash, FaUserCheck } from "react-icons/fa";
 
 const ManageEnquiry = () => {
-  const navigate = useNavigate();
-  const formRef = useRef(null);
-
   const [enquiries, setEnquiries] = useState([]);
-  const [staffSearch, setStaffSearch] = useState("");
-  const [courses, setCourses] = useState([]);
-  const [staffList, setStaffList] = useState([]);
-
-  const [formData, setFormData] = useState({
-    enquiryId: null,
+  const [selectedEnquiryId, setSelectedEnquiryId] = useState(null);
+  const [enquiry, setEnquiry] = useState({
     enquirerName: "",
-    enquirerAddress: "",
-    enquirerMobile: "",
-    enquirerEmailId: "",
-    enquiryDate: "",
-    enquirerQuery: "",
-    courseName: "",
     studentName: "",
-    enquiryCounter: 0,
-    followUpDate: "",
-    enquiryIsActive: true,
-    staffId: null
+    status: "Open",
+    closureReason: null,
+    createdAt: new Date().toISOString().slice(0, 16),
+    enquiryQuery: "",
+    studentEmail: "",
+    inquirerEmail: "",
+    studentGender: "",
+    enquiryAddress: "",
+    studentPhotoUrl: "",
+    courseId: "",
+    staffId: "",
+    followUps: [],
   });
 
-  const location = useLocation();
-
-  const fetchDropdownData = async () => {
-    try {
-      const [courseRes, staffRes] = await Promise.all([
-        axios.get("http://localhost:8080/api/course"),
-        axios.get("http://localhost:8080/api/staff")
-      ]);
-      setCourses(Array.isArray(courseRes.data) ? courseRes.data : []);
-      setStaffList(Array.isArray(staffRes.data) ? staffRes.data : []);
-    } catch (err) {
-      console.error("Error fetching dropdown data", err);
-    }
-  };
-
+  // Fetch all enquiries
   const fetchEnquiries = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/enquiry");
-      setEnquiries(Array.isArray(res.data) ? res.data : []);
-    } catch (error) {
-      console.error("Error fetching enquiries", error);
-    }
-  };
-
-  const fetchByStaffId = async () => {
-    if (!staffSearch.trim()) {
-      fetchEnquiries();
-      return;
-    }
-    try {
-      const res = await axios.get(
-        `http://localhost:8080/api/enquiry/getByStaffId/${staffSearch}`
-      );
-      setEnquiries(Array.isArray(res.data) ? res.data : []);
-    } catch (error) {
-      console.error("Error fetching by staffId", error);
-      alert("No enquiries found for this staff ID.");
+      setEnquiries(res.data);
+    } catch (err) {
+      console.error("Error fetching enquiries", err);
     }
   };
 
   useEffect(() => {
-    fetchDropdownData();
     fetchEnquiries();
   }, []);
 
-  useEffect(() => {
-    if (location.state?.editData) {
-      const data = location.state.editData;
-      setFormData({
-        enquiryId: data.enquiryId || null,
+  // Fetch enquiry by ID for edit
+  const editEnquiry = async (id) => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/enquiry/${id}`);
+      const data = res.data;
+      setSelectedEnquiryId(id);
+      setEnquiry({
         enquirerName: data.enquirerName || "",
-        enquirerAddress: data.enquirerAddress || "",
-        enquirerMobile: data.enquirerMobile || "",
-        enquirerEmailId: data.enquirerEmailId || "",
-        enquiryDate: data.enquiryDate || "",
-        enquirerQuery: data.enquirerQuery || "",
-        courseName: data.courseName || data.course?.courseName || "",
         studentName: data.studentName || "",
-        enquiryCounter: data.enquiryCounter || 0,
-        followUpDate: data.followUpDate || "",
-        enquiryIsActive: data.enquiryIsActive ?? true,
-        staffId: data.staff?.staffId || null
+        status: data.status || "Open",
+        closureReason: data.closureReason || null,
+        createdAt: data.createdAt ? data.createdAt.slice(0, 16) : new Date().toISOString().slice(0, 16),
+        enquiryQuery: data.enquiryQuery || "",
+        studentEmail: data.studentEmail || "",
+        inquirerEmail: data.inquirerEmail || "",
+        studentGender: data.studentGender || "",
+        enquiryAddress: data.enquiryAddress || "",
+        studentPhotoUrl: data.studentPhotoUrl || "",
+        courseId: data.courseId || "",
+        staffId: data.staffId || "",
+        followUps: data.followUps || [],
       });
-      formRef.current.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error("Error fetching enquiry by ID", err);
     }
-  }, [location.state]);
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value
-    });
   };
 
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEnquiry((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Add a new follow-up
+  const addFollowUp = () => {
+    setEnquiry((prev) => ({
+      ...prev,
+      followUps: [
+        ...prev.followUps,
+        {
+          followupId: Date.now(),
+          followupDate: new Date().toISOString().slice(0, 16),
+          notes: "",
+          status: "Pending",
+        },
+      ],
+    }));
+  };
+
+  // Update follow-up fields
+  const handleFollowUpChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedFollowUps = [...enquiry.followUps];
+    updatedFollowUps[index][name] = value;
+    setEnquiry((prev) => ({ ...prev, followUps: updatedFollowUps }));
+  };
+
+  // Delete follow-up
+  const deleteFollowUp = (index) => {
+    const updatedFollowUps = [...enquiry.followUps];
+    updatedFollowUps.splice(index, 1);
+    setEnquiry((prev) => ({ ...prev, followUps: updatedFollowUps }));
+  };
+
+  // Submit form (create or update)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let updatedForm = { ...formData };
-
-    if (formData.staffId) {
-      updatedForm.staff = { staffId: formData.staffId };
-      delete updatedForm.staffId;
-    }
-
-    if (formData.enquiryDate) {
-      const baseDate = new Date(formData.enquiryDate);
-      baseDate.setDate(baseDate.getDate() + 3);
-      updatedForm.followUpDate = baseDate.toISOString().split("T")[0];
-    }
-
-    updatedForm.enquiryCounter = formData.enquiryId
-      ? (formData.enquiryCounter || 0) + 1
-      : 0;
 
     try {
-      if (formData.enquiryId) {
-        await axios.put("http://localhost:8080/api/enquiry", updatedForm);
-        alert("Enquiry Updated");
+      // Payload matches Postman request
+      const payload = {
+        enquirerName: enquiry.enquirerName,
+        studentName: enquiry.studentName,
+        status: Number(enquiry.status),
+        closureReason: enquiry.closureReason || null,
+        createdAt: enquiry.createdAt,
+        enquiryQuery: enquiry.enquiryQuery || "",
+        studentEmail: enquiry.studentEmail,
+        inquirerEmail: enquiry.inquirerEmail,
+        studentGender: enquiry.studentGender,
+        enquiryAddress: enquiry.enquiryAddress,
+        studentPhotoUrl: enquiry.studentPhotoUrl,
+        courseId: Number(enquiry.courseId),
+        staffId: Number(enquiry.staffId),
+        followUps: enquiry.followUps.map(fu => ({
+          followupId: fu.followupId,
+          followupDate: fu.followupDate,
+          notes: fu.notes,
+          status: fu.status,
+        }))
+      };
+
+      if (selectedEnquiryId) {
+        // Update
+        await axios.put(`http://localhost:8080/api/enquiry/${selectedEnquiryId}`, payload);
+        alert("Enquiry updated successfully!");
       } else {
-        await axios.post("http://localhost:8080/api/enquiry", updatedForm);
-        alert("Enquiry Added");
+        // Create
+        await axios.post("http://localhost:8080/api/enquiry", payload);
+        alert("Enquiry created successfully!");
       }
-      resetForm();
+
+      // Reset form
+      setSelectedEnquiryId(null);
+      setEnquiry({
+        enquirerName: "",
+        studentName: "",
+        status: "Open",
+        closureReason: null,
+        createdAt: new Date().toISOString().slice(0, 16),
+        enquiryQuery: "",
+        studentEmail: "",
+        inquirerEmail: "",
+        studentGender: "",
+        enquiryAddress: "",
+        studentPhotoUrl: "",
+        courseId: "",
+        staffId: "",
+        followUps: [],
+      });
+
       fetchEnquiries();
     } catch (error) {
       console.error("Error saving enquiry", error);
+      alert("Error saving enquiry. Check console for details.");
     }
   };
 
-  const handleEdit = (data) => {
-    setFormData({
-      enquiryId: data.enquiryId || null,
-      enquirerName: data.enquirerName || "",
-      enquirerAddress: data.enquirerAddress || "",
-      enquirerMobile: data.enquirerMobile || "",
-      enquirerEmailId: data.enquirerEmailId || "",
-      enquirerQuery: data.enquirerQuery || "",
-      courseName: data.courseName || data.course?.courseName || "",
-      studentName: data.studentName || "",
-      enquiryCounter: data.enquiryCounter || 0,
-      followUpDate: data.followUpDate || "",
-      enquiryIsActive: data.enquiryIsActive ?? true,
-      enquiryDate: data.enquiryDate || "",
-      staffId: data.staff?.staffId || null
-    });
-    formRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-
+  // Delete enquiry
   const handleDelete = async (id) => {
-    if (window.confirm("Delete this enquiry?")) {
-      try {
-        await axios.delete(`http://localhost:8080/api/enquiry/${id}`);
-        fetchEnquiries();
-      } catch (error) {
-        console.error("Error deleting enquiry", error);
-      }
-    }
-  };
-
-  const handleCloseEnquiry = async (id) => {
-    const reason = prompt("Enter closure reason:");
-    if (!reason) return;
+    if (!window.confirm("Are you sure you want to delete this enquiry?")) return;
     try {
-      await axios.put(
-        `http://localhost:8080/api/enquiry/deactivate/${id}`,
-        reason,
-        { headers: { "Content-Type": "text/plain" } }
-      );
-      alert("Enquiry closed successfully");
+      await axios.delete(`http://localhost:8080/api/enquiry/${id}`);
+      alert("Enquiry deleted successfully!");
+      if (selectedEnquiryId === id) {
+        setSelectedEnquiryId(null);
+        setEnquiry({
+          enquirerName: "",
+          studentName: "",
+          status: "Open",
+          closureReason: null,
+          createdAt: new Date().toISOString().slice(0, 16),
+          enquiryQuery: "",
+          studentEmail: "",
+          inquirerEmail: "",
+          studentGender: "",
+          enquiryAddress: "",
+          studentPhotoUrl: "",
+          courseId: "",
+          staffId: "",
+          followUps: [],
+        });
+      }
       fetchEnquiries();
     } catch (error) {
-      console.error("Error closing enquiry", error);
+      console.error("Error deleting enquiry", error);
+      alert("Error deleting enquiry. Check console for details.");
     }
-  };
-
-  const resetForm = () => {
-    setFormData({
-      enquiryId: null,
-      enquirerName: "",
-      enquirerAddress: "",
-      enquirerMobile: "",
-      enquirerEmailId: "",
-      enquiryDate: "",
-      enquirerQuery: "",
-      courseName: "",
-      studentName: "",
-      enquiryCounter: 0,
-      followUpDate: "",
-      enquiryIsActive: true,
-      staffId: null
-    });
   };
 
   return (
-    <div className="enquiry-container">
-      <h2 ref={formRef} className="title">
-        {formData.enquiryId ? "Edit Enquiry" : "Add Enquiry"}
-      </h2>
-
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search by Staff ID"
-          value={staffSearch}
-          onChange={(e) => setStaffSearch(e.target.value)}
-        />
-        <button onClick={fetchByStaffId}><FaSearch /> Search</button>
-        <button onClick={fetchEnquiries}><FaTimes /> Reset</button>
-      </div>
-
-      <form className="enquiry-form" onSubmit={handleSubmit}>
-        <input type="text" name="enquirerName" placeholder="Enquirer Name" value={formData.enquirerName} onChange={handleChange} required />
-        <input type="text" name="enquirerAddress" placeholder="Enquirer Address" value={formData.enquirerAddress} onChange={handleChange} />
-        <input type="text" name="enquirerMobile" placeholder="Mobile" value={formData.enquirerMobile} onChange={handleChange} required />
-        <input type="email" name="enquirerEmailId" placeholder="Email" value={formData.enquirerEmailId} onChange={handleChange} />
-        <input type="date" name="enquiryDate" value={formData.enquiryDate} onChange={handleChange} required />
-        <textarea name="enquirerQuery" placeholder="Enquirer Query" value={formData.enquirerQuery} onChange={handleChange}></textarea>
-
-        <select name="courseName" value={formData.courseName} onChange={handleChange} required>
-          <option value="">Select Course</option>
-          {courses.map(course => (
-            <option key={course.courseId} value={course.courseName}>
-              {course.courseName}
-            </option>
-          ))}
+    <div className="manage-enquiry-container">
+      <h2>{selectedEnquiryId ? "Edit Enquiry" : "Create Enquiry"}</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="enquirerName" value={enquiry.enquirerName} onChange={handleChange} placeholder="Enquirer Name" required />
+        <input type="text" name="studentName" value={enquiry.studentName} onChange={handleChange} placeholder="Student Name" required />
+        <input type="email" name="studentEmail" value={enquiry.studentEmail} onChange={handleChange} placeholder="Student Email" />
+        <input type="email" name="inquirerEmail" value={enquiry.inquirerEmail} onChange={handleChange} placeholder="Inquirer Email" />
+        <input type="text" name="studentGender" value={enquiry.studentGender} onChange={handleChange} placeholder="Student Gender" />
+        <input type="text" name="enquiryAddress" value={enquiry.enquiryAddress} onChange={handleChange} placeholder="Address" />
+        <input type="text" name="studentPhotoUrl" value={enquiry.studentPhotoUrl} onChange={handleChange} placeholder="Photo URL" />
+        <input type="number" name="courseId" value={enquiry.courseId} onChange={handleChange} placeholder="Course ID" />
+        <input type="number" name="staffId" value={enquiry.staffId} onChange={handleChange} placeholder="Staff ID" />
+        <input type="text" name="enquiryQuery" value={enquiry.enquiryQuery} onChange={handleChange} placeholder="Enquiry Query" />
+        <select name="status" value={enquiry.status} onChange={handleChange}>
+          <option value={1}>Open</option>
+          <option value={2}>Close</option>
+          <option value={3}>Registered</option>
         </select>
+        <input type="text" name="closureReason" value={enquiry.closureReason || ""} onChange={handleChange} placeholder="Closure Reason" />
+        <input type="datetime-local" name="createdAt" value={enquiry.createdAt} onChange={handleChange} required />
 
-        <select name="staffId" value={formData.staffId || ""} onChange={handleChange}>
-          <option value="">Assign Staff</option>
-          {staffList.map(staff => (
-            <option key={staff.staffId} value={staff.staffId}>
-              {staff.staffName} ({staff.staffRole})
-            </option>
-          ))}
-        </select>
-
-        <input type="text" name="studentName" placeholder="Student Name" value={formData.studentName} onChange={handleChange} />
-        <input type="number" name="enquiryCounter" placeholder="Follow-Up Count" value={formData.enquiryCounter} disabled />
-        <input type="date" name="followUpDate" value={formData.followUpDate} disabled />
-        <label>
-          Active: <input type="checkbox" name="enquiryIsActive" checked={formData.enquiryIsActive} onChange={handleChange} />
-        </label>
-        <button type="submit">{formData.enquiryId ? <FaEdit /> : <FaPlus />} {formData.enquiryId ? "Update" : "Add"}</button>
-        {formData.enquiryId && <button type="button" onClick={resetForm}><FaTimes /> Cancel</button>}
+        <h3>Follow Ups</h3>
+        {enquiry.followUps.map((fu, index) => (
+          <div className="follow-up-item" key={fu.followupId}>
+            <input type="datetime-local" name="followupDate" value={fu.followupDate} onChange={(e) => handleFollowUpChange(index, e)} required />
+            <input type="text" name="notes" value={fu.notes} onChange={(e) => handleFollowUpChange(index, e)} placeholder="Notes" required />
+            <select name="status" value={fu.status} onChange={(e) => handleFollowUpChange(index, e)}>
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <button type="button" onClick={() => deleteFollowUp(index)}>Delete</button>
+          </div>
+        ))}
+        <button type="button" onClick={addFollowUp}>Add Follow-Up</button>
+        <button type="submit">{selectedEnquiryId ? "Update" : "Create"}</button>
       </form>
 
-      <h3 className="subtitle">All Enquiries</h3>
-      <table className="enquiry-table">
+      <h2>All Enquiries</h2>
+      <table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Course</th>
-            <th>Staff</th>
-            <th>Follow-Up</th>
-            <th>Active</th>
+            <th>Enquirer Name</th>
+            <th>Student Name</th>
+            <th>Status</th>
+            <th>Created At</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {enquiries.length > 0 ? (
-            enquiries.map((enq) => (
-              <tr key={enq.enquiryId}>
-                <td>{enq.enquiryId}</td>
-                <td>{enq.enquirerName}</td>
-                <td>{enq.enquirerMobile}</td>
-                <td>{enq.courseName || enq.course?.courseName || "N/A"}</td>
-                <td>{enq.staff?.staffName || "Unassigned"}</td>
-                <td>{enq.enquiryCounter}</td>
-                <td>{enq.enquiryIsActive ? "✅" : "❌"}</td>
-                <td>
-                  <button onClick={() => navigate("/register", { state: { enquiryData: enq } })} className="register-btn"><FaUserCheck /></button>
-                  <button onClick={() => handleEdit(enq)}><FaEdit /></button>
-                  <button onClick={() => handleDelete(enq.enquiryId)} className="delete-btn"><FaTrash /></button>
-                  {enq.enquiryIsActive && (
-                    <button onClick={() => handleCloseEnquiry(enq.enquiryId)} className="close-btn"><FaTimes /></button>
-                  )}
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr><td colSpan="8">No Enquiries Found</td></tr>
-          )}
+          {enquiries.map((enq) => (
+            <tr key={enq.enquiryId}>
+              <td>{enq.enquiryId}</td>
+              <td>{enq.enquirerName}</td>
+              <td>{enq.studentName}</td>
+              <td>{enq.status}</td>
+              <td>{new Date(enq.createdAt).toLocaleString()}</td>
+              <td>
+                <button onClick={() => editEnquiry(enq.enquiryId)}>Edit</button>
+                <button onClick={() => handleDelete(enq.enquiryId)}>Delete</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
