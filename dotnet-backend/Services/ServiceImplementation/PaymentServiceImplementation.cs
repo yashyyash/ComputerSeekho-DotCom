@@ -153,5 +153,16 @@ namespace dotnet_backend.Services.ServiceImplementation
             // Return PDF bytes
             return stream.ToArray();
         }
+
+
+        public async Task<IEnumerable<PaymentDto>> GetPaymentsByStudentIdAsync(int studentId)
+        {
+            var payments = await _context.Payments
+                .Include(p => p.Student)
+                .Where(p => p.StudentId == studentId)
+                .ToListAsync();
+
+            return payments.Select(p => PaymentMapper.ToPaymentDto(p));
+        }
     }
 }
