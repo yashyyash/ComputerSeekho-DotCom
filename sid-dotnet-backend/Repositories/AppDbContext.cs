@@ -17,6 +17,9 @@ namespace dotnet_backend.Repositories
         public DbSet<Staff> Staffs { get; set; } = null;
         public DbSet<Student> Students { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
