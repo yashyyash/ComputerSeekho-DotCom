@@ -47,6 +47,7 @@ builder.Services.AddScoped<IEnquiryService, EnquiryService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<ICampusLifeService,CampusLifeService>();
+builder.Services.AddScoped<IFacultyService, FacultyService>();
 
 
 // Add DbContext
