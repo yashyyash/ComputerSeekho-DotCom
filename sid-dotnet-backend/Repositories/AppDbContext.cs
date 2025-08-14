@@ -15,10 +15,10 @@ namespace dotnet_backend.Repositories
         public DbSet<Placement> Placements { get; set; } = null!;
         public DbSet<Enquiry> Enquiries { get; set; } = null;
         public DbSet<Staff> Staffs { get; set; } = null;
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-        public DbSet<Faculty> Faculties { get; set; }
-
+        public DbSet<Student> Students { get; set; } = null;
+        public DbSet<Payment> Payments { get; set; } = null;
+        public DbSet<CampusLife> CampusLife { get; set; } = null!; 
+        public DbSet<Faculty> Faculties { get; set; } = null;
 
 
 
@@ -32,6 +32,5 @@ namespace dotnet_backend.Repositories
 
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }
