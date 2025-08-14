@@ -7,8 +7,6 @@ const AddFaculty = () => {
   const [form, setForm] = useState({
     name: "",
     subject: "",
-    email: "",
-    active: false, // checkbox boolean
     photoUrl: ""
   });
   const [editingId, setEditingId] = useState(null);
@@ -19,16 +17,12 @@ const AddFaculty = () => {
 
   const fetchFaculties = async () => {
     try {
-      const response = await axios.get("/api/faculty");
-      console.log("Faculty API response:", response.data);
-
+      const response = await axios.get("https://localhost:7094/api/Faculty");
       if (Array.isArray(response.data)) {
         setFaculties(response.data);
-      } else if (Array.isArray(response.data.data)) {
-        setFaculties(response.data.data);
       } else {
         setFaculties([]);
-        console.error("Unexpected response format from /api/faculty");
+        console.error("Unexpected response format from /api/Faculty");
       }
     } catch (error) {
       console.error("Error fetching faculty", error);
@@ -36,36 +30,30 @@ const AddFaculty = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Convert boolean to tinyint
     const payload = {
-      ...form,
-      active: form.active ? 1 : 0
+      facultyName: form.name,
+      teachingSubject: form.subject,
+      photoUrl: form.photoUrl
     };
 
     try {
       if (editingId) {
-        await axios.put(`/api/faculty/${editingId}`, payload);
+        await axios.put(`https://localhost:7094/api/Faculty/${editingId}`, payload);
       } else {
-        await axios.post("/api/faculty", payload);
+        await axios.post("https://localhost:7094/api/Faculty", payload);
       }
 
-      setForm({
-        name: "",
-        subject: "",
-        email: "",
-        active: false,
-        photoUrl: ""
-      });
+      setForm({ name: "", subject: "", photoUrl: "" });
       setEditingId(null);
       fetchFaculties();
     } catch (error) {
@@ -75,19 +63,17 @@ const AddFaculty = () => {
 
   const handleEdit = (faculty) => {
     setForm({
-      name: faculty.name || "",
-      subject: faculty.subject || "",
-      email: faculty.email || "",
-      active: faculty.active === 1,
+      name: faculty.facultyName || "",
+      subject: faculty.teachingSubject || "",
       photoUrl: faculty.photoUrl || ""
     });
-    setEditingId(faculty.id);
+    setEditingId(faculty.facultyId);
   };
 
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this faculty?")) {
       try {
-        await axios.delete(`/api/faculty/${id}`);
+        await axios.delete(`https://localhost:7094/api/Faculty/${id}`);
         fetchFaculties();
       } catch (error) {
         console.error("Error deleting faculty", error);
@@ -117,23 +103,6 @@ const AddFaculty = () => {
           required
         />
         <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <label>
-          <input
-            type="checkbox"
-            name="active"
-            checked={form.active}
-            onChange={handleChange}
-          />
-          Active
-        </label>
-        <input
           type="text"
           name="photoUrl"
           placeholder="Photo URL"
@@ -147,39 +116,26 @@ const AddFaculty = () => {
       <div className="faculty-list">
         {Array.isArray(faculties) &&
           faculties.map((faculty) => (
-            <div key={faculty.id} className="faculty-card">
+            <div key={faculty.facultyId} className="faculty-card">
               <div className="faculty-photo">
-                {faculty.photoUrl ? (
-                  <img
-                    src={
-                      faculty.photoUrl.startsWith("http")
-                        ? faculty.photoUrl
-                        : `/${faculty.photoUrl.replaceAll("\\", "/")}`
-                    }
-                    alt={faculty.name}
-                  />
-                ) : (
-                  <img
-                    src="https://placehold.co/150x150?text=No+Image"
-                    alt="No Image"
-                  />
-                )}
+                <img
+                  src={faculty.photoUrl}
+                  alt={faculty.facultyName}
+                  onError={(e) => {
+                    e.target.onerror = null; // prevent infinite loop
+                    e.target.src = "/students/dac_march22/AJAY PATIL Sapiens.jpg";
+                  }}
+                />
               </div>
               <div className="faculty-info">
-                <h3>{faculty.name}</h3>
+                <h3>{faculty.facultyName}</h3>
                 <p>
-                  <strong>Subject:</strong> {faculty.subject}
-                </p>
-                <p>
-                  <strong>Email:</strong> {faculty.email}
-                </p>
-                <p>
-                  <strong>Active:</strong> {faculty.active === 1 ? "Yes" : "No"}
+                  <strong>Subject:</strong> {faculty.teachingSubject}
                 </p>
               </div>
               <div className="faculty-actions">
                 <button onClick={() => handleEdit(faculty)}>Edit</button>
-                <button onClick={() => handleDelete(faculty.id)}>Delete</button>
+                <button onClick={() => handleDelete(faculty.facultyId)}>Delete</button>
               </div>
             </div>
           ))}
