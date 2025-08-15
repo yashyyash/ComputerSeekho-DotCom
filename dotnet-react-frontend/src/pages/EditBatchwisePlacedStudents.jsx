@@ -11,6 +11,7 @@ const EditBatchwisePlacedStudents = () => {
   const [placements, setPlacements] = useState([]);
   const [batchName, setBatchName] = useState("");
   const [recruiters, setRecruiters] = useState([]);
+  const [file, setFile] = useState(null);
 
   const [formData, setFormData] = useState({
     placementID: null,
@@ -20,7 +21,6 @@ const EditBatchwisePlacedStudents = () => {
     studentPhoto: "",
   });
 
-  // Fetch recruiters for dropdown
   const fetchRecruiters = async () => {
     try {
       const res = await axios.get("https://localhost:7094/api/Recruiter");
@@ -30,7 +30,6 @@ const EditBatchwisePlacedStudents = () => {
     }
   };
 
-  // Fetch placements for this batch
   const fetchPlacements = async () => {
     try {
       const res = await axios.get(
@@ -42,7 +41,6 @@ const EditBatchwisePlacedStudents = () => {
       if (data.length > 0) {
         setBatchName(data[0].batch?.batchName || "");
       } else {
-        // Fallback if no placements yet
         const batchRes = await axios.get(
           `https://localhost:7094/api/Batch/${batchId}`
         );
@@ -59,7 +57,6 @@ const EditBatchwisePlacedStudents = () => {
     fetchRecruiters();
   }, [batchId]);
 
-  // Handle form field change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -72,7 +69,6 @@ const EditBatchwisePlacedStudents = () => {
     }
   };
 
-  // Add / Update placement
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -87,7 +83,6 @@ const EditBatchwisePlacedStudents = () => {
 
     try {
       if (formData.placementID) {
-        // ✅ UPDATE
         await axios.put(
           `https://localhost:7094/api/Placement/${Number(
             formData.placementID
@@ -97,14 +92,12 @@ const EditBatchwisePlacedStudents = () => {
         );
         alert("Placement updated successfully!");
       } else {
-        // ✅ CREATE
         await axios.post(`https://localhost:7094/api/Placement`, payload, {
           headers: { "Content-Type": "application/json" },
         });
         alert("Placement added successfully!");
       }
 
-      // Reset form
       setFormData({
         placementID: null,
         studentId: "",
@@ -149,11 +142,55 @@ const EditBatchwisePlacedStudents = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = async () => {
+    if (!file) {
+      alert("Please select a file first!");
+      return;
+    }
+
+    const uploadData = new FormData();
+    uploadData.append("file", file);
+
+    try {
+      const response = await fetch(
+        `https://localhost:7094/api/Placement/batch/${batchId}`,
+        {
+          method: "POST",
+          body: uploadData,
+        }
+      );
+
+      if (response.ok) {
+        alert("File uploaded successfully!");
+        fetchPlacements();
+      } else {
+        alert("Upload failed!");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Error uploading file!");
+    }
+  };
+
   return (
     <div className="student-management-container">
       <h2 ref={formRef}>
         Manage Placed Students - {batchName || `Batch ${batchId}`}
       </h2>
+
+      {/* ✅ Styled File Upload Section */}
+      <div className="file-upload-section">
+        <label className="file-label">
+          Choose File
+          <input type="file" onChange={handleFileChange} />
+        </label>
+        <button onClick={handleFileUpload}>Upload</button>
+        {file && <span className="file-name">{file.name}</span>}
+      </div>
 
       <form className="student-form" onSubmit={handleSubmit}>
         <input
@@ -208,7 +245,7 @@ const EditBatchwisePlacedStudents = () => {
           placements.map((placement) => (
             <div className="student-card" key={placement.placementID}>
               <img
-                src={placement.studentPhoto ||"/default-course.png" }
+                src={placement.studentPhoto || "/default-course.png"}
                 alt={placement.studentName}
                 onError={(e) => {
                   e.target.src = "/default-student.jpg";
