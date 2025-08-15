@@ -3,15 +3,14 @@ import axios from 'axios';
 import './AddMarquee.css';
 
 const AddMarquee = () => {
-  const [aDesc, setADesc] = useState('');
-  const [aIsActive, setAIsActive] = useState(true);
+  const [announcementText, setAnnouncementText] = useState('');
   const [message, setMessage] = useState('');
   const [announcements, setAnnouncements] = useState([]);
-  const [editingId, setEditingId] = useState(null); // null means we are adding, not editing
+  const [editingId, setEditingId] = useState(null);
 
   const fetchAnnouncements = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/api/announcements');
+      const response = await axios.get('https://localhost:7094/api/announcements');
       setAnnouncements(response.data);
     } catch (error) {
       console.error('Error fetching announcements:', error);
@@ -26,23 +25,24 @@ const AddMarquee = () => {
     e.preventDefault();
 
     const newAnnouncement = {
-      aDesc,
-      aIsActive
+      announcementText // matches backend DTO property
     };
 
     try {
       if (editingId === null) {
         // Add
-        await axios.post('http://localhost:8080/api/announcements', newAnnouncement);
+        await axios.post('https://localhost:7094/api/announcements', newAnnouncement);
         setMessage('Announcement added successfully!');
       } else {
         // Edit
-        await axios.put(`http://localhost:8080/api/announcements/${editingId}`, newAnnouncement);
+        await axios.put(`https://localhost:7094/api/announcements/${editingId}`, {
+          announcementId: editingId,
+          announcementText
+        });
         setMessage('Announcement updated successfully!');
       }
 
-      setADesc('');
-      setAIsActive(true);
+      setAnnouncementText('');
       setEditingId(null);
       fetchAnnouncements();
     } catch (error) {
@@ -52,15 +52,14 @@ const AddMarquee = () => {
   };
 
   const handleEdit = (announcement) => {
-    setADesc(announcement.aDesc);
-    setAIsActive(announcement.aIsActive);
-    setEditingId(announcement.aId);
+    setAnnouncementText(announcement.announcementText);
+    setEditingId(announcement.announcementId);
     setMessage('');
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/announcements/${id}`);
+      await axios.delete(`https://localhost:7094/api/announcements/${id}`);
       setMessage('Announcement deleted successfully!');
       fetchAnnouncements();
     } catch (error) {
@@ -74,26 +73,14 @@ const AddMarquee = () => {
       <h2>{editingId ? 'Edit Announcement' : 'Add New Announcement'}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="aDesc">Announcement Description:</label>
+          <label htmlFor="announcementText">Announcement Description:</label>
           <input
             type="text"
-            id="aDesc"
-            value={aDesc}
-            onChange={(e) => setADesc(e.target.value)}
+            id="announcementText"
+            value={announcementText}
+            onChange={(e) => setAnnouncementText(e.target.value)}
             required
           />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="aIsActive">Is Active:</label>
-          <select
-            id="aIsActive"
-            value={aIsActive}
-            onChange={(e) => setAIsActive(e.target.value === 'true')}
-          >
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-          </select>
         </div>
 
         <button type="submit">{editingId ? 'Update' : 'Add'} Announcement</button>
@@ -105,11 +92,11 @@ const AddMarquee = () => {
       <h3>All Announcements</h3>
       <ul className="announcement-list">
         {announcements.map((ann) => (
-          <li key={ann.aId}>
-            <strong>{ann.aDesc}</strong> - <em>{ann.aIsActive ? 'Active' : 'Inactive'}</em>
+          <li key={ann.announcementId}>
+            <strong>{ann.announcementText}</strong>
             <div className="actions">
               <button onClick={() => handleEdit(ann)}>Edit</button>
-              <button onClick={() => handleDelete(ann.aId)}>Delete</button>
+              <button onClick={() => handleDelete(ann.announcementId)}>Delete</button>
             </div>
           </li>
         ))}

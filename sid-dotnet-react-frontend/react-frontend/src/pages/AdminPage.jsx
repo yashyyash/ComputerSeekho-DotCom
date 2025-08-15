@@ -64,7 +64,7 @@ const AdminPage = () => {
             <small>Token: {staffData.token || "N/A"}</small>
 
           </div>
-          <img
+          <img 
             src={staffData.photoUrl || "/default-staff.jpg"}
             alt="Staff"
             className="staff-photo"

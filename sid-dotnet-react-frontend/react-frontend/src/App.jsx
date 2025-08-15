@@ -39,9 +39,13 @@ import RegisteredStudent from './pages/RegisteredStudent';
 const App = () => {
   return (
     <>
+    
+    
       <Header />
       <Navbar />
       <NotificationBar />
+      
+      
 
       <Routes>
         <Route path="/" element={<Home />} />
