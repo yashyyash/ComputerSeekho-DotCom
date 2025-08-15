@@ -8,7 +8,7 @@ const GetInTouch = () => {
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/getintouch')
+    axios.get('https://localhost:7094/api/Enquiry')
       .then(res => setInfo(res.data))
       .catch(err => console.error('Failed to load contact info', err));
   }, []);
@@ -27,7 +27,7 @@ const GetInTouch = () => {
       enquirerQuery: formData.message
     };
 
-    axios.post('http://localhost:8080/api/enquiry', payload)
+    axios.post('https://localhost:7094/api/Enquiry', payload)
       .then(() => {
         setStatusMessage('✅ Message sent successfully!');
         setFormData({ name: '', email: '', message: '' });

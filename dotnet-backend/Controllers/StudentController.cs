@@ -52,14 +52,14 @@ namespace dotnet_backend.Controllers
                         studentName = enquiry.EnquirerName
                     };
 
-                    //try
-                    //{
-                    //    await _httpClient.PostAsJsonAsync("http://localhost:8081/api/mail/send", emailPayload);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Console.WriteLine($"Mail service failed: {ex.Message}");
-                    //}
+                    try
+                    {
+                        await _httpClient.PostAsJsonAsync("http://localhost:8081/api/mail/send", emailPayload);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Mail service failed: {ex.Message}");
+                    }
                 }
             }
 
