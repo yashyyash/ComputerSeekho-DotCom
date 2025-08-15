@@ -26,6 +26,12 @@ namespace dotnet_backend
             builder.Services.AddControllers().AddJsonOptions(options =>
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+           
+           
+
+           
+
+
             // Add custom services
             builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
             builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
@@ -108,6 +114,11 @@ namespace dotnet_backend
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseStaticFiles(); // <-- this allows serving wwwroot files
+
+            app.MapControllers();
+
+            app.Run();
 
             app.Run();
         }

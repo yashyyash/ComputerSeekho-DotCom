@@ -21,7 +21,7 @@ namespace dotnet_backend.Controllers
         public async Task<ActionResult<List<CampusLifeDto>>> GetAll()
         {
             var list = await _service.GetAllCampusLifeAsync();
-            return Ok(list);
+            return Ok(list); // returns JSON with title, description, imageUrl
         }
 
         [HttpGet("{id}")]
