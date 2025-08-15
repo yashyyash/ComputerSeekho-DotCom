@@ -7,13 +7,12 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "server=localhost;database=dotnet_v1;user=root;password=pass1234;SslMode=None"
+    "DefaultConnection": "server=localhost;port=3306;database=dotnet_v1;user=root;password=rainblood;AllowPublicKeyRetrieval=true;SslMode=none;"
   },
   "Jwt": {
-    "Key": "ThisIsASecretKeyForJwtDontShare",
-    "Issuer": "https://localhost:7094",
-    "Audience": "https://localhost:7094",
-    "ExpireMinutes": 60
-  }
-
+    "Key": "your_super_secret_key_which_should_be_long",
+    "Issuer": "yourdomain.com",
+    "Audience": "yourdomain.com",
+    "ExpireMinutes": 60
+  }
 }
