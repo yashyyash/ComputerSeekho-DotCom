@@ -1,5 +1,6 @@
 ﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,12 +56,25 @@ namespace dotnet_backend.Controllers
             return NoContent();
         }
 
-
         [HttpGet("batch/{batchId}")]
         public ActionResult<IEnumerable<Placement>> GetPlacementsByBatchId(int batchId)
         {
             var placements = _service.GetPlacementsByBatchId(batchId);
             return Ok(placements);
+        }
+
+        // ✅ New: POST /api/placement/batch/{batchId}
+        [HttpPost("batch/{batchId}")]
+        public async Task<IActionResult> UploadPlacementsFromExcel(int batchId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded");
+
+            using (var stream = file.OpenReadStream())
+            {
+                var placements = await _service.AddPlacementsFromExcelAsync(batchId, stream);
+                return Ok(placements);
+            }
         }
     }
 }

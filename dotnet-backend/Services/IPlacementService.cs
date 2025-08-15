@@ -13,5 +13,7 @@ namespace dotnet_backend.Services
         Task<bool> DeleteAsync(int id);
 
         IEnumerable<Placement> GetPlacementsByBatchId(int batchId);
+
+        public Task<List<Placement>> AddPlacementsFromExcelAsync(int batchId, Stream excelStream);
     }
 }
