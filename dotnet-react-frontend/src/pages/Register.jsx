@@ -54,7 +54,7 @@ const Register = () => {
         studentName: enquiryData.studentName || enquiryData.enquirerName || "",
         enquiryCounter: enquiryData.enquiryCounter || 0,
         followUpDate: enquiryData.followUpDate?.split("T")[0] || "",
-        enquiryIsActive: enquiryData.enquiryIsActive ?? true,
+        enquiryIsActive: false, // Already set to false when registering
         courseId: enquiryData.course?.courseId || "",
         batchId: enquiryData.batch?.batchId || "",
         staffId: enquiryData.staffId || 1
@@ -74,7 +74,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      // Update enquiry
+      // 1️⃣ Update enquiry and set enquiryIsActive to false
       await axios.put(`https://localhost:7094/api/Enquiry/${formData.enquiryId}`, {
         enquiryId: formData.enquiryId,
         enquirerName: formData.enquirerName,
@@ -89,14 +89,14 @@ const Register = () => {
         studentName: formData.studentName,
         enquiryCounter: formData.enquiryCounter,
         followUpDate: formData.followUpDate ? `${formData.followUpDate}T00:00:00` : null,
-        enquiryIsActive: formData.enquiryIsActive
+        enquiryIsActive: false // Force inactive after registration
       });
 
-      // Get course fee for paymentDue
+      // 2️⃣ Get course fee for paymentDue
       const selectedCourse = courses.find(c => c.courseId === parseInt(formData.courseId));
       const paymentDue = selectedCourse ? selectedCourse.courseFee : 0;
 
-      // Register student
+      // 3️⃣ Register student
       await axios.post("https://localhost:7094/api/Student", {
         paymentDue,
         photoUrl: formData.photoUrl,
@@ -108,14 +108,14 @@ const Register = () => {
         enquiryId: formData.enquiryId
       });
 
-      // Fetch updated students
+      // 4️⃣ Fetch updated students
       setTimeout(async () => {
         const res = await axios.get("https://localhost:7094/api/Student");
         const allStudents = res.data;
         const newStudent = allStudents.find(s => s.enquiryId === formData.enquiryId);
 
         if (newStudent?.studentId) {
-          alert("Student Registered Successfully");
+          alert("Student Registered Successfully & Enquiry Closed");
           navigate(`/student/${newStudent.studentId}`, {
             state: { studentData: newStudent }
           });
@@ -264,6 +264,7 @@ const Register = () => {
             name="enquiryIsActive"
             checked={formData.enquiryIsActive}
             onChange={handleChange}
+            disabled // disable since it will be set to false automatically
           />
         </div>
 
