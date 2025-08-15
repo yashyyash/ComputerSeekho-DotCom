@@ -1,4 +1,3 @@
-using dotnet_backend.AppDbContext;
 using dotnet_backend.Repositories;
 using dotnet_backend.Services;
 using dotnet_backend.Services.ServiceImplementation;
@@ -6,121 +5,106 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json.Serialization;
 
-namespace dotnet_backend
+var builder = WebApplication.CreateBuilder(args);
+
+// Add CORS policy
+builder.Services.AddCors(options =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
+    options.AddPolicy("AllowFrontend",
+        policy =>
         {
-            var builder = WebApplication.CreateBuilder(args);
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+// Register HttpClient factory for email microservice
+builder.Services.AddHttpClient();
+// Add Controllers with JSON options
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
-            // Add DbContext with MySQL connection
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(
-                    builder.Configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 36))
-                ));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-            builder.Services.AddControllers().AddJsonOptions(options =>
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+// DB Context - MySQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    )
+);
 
-           
-           
-
-           
-
-
-            // Add custom services
-            builder.Services.AddScoped<ITokenService, TokenServiceImplemantation>();
-            builder.Services.AddScoped<IStaffService, StaffServiceImplementations>();
-            builder.Services.AddScoped<IPaymentService, PaymentServiceImplementation>();
-            builder.Services.AddScoped<IClosureReasonRepository, ClosureReasonRepository>();
-            builder.Services.AddScoped<IClosureReasonService, ClosureReasonServiceImplementation>();
-            builder.Services.AddScoped<IEnquiryRepository, EnquiryRepository>();
-            builder.Services.AddScoped<IEnquiryService, EnquiryService>();
-            builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
-            builder.Services.AddScoped<IAnnouncementService, AnnouncementServiceImplementation>();
-            builder.Services.AddScoped<IFollowUpRepository, FollowUpRepository>();
-            builder.Services.AddScoped<IFollowUpService, FollowUpServiceImplementation>();
-            builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
-            builder.Services.AddScoped<IFacultyService, FacultyServiceImplementation>();
-            builder.Services.AddScoped<ICampusLifeRepository, CampusLifeRepository>();
-            builder.Services.AddScoped<ICampusLifeService, CampusLifeServiceImplementation>();
-            builder.Services.AddScoped<IGetInTouchRepository, GetInTouchRepository>();
-            builder.Services.AddScoped<IGetInTouchService, GetInTouchServiceImplementation>();
-            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-            builder.Services.AddScoped<IStudentService, StudentServiceImplementation>();
-            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-            builder.Services.AddScoped<ICourseService, CourseServiceImplementation>();
-            builder.Services.AddScoped<IBatchRepository, BatchRepository>();
-            builder.Services.AddScoped<IBatchService, BatchServiceImplementation>();
-            builder.Services.AddScoped<IRecruiterRepository, RecruiterRepository>();
-            builder.Services.AddScoped<IRecruiterService, RecruiterServiceImplementation>();
+// Register services
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IBatchService, BatchService>();
+builder.Services.AddScoped<IRecruiterService, RecruiterService>();
+builder.Services.AddScoped<IPlacementService, PlacementService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IEnquiryService, EnquiryService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ICampusLifeService,CampusLifeService>();
+builder.Services.AddScoped<IFacultyService, FacultyService>();
 
 
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
+                     ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
-            builder.Services.AddScoped<IPlacementRepository, PlacementRepository>();
-            builder.Services.AddScoped<IPlacementService, PlacementServiceImplementation>();
+// Add your services
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<ITokenService, TokenServiceImplementation>();
+
+// Add controllers
+builder.Services.AddControllers();
+
+// Add JWT Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 
+// Authorization
+builder.Services.AddAuthorization();
 
-            // Add JWT Authentication
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                };
-            });
+var app = builder.Build();
 
-            // ? Add CORS Policy
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowFrontend",
-                    policy =>
-                    {
-                        policy.WithOrigins("http://localhost:5173") // React app origin
-                              .AllowAnyHeader()
-                              .AllowAnyMethod();
-                    });
-            });
-
-            builder.Services.AddEndpointsApiExplorer();
-            // builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // ? Use CORS before Authentication/Authorization
-            app.UseCors("AllowFrontend");
-
-            // Configure middleware
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-            app.UseStaticFiles(); // <-- this allows serving wwwroot files
-
-            app.MapControllers();
-
-            app.Run();
-
-            app.Run();
-        }
-    }
+// Swagger in dev
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+// Enable CORS globally
+app.UseCors("AllowFrontend");
+
+app.UseHttpsRedirection();
+
+// Add Authentication & Authorization middleware
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

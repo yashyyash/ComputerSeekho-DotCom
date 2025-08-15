@@ -7,19 +7,13 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "server=localhost;port=3306;database=Your_database;user=root;password=Your_Password;AllowPublicKeyRetrieval=true;SslMode=none;"
+    "DefaultConnection": "server=localhost;database=dotnet_v1;user=root;password=pass1234;SslMode=None"
   },
   "Jwt": {
-    "Key": "your_super_secret_key_which_should_be_long",
-    "Issuer": "yourdomain.com",
-    "Audience": "yourdomain.com",
+    "Key": "ThisIsASecretKeyForJwtDontShare",
+    "Issuer": "https://localhost:7094",
+    "Audience": "https://localhost:7094",
     "ExpireMinutes": 60
-  },
-  "Kestrel": {
-    "Endpoints": {
-      "Http": {
-        "Url": "http://localhost:8080"
-      }
-    }
   }
+
 }

@@ -1,13 +1,13 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 
 namespace dotnet_backend.Services
 {
     public interface ICourseService
     {
-        Task<IEnumerable<CourseDto>> GetAllCoursesAsync();
-        Task<CourseDto> GetCourseByIdAsync(int id);
-        Task<CourseDto> CreateCourseAsync(CourseDto courseDto);
-        Task<bool> UpdateCourseAsync(int id, CourseDto courseDto);
-        Task<bool> DeleteCourseAsync(int id);
+        Task<IEnumerable<Course>> GetAllAsync();
+        Task<Course?> GetByIdAsync(int id);
+        Task<Course> CreateAsync(Course course);
+        Task<Course?> UpdateAsync(int id, Course course);
+        Task<bool> DeleteAsync(int id);
     }
 }

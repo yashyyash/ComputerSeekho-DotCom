@@ -1,8 +1,6 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace dotnet_backend.Controllers
 {
@@ -10,54 +8,48 @@ namespace dotnet_backend.Controllers
     [Route("api/[controller]")]
     public class FacultyController : ControllerBase
     {
-        private readonly IFacultyService _service;
+        private readonly IFacultyService _facultyService;
 
-        public FacultyController(IFacultyService service)
+        public FacultyController(IFacultyService facultyService)
         {
-            _service = service;
+            _facultyService = facultyService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<FacultyDto>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var faculties = await _service.GetAllFacultiesAsync();
+            var faculties = await _facultyService.GetAllAsync();
             return Ok(faculties);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<FacultyDto>> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var faculty = await _service.GetFacultyByIdAsync(id);
-            if (faculty == null)
-                return NotFound();
-
+            var faculty = await _facultyService.GetByIdAsync(id);
+            if (faculty == null) return NotFound();
             return Ok(faculty);
         }
 
         [HttpPost]
-        public async Task<ActionResult<FacultyDto>> Create([FromBody] FacultyDto dto)
+        public async Task<IActionResult> Create(Faculty faculty)
         {
-            var created = await _service.CreateFacultyAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.FacultyId }, created);
+            var createdFaculty = await _facultyService.CreateAsync(faculty);
+            return CreatedAtAction(nameof(GetById), new { id = createdFaculty.FacultyId }, createdFaculty);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<FacultyDto>> Update(int id, [FromBody] FacultyDto dto)
+        public async Task<IActionResult> Update(int id, Faculty faculty)
         {
-            var updated = await _service.UpdateFacultyAsync(id, dto);
-            if (updated == null)
-                return NotFound();
-
-            return Ok(updated);
+            var updated = await _facultyService.UpdateAsync(id, faculty);
+            if (!updated) return NotFound();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var success = await _service.DeleteFacultyAsync(id);
-            if (!success)
-                return NotFound();
-
+            var deleted = await _facultyService.DeleteAsync(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

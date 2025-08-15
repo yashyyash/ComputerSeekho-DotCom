@@ -1,66 +1,152 @@
-﻿using dotnet_backend.DTOs;
-using dotnet_backend.Services;
+﻿//using System.Collections.Generic;
+//using System.Threading.Tasks;
+//using Microsoft.AspNetCore.Mvc;
+//using dotnet_backend.Models;
+//using dotnet_backend.Services;
+
+//namespace dotnet_backend.Controllers
+//{
+//    [ApiController]
+//    [Route("api/[controller]")]
+//    public class BatchController : ControllerBase
+//    {
+//        private readonly IBatchService _service;
+//        public BatchController(IBatchService service) => _service = service;
+
+//        [HttpGet]
+//        public async Task<ActionResult<IEnumerable<Batch>>> GetAll()
+//        {
+//            var list = await _service.GetAllAsync();
+//            return Ok(list);
+//        }
+
+//        [HttpGet("{id:int}")]
+//        public async Task<ActionResult<Batch>> Get(int id)
+//        {
+//            var b = await _service.GetByIdAsync(id);
+//            if (b == null) return NotFound();
+//            return Ok(b);
+//        }
+
+//        // Simple DTOs as records (you can move them to DTOs/ folder)
+//        public record BatchCreateDto(
+//            string? BatchName,
+//            string? BatchPhoto,
+//            DateTime? BatchStartTime,
+//            DateTime? BatchEndTime,
+//            int CourseId,
+//            bool? BatchIsActive,
+//            double? BatchPlacedPercent
+//        );
+
+//        [HttpPost]
+//        public async Task<ActionResult<Batch>> Create([FromBody] BatchCreateDto dto)
+//        {
+//            var batch = new Batch
+//            {
+//                BatchName = dto.BatchName,
+//                BatchPhoto = dto.BatchPhoto,
+//                BatchStartTime = dto.BatchStartTime,
+//                BatchEndTime = dto.BatchEndTime,
+//                CourseId = dto.CourseId,
+//                BatchIsActive = dto.BatchIsActive,
+//                BatchPlacedPercent = dto.BatchPlacedPercent
+//            };
+
+//            var created = await _service.CreateAsync(batch);
+//            if (created == null) return BadRequest($"Course with id {dto.CourseId} not found.");
+//            return CreatedAtAction(nameof(Get), new { id = created.BatchId }, created);
+//        }
+
+//        public record BatchUpdateDto(
+//            string? BatchName,
+//            string? BatchPhoto,
+//            DateTime? BatchStartTime,
+//            DateTime? BatchEndTime,
+//            int CourseId,
+//            bool? BatchIsActive,
+//            double? BatchPlacedPercent
+//        );
+
+//        [HttpPut("{id:int}")]
+//        public async Task<ActionResult<Batch>> Update(int id, [FromBody] BatchUpdateDto dto)
+//        {
+//            var batch = new Batch
+//            {
+//                BatchName = dto.BatchName,
+//                BatchPhoto = dto.BatchPhoto,
+//                BatchStartTime = dto.BatchStartTime,
+//                BatchEndTime = dto.BatchEndTime,
+//                CourseId = dto.CourseId,
+//                BatchIsActive = dto.BatchIsActive,
+//                BatchPlacedPercent = dto.BatchPlacedPercent
+//            };
+
+//            var updated = await _service.UpdateAsync(id, batch);
+//            if (updated == null) return NotFound();
+//            return Ok(updated);
+//        }
+
+//        [HttpDelete("{id:int}")]
+//        public async Task<IActionResult> Delete(int id)
+//        {
+//            var deleted = await _service.DeleteAsync(id);
+//            if (!deleted) return NotFound();
+//            return NoContent();
+//        }
+//    }
+//}
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using dotnet_backend.Models;
+using dotnet_backend.Services;
 
 namespace dotnet_backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BatchController : ControllerBase
     {
-        private readonly IBatchService _batchService;
+        private readonly IBatchService _service;
+        public BatchController(IBatchService service) => _service = service;
 
-        public BatchController(IBatchService batchService)
-        {
-            _batchService = batchService;
-        }
-
-        // GET: api/batch
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BatchDto>>> GetAllBatches()
+        public async Task<ActionResult<IEnumerable<Batch>>> GetAll()
         {
-            var batches = await _batchService.GetAllBatchesAsync();
-            return Ok(batches);
+            var list = await _service.GetAllAsync();
+            return Ok(list);
         }
 
-        // GET: api/batch/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BatchDto>> GetBatchById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Batch>> Get(int id)
         {
-            var batch = await _batchService.GetBatchByIdAsync(id);
-            if (batch == null)
-                return NotFound();
-
-            return Ok(batch);
+            var b = await _service.GetByIdAsync(id);
+            if (b == null) return NotFound();
+            return Ok(b);
         }
 
-        // POST: api/batch
         [HttpPost]
-        public async Task<ActionResult<BatchDto>> CreateBatch([FromBody] BatchDto batchDto)
+        public async Task<ActionResult<Batch>> Create([FromBody] Batch batch)
         {
-            var createdBatch = await _batchService.CreateBatchAsync(batchDto);
-            return CreatedAtAction(nameof(GetBatchById), new { id = createdBatch.BatchId }, createdBatch);
+            var created = await _service.CreateAsync(batch);
+            if (created == null) return BadRequest($"Course with id {batch.CourseId} not found.");
+            return CreatedAtAction(nameof(Get), new { id = created.BatchId }, created);
         }
 
-        // PUT: api/batch/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBatch(int id, [FromBody] BatchDto batchDto)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Batch>> Update(int id, [FromBody] Batch batch)
         {
-            var updated = await _batchService.UpdateBatchAsync(id, batchDto);
-            if (!updated)
-                return NotFound();
-
-            return NoContent();
+            var updated = await _service.UpdateAsync(id, batch);
+            if (updated == null) return NotFound();
+            return Ok(updated);
         }
 
-        // DELETE: api/batch/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBatch(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _batchService.DeleteBatchAsync(id);
-            if (!deleted)
-                return NotFound();
-
+            var deleted = await _service.DeleteAsync(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

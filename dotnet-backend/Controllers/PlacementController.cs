@@ -1,4 +1,4 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -6,60 +6,61 @@ using System.Threading.Tasks;
 
 namespace dotnet_backend.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class PlacementController : ControllerBase
     {
-        private readonly IPlacementService _placementService;
+        private readonly IPlacementService _service;
 
-        public PlacementController(IPlacementService placementService)
+        public PlacementController(IPlacementService service)
         {
-            _placementService = placementService;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Placement>>> GetAll()
         {
-            var placements = await _placementService.GetAllPlacementsAsync();
+            var placements = await _service.GetAllAsync();
             return Ok(placements);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<Placement>> GetById(int id)
         {
-            var placement = await _placementService.GetPlacementByIdAsync(id);
+            var placement = await _service.GetByIdAsync(id);
             if (placement == null) return NotFound();
             return Ok(placement);
         }
 
-        [HttpGet("batch/{batchId}")]
-        public async Task<IActionResult> GetByBatchId(int batchId)
-        {
-            var placements = await _placementService.GetPlacementsByBatchIdAsync(batchId);
-            return Ok(placements);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PlacementDto dto)
+        public async Task<ActionResult<Placement>> Create(Placement placement)
         {
-            var created = await _placementService.CreatePlacementAsync(dto);
+            var created = await _service.CreateAsync(placement);
             return CreatedAtAction(nameof(GetById), new { id = created.PlacementId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] PlacementDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] Placement placement)
         {
-            var updated = await _placementService.UpdatePlacementAsync(id, dto);
-            if (updated == null) return NotFound();
-            return Ok(updated);
+            var updated = await _service.UpdateAsync(id, placement);
+            if (!updated) return NotFound();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _placementService.DeletePlacementAsync(id);
+            var deleted = await _service.DeleteAsync(id);
             if (!deleted) return NotFound();
             return NoContent();
+        }
+
+
+        [HttpGet("batch/{batchId}")]
+        public ActionResult<IEnumerable<Placement>> GetPlacementsByBatchId(int batchId)
+        {
+            var placements = _service.GetPlacementsByBatchId(batchId);
+            return Ok(placements);
         }
     }
 }

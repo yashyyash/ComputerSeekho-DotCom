@@ -1,7 +1,10 @@
-﻿using dotnet_backend.DTOs;
-using dotnet_backend.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using dotnet_backend.Helpers;
+using dotnet_backend.Models;
+using dotnet_backend.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_backend.Controllers
 {
@@ -9,81 +12,71 @@ namespace dotnet_backend.Controllers
     [Route("api/[controller]")]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
+        private readonly IPaymentService _service;
+        public PaymentController(IPaymentService service) => _service = service;
 
-        public PaymentController(IPaymentService paymentService)
-        {
-            _paymentService = paymentService;
-        }
-
+        // GET: api/Payment
         [HttpGet]
-        public async Task<IActionResult> GetAllPayments()
+        public async Task<ActionResult<IEnumerable<Payment>>> GetAll()
         {
-            var payments = await _paymentService.GetAllPaymentsAsync();
-            return Ok(payments);
+            var list = await _service.GetAllAsync();
+            return Ok(list);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPayment(int id)
+        // GET: api/Payment/5
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Payment>> Get(int id)
         {
-            var payment = await _paymentService.GetPaymentByIdAsync(id);
-            if (payment == null)
-                return NotFound();
-
+            var payment = await _service.GetByIdAsync(id);
+            if (payment == null) return NotFound();
             return Ok(payment);
         }
 
+        // GET: api/Payment/by-student/101
+        [HttpGet("by-student/{studentId:int}")]
+        public async Task<ActionResult<IEnumerable<Payment>>> GetByStudent(int studentId)
+        {
+            var list = await _service.GetByStudentIdAsync(studentId);
+            return Ok(list);
+        }
+
+        // POST: api/Payment
         [HttpPost]
-        public async Task<IActionResult> CreatePayment([FromBody] PaymentDto paymentDto)
+        public async Task<ActionResult<Payment>> Create([FromBody] Payment payment)
         {
-            var createdPayment = await _paymentService.CreatePaymentAsync(paymentDto);
-            return CreatedAtAction(nameof(GetPayment), new { id = createdPayment.PaymentId }, createdPayment);
+            var created = await _service.CreateAsync(payment);
+            return CreatedAtAction(nameof(Get), new { id = created!.PaymentId }, created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePayment(int id, [FromBody] PaymentDto paymentDto)
+        // PUT: api/Payment/5
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] Payment payment)
         {
-            var updatedPayment = await _paymentService.UpdatePaymentAsync(id, paymentDto);
-            if (updatedPayment == null)
-                return NotFound();
-
-            return Ok(updatedPayment);
+            var ok = await _service.UpdateAsync(id, payment);
+            if (!ok) return NotFound();
+            return NoContent();
         }
 
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePayment(int id)
+        // DELETE: api/Payment/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _paymentService.DeletePaymentAsync(id);
-            if (!deleted)
-                return NotFound();
-
+            var ok = await _service.DeleteAsync(id);
+            if (!ok) return NotFound();
             return NoContent();
         }
 
 
-
-        [HttpGet("{id}/pdf")]
-        public async Task<IActionResult> GetPaymentPdf(int id)
+        [HttpGet("{id:int}/receipt")]
+        public async Task<IActionResult> GetReceipt(int id)
         {
-            var pdfBytes = await _paymentService.GeneratePaymentPdfAsync(id);
+            var payment = await _service.GetByIdAsync(id);
+            if (payment == null) return NotFound();
 
-            if (pdfBytes == null || pdfBytes.Length == 0)
-                return NotFound();
+            // Here we generate PDF dynamically — for now, we’ll keep it simple
+            byte[] pdfBytes = ReceiptPdfGenerator.Generate(payment);
 
-            // Return PDF file
-            return File(pdfBytes, "application/pdf", $"payment_{id}.pdf");
-        }
-
-
-        [HttpGet("student/{studentId}")]
-        public async Task<IActionResult> GetPaymentsByStudent(int studentId)
-        {
-            var payments = await _paymentService.GetPaymentsByStudentIdAsync(studentId);
-            if (payments == null || !payments.Any())
-                return NotFound();
-
-            return Ok(payments);
+            return File(pdfBytes, "application/pdf", $"receipt_{id}.pdf");
         }
 
     }

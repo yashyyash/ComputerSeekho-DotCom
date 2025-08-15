@@ -1,8 +1,6 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace dotnet_backend.Controllers
 {
@@ -17,47 +15,50 @@ namespace dotnet_backend.Controllers
             _service = service;
         }
 
+        // GET: api/CampusLife
         [HttpGet]
-        public async Task<ActionResult<List<CampusLifeDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CampusLife>>> GetAll()
         {
-            var list = await _service.GetAllCampusLifeAsync();
-            return Ok(list); // returns JSON with title, description, imageUrl
+            var list = await _service.GetAllAsync();
+            return Ok(list);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CampusLifeDto>> GetById(int id)
+        // GET: api/CampusLife/5
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CampusLife>> Get(int id)
         {
-            var item = await _service.GetCampusLifeByIdAsync(id);
-            if (item == null)
-                return NotFound();
-
-            return Ok(item);
+            var campusLife = await _service.GetByIdAsync(id);
+            if (campusLife == null) return NotFound();
+            return Ok(campusLife);
         }
 
+        // POST: api/CampusLife
         [HttpPost]
-        public async Task<ActionResult<CampusLifeDto>> Create([FromBody] CampusLifeDto dto)
+        public async Task<ActionResult<CampusLife>> Create([FromBody] CampusLife campusLife)
         {
-            var created = await _service.CreateCampusLifeAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.CampusLifeId }, created);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var created = await _service.CreateAsync(campusLife);
+            return CreatedAtAction(nameof(Get), new { id = created.CampusLifeId }, created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<CampusLifeDto>> Update(int id, [FromBody] CampusLifeDto dto)
+        // PUT: api/CampusLife/5
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] CampusLife campusLife)
         {
-            var updated = await _service.UpdateCampusLifeAsync(id, dto);
-            if (updated == null)
-                return NotFound();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            return Ok(updated);
+            var ok = await _service.UpdateAsync(id, campusLife);
+            if (!ok) return NotFound();
+            return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        // DELETE: api/CampusLife/5
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var success = await _service.DeleteCampusLifeAsync(id);
-            if (!success)
-                return NotFound();
-
+            var ok = await _service.DeleteAsync(id);
+            if (!ok) return NotFound();
             return NoContent();
         }
     }

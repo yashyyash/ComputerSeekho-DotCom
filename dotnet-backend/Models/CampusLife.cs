@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dotnet_backend.Models
 {
-    
-
     [Table("campus_life")]
     public class CampusLife
     {
@@ -19,6 +17,5 @@ namespace dotnet_backend.Models
         [Column("description")]
         public string Description { get; set; }
     }
-
 
 }

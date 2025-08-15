@@ -1,18 +1,17 @@
-﻿using dotnet_backend.DTOs;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using dotnet_backend.Models;
 
 namespace dotnet_backend.Services
 {
     public interface IPaymentService
     {
-        Task<IEnumerable<PaymentDto>> GetAllPaymentsAsync();
-        Task<PaymentDto> GetPaymentByIdAsync(int id);
-        Task<PaymentDto> CreatePaymentAsync(PaymentDto paymentDto);
-        Task<PaymentDto> UpdatePaymentAsync(int id, PaymentDto paymentDto);
-        Task<bool> DeletePaymentAsync(int id);
+        Task<IEnumerable<Payment>> GetAllAsync();
+        Task<Payment?> GetByIdAsync(int id);
+        Task<IEnumerable<Payment>> GetByStudentIdAsync(int studentId);
 
-
-        Task<byte[]> GeneratePaymentPdfAsync(int paymentId);
-
-        Task<IEnumerable<PaymentDto>> GetPaymentsByStudentIdAsync(int studentId);
+        Task<Payment?> CreateAsync(Payment payment);
+        Task<bool> UpdateAsync(int id, Payment payment);
+        Task<bool> DeleteAsync(int id);
     }
 }

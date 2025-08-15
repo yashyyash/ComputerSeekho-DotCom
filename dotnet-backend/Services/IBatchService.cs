@@ -1,13 +1,15 @@
-﻿using dotnet_backend.DTOs;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using dotnet_backend.Models;
 
 namespace dotnet_backend.Services
 {
     public interface IBatchService
     {
-        Task<IEnumerable<BatchDto>> GetAllBatchesAsync();
-        Task<BatchDto> GetBatchByIdAsync(int id);
-        Task<BatchDto> CreateBatchAsync(BatchDto batchDto);
-        Task<bool> UpdateBatchAsync(int id, BatchDto batchDto);
-        Task<bool> DeleteBatchAsync(int id);
+        Task<IEnumerable<Batch>> GetAllAsync();
+        Task<Batch?> GetByIdAsync(int id);
+        Task<Batch?> CreateAsync(Batch batch);
+        Task<Batch?> UpdateAsync(int id, Batch batch);
+        Task<bool> DeleteAsync(int id);
     }
 }

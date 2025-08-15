@@ -1,14 +1,15 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 
 namespace dotnet_backend.Services
 {
     public interface IEnquiryService
     {
-        Task<IEnumerable<EnquiryResponseDto>> GetAllAsync();
-        Task<EnquiryResponseDto> GetByIdAsync(int id);
-        Task<EnquiryResponseDto> CreateAsync(EnquiryRequestDto dto);
-        Task<EnquiryResponseDto> AddFollowUpAsync(int enquiryId, FollowUpDto followUpDto);
-        Task<EnquiryResponseDto?> UpdateAsync(int id, EnquiryRequestDto dto);
-        Task<bool> DeleteAsync(int id);
+        Enquiry? GetEnquiryById(int enquiryId);
+        IEnumerable<Enquiry> GetAllEnquiries();
+        void AddEnquiry(Enquiry enquiry);
+        bool UpdateEnquiry(Enquiry enquiry);
+        void DeleteEnquiry(int enquiryId);
+        IEnumerable<Enquiry> GetByStaffId(int staffId);
+        void DeactivateEnquiry(string closureReasonDesc, int enquiryId);
     }
 }

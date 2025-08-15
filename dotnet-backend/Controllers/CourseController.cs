@@ -1,4 +1,4 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,65 +8,48 @@ namespace dotnet_backend.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ICourseService _courseService;
+        private readonly ICourseService _service;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService service)
         {
-            _courseService = courseService;
+            _service = service;
         }
 
-        // GET: api/course
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetAllCourses()
+        public async Task<IActionResult> GetAll()
         {
-            var courses = await _courseService.GetAllCoursesAsync();
+            var courses = await _service.GetAllAsync();
             return Ok(courses);
         }
 
-        // GET: api/course/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CourseDto>> GetCourseById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var course = await _courseService.GetCourseByIdAsync(id);
-            if (course == null)
-                return NotFound(new { message = $"Course with ID {id} not found." });
-
+            var course = await _service.GetByIdAsync(id);
+            if (course == null) return NotFound();
             return Ok(course);
         }
 
-        // POST: api/course
         [HttpPost]
-        public async Task<ActionResult<CourseDto>> CreateCourse([FromBody] CourseDto courseDto)
+        public async Task<IActionResult> Create([FromBody] Course course)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdCourse = await _courseService.CreateCourseAsync(courseDto);
-            return CreatedAtAction(nameof(GetCourseById), new { id = createdCourse.CourseId }, createdCourse);
+            var createdCourse = await _service.CreateAsync(course);
+            return CreatedAtAction(nameof(GetById), new { id = createdCourse.CourseId }, createdCourse);
         }
 
-        // PUT: api/course/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] CourseDto courseDto)
+        public async Task<IActionResult> Update(int id, [FromBody] Course course)
         {
-            if (id != courseDto.CourseId)
-                return BadRequest(new { message = "Course ID in URL and body must match." });
-
-            var updated = await _courseService.UpdateCourseAsync(id, courseDto);
-            if (!updated)
-                return NotFound(new { message = $"Course with ID {id} not found." });
-
-            return NoContent();
+            var updatedCourse = await _service.UpdateAsync(id, course);
+            if (updatedCourse == null) return NotFound();
+            return Ok(updatedCourse);
         }
 
-        // DELETE: api/course/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCourse(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _courseService.DeleteCourseAsync(id);
-            if (!deleted)
-                return NotFound(new { message = $"Course with ID {id} not found." });
-
+            var deleted = await _service.DeleteAsync(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

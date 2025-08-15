@@ -1,57 +1,54 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using dotnet_backend.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using dotnet_backend.Models;
 using dotnet_backend.Services;
 
 namespace dotnet_backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class RecruiterController : ControllerBase
     {
-        private readonly IRecruiterService _recruiterService;
+        private readonly IRecruiterService _service;
 
-        public RecruiterController(IRecruiterService recruiterService)
+        public RecruiterController(IRecruiterService service)
         {
-            _recruiterService = recruiterService;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecruiterDTO>>> GetAll()
+        public ActionResult<IEnumerable<Recruiter>> GetAll()
         {
-            var recruiters = await _recruiterService.GetAllAsync();
-            return Ok(recruiters);
+            return Ok(_service.GetAll());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RecruiterDTO>> GetById(int id)
+        public ActionResult<Recruiter> GetById(int id)
         {
-            var recruiter = await _recruiterService.GetByIdAsync(id);
+            var recruiter = _service.GetById(id);
             if (recruiter == null) return NotFound();
             return Ok(recruiter);
         }
 
         [HttpPost]
-        public async Task<ActionResult<RecruiterDTO>> Create(RecruiterCreateDTO dto)
+        public ActionResult<Recruiter> Create(Recruiter recruiter)
         {
-            var createdRecruiter = await _recruiterService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = createdRecruiter.RecruiterId }, createdRecruiter);
+            var created = _service.Create(recruiter);
+            return CreatedAtAction(nameof(GetById), new { id = created.RecruiterId }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<RecruiterDTO>> Update(int id, RecruiterUpdateDTO dto)
+        public ActionResult<Recruiter> Update(int id, Recruiter recruiter)
         {
-            var updatedRecruiter = await _recruiterService.UpdateAsync(id, dto);
-            if (updatedRecruiter == null) return NotFound();
-            return Ok(updatedRecruiter);
+            var updated = _service.Update(id, recruiter);
+            if (updated == null) return NotFound();
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            var success = await _recruiterService.DeleteAsync(id);
-            if (!success) return NotFound();
+            var deleted = _service.Delete(id);
+            if (!deleted) return NotFound();
             return NoContent();
         }
     }

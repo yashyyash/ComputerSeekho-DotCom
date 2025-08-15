@@ -1,39 +1,39 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace dotnet_backend.Models
 {
-
-
-
     [Table("course")]
     public class Course
     {
         [Key]
         [Column("course_id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
 
-        [Column("course_name")]
-        public string CourseName { get; set; }
+        [Column("course_description")]
+        public string? CourseDescription { get; set; }
+
+        [Column("course_duration")]
+        public int? CourseDuration { get; set; }
 
         [Column("course_fee")]
-        public double CourseFee { get; set; }
+        public decimal? CourseFee { get; set; }
 
-        [Column("course_photo_url")]
-        public string CoursePhotoUrl { get; set; }
+        [Column("course_is_active")]
+        public bool? CourseIsActive { get; set; }
 
-        [Column("duration_months")]
-        public int DurationMonths { get; set; }
+        [Column("course_name")]
+        public string? CourseName { get; set; }
 
-        [Column("syllabus")]
-        public string Syllabus { get; set; }
+        [Column("course_syllabus")]
+        public string? CourseSyllabus { get; set; }
 
-        public ICollection<Batch> Batches { get; set; }
-        public ICollection<Student> Students { get; set; }
-        public ICollection<Enquiry> Enquiries { get; set; }
-        public ICollection<Placement> Placements { get; set; }
+        [Column("cover_photo")]
+        public string? CoverPhoto { get; set; }
+
+        [Column("age_grp_type")]
+        public string? AgeGrpType { get; set; }
+
+        public ICollection<Batch>? Batches { get; set; }
     }
-
-
 }

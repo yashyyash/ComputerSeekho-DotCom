@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 
 namespace dotnet_backend.Services
 {
     public interface IRecruiterService
     {
-        Task<IEnumerable<RecruiterDTO>> GetAllAsync();
-        Task<RecruiterDTO> GetByIdAsync(int id);
-        Task<RecruiterDTO> CreateAsync(RecruiterCreateDTO dto);
-        Task<RecruiterDTO> UpdateAsync(int id, RecruiterUpdateDTO dto);
-        Task<bool> DeleteAsync(int id);
+        IEnumerable<Recruiter> GetAll();
+        Recruiter? GetById(int id);
+        Recruiter Create(Recruiter recruiter);
+        Recruiter? Update(int id, Recruiter recruiter);
+        bool Delete(int id);
     }
 }

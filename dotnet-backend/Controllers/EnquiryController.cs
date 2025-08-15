@@ -1,64 +1,83 @@
-﻿using dotnet_backend.DTOs;
+﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EnquiryController : ControllerBase
     {
-        private readonly IEnquiryService _service;
+        private readonly IEnquiryService _enquiryService;
 
-        public EnquiryController(IEnquiryService service)
+        public EnquiryController(IEnquiryService enquiryService)
         {
-            _service = service;
+            _enquiryService = enquiryService;
         }
 
+        // 1️⃣ Get Enquiry by ID
+        [HttpGet("{enquiryId}")]
+        public ActionResult<Enquiry> GetEnquiryById(int enquiryId)
+        {
+            var enquiry = _enquiryService.GetEnquiryById(enquiryId);
+            if (enquiry == null)
+                return NotFound();
+            return Ok(enquiry);
+        }
+
+        // 2️⃣ Get All Enquiries
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public ActionResult<IEnumerable<Enquiry>> GetAllEnquiries()
         {
-            return Ok(await _service.GetAllAsync());
+            return Ok(_enquiryService.GetAllEnquiries());
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return Ok(result);
-        }
-
+        // 3️⃣ Add Enquiry
         [HttpPost]
-        public async Task<IActionResult> Create(EnquiryRequestDto dto)
+        public IActionResult AddEnquiry([FromBody] Enquiry enquiry)
         {
-            var result = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = result.EnquiryId }, result);
+            _enquiryService.AddEnquiry(enquiry);
+            return CreatedAtAction(nameof(GetEnquiryById), new { enquiryId = enquiry.EnquiryId }, enquiry);
         }
 
-        [HttpPost("{id}/followups")]
-        public async Task<IActionResult> AddFollowUp(int id, FollowUpDto followUpDto)
+        // 4️⃣ Update Enquiry
+        [HttpPut("{enquiryId}")]
+        public IActionResult UpdateEnquiry(int enquiryId, [FromBody] Enquiry enquiry)
         {
-            var result = await _service.AddFollowUpAsync(id, followUpDto);
-            if (result == null) return NotFound();
-            return Ok(result);
-        }
+            if (enquiryId != enquiry.EnquiryId)
+                return BadRequest("ID mismatch");
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, EnquiryRequestDto dto)
-        {
-            var updatedEnquiry = await _service.UpdateAsync(id, dto);
-            if (updatedEnquiry == null)
+            var updated = _enquiryService.UpdateEnquiry(enquiry);
+            if (!updated)
                 return NotFound();
 
-            return Ok(updatedEnquiry);
+            return Ok("Enquiry Updated");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        // 5️⃣ Delete Enquiry
+        [HttpDelete("{enquiryId}")]
+        public IActionResult DeleteEnquiry(int enquiryId)
         {
-            await _service.DeleteAsync(id);
-            return NoContent();
+            _enquiryService.DeleteEnquiry(enquiryId);
+            return Ok("Enquiry Deleted");
+        }
+
+        // 6️⃣ Get by Staff ID
+        [HttpGet("GetByStaffId/{staffId}")]
+        public ActionResult<IEnumerable<Enquiry>> GetByStaffId(int staffId)
+        {
+            var result = _enquiryService.GetByStaffId(staffId);
+            if (!result.Any())
+                return NotFound();
+            return Ok(result);
+        }
+
+        // 7️⃣ Deactivate Enquiry
+        [HttpPut("Deactivate/{enquiryId}")]
+        public IActionResult DeactivateEnquiry(int enquiryId, [FromBody] string closureReasonDesc)
+        {
+            _enquiryService.DeactivateEnquiry(closureReasonDesc, enquiryId);
+            return Ok("Enquiry Closed");
         }
     }
 }

@@ -1,57 +1,84 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using dotnet_backend.Models;
+using dotnet_backend.Repositories;
 using dotnet_backend.Services;
-using dotnet_backend.DTOs;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_backend.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
+        private readonly AppDbContext _context;
+        private readonly HttpClient _httpClient;
 
-        public StudentController(IStudentService studentService)
+        public StudentController(IStudentService studentService, AppDbContext context, IHttpClientFactory httpClientFactory)
         {
             _studentService = studentService;
+            _context = context;
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetAll()
+        public ActionResult<IEnumerable<Student>> GetAll()
         {
-            return Ok(await _studentService.GetAllAsync());
+            return Ok(_studentService.GetAllStudents());
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StudentDTO>> GetById(int id)
+        [HttpGet("{studentId:int}")]
+        public ActionResult<Student> GetById(int studentId)
         {
-            var student = await _studentService.GetByIdAsync(id);
+            var student = _studentService.GetStudentById(studentId);
             if (student == null) return NotFound();
             return Ok(student);
         }
 
         [HttpPost]
-        public async Task<ActionResult<StudentDTO>> Create(StudentCreateDTO dto)
+        public async Task<ActionResult<string>> Add([FromBody] Student student)
         {
-            var student = await _studentService.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = student.StudentId }, student);
+            _studentService.AddStudent(student);
+
+            if (student.EnquiryId.HasValue)
+            {
+                var enquiry = await _context.Enquiries.FirstOrDefaultAsync(e => e.EnquiryId == student.EnquiryId.Value);
+
+                if (enquiry != null && !string.IsNullOrEmpty(enquiry.EnquirerEmailId))
+                {
+                    var emailPayload = new
+                    {
+                        to = enquiry.EnquirerEmailId,
+                        studentName = enquiry.EnquirerName
+                    };
+
+                    //try
+                    //{
+                    //    await _httpClient.PostAsJsonAsync("http://localhost:8081/api/mail/send", emailPayload);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.WriteLine($"Mail service failed: {ex.Message}");
+                    //}
+                }
+            }
+
+            return Created("", "Student added and email sent (if possible)");
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, StudentUpdateDTO dto)
+        [HttpPut]
+        public IActionResult Update([FromBody] Student student)
         {
-            var updatedStudent = await _studentService.UpdateAsync(id, dto);
-            if (updatedStudent == null) return NotFound();
-
-            return Ok(updatedStudent);
+            if (_studentService.UpdateStudent(student))
+                return Ok("Student updated");
+            return NotFound("Student not found");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{studentId:int}")]
+        public IActionResult Delete(int studentId)
         {
-            var success = await _studentService.DeleteAsync(id);
-            if (!success) return NotFound();
-            return NoContent();
+            _studentService.DeleteStudent(studentId);
+            return Ok("Student deleted");
         }
     }
 }

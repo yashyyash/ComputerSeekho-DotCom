@@ -1,8 +1,7 @@
 ﻿using dotnet_backend.Models;
 using dotnet_backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace dotnet_backend.Controllers
 {
@@ -10,80 +9,58 @@ namespace dotnet_backend.Controllers
     [Route("api/[controller]")]
     public class StaffController : ControllerBase
     {
-        private readonly IStaffService _staffService;
+        private readonly IStaffService _service;
 
-        public StaffController(IStaffService staffService)
+        public StaffController(IStaffService service)
         {
-            _staffService = staffService;
+            _service = service;
         }
 
+        // GET: api/Staff
         [HttpGet]
-        public async Task<ActionResult<List<Staff>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Staff>>> GetAll()
         {
-            var list = await _staffService.GetAllAsync();
+            var list = await _service.GetAllAsync();
             return Ok(list);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Staff>> GetById(int id)
+        // GET: api/Staff/5
+        [HttpGet("{id:long}")]
+        public async Task<ActionResult<Staff>> Get(long id)
         {
-            var staff = await _staffService.GetByIdAsync(id);
-            if (staff == null)
-                return NotFound();
+            var staff = await _service.GetByIdAsync(id);
+            if (staff == null) return NotFound();
             return Ok(staff);
         }
 
-        // Create new staff with password
+        // POST: api/Staff
         [HttpPost]
-        public async Task<ActionResult<Staff>> Create([FromBody] CreateStaffRequest request)
+        public async Task<ActionResult<Staff>> Create([FromBody] Staff staff)
         {
-            var staff = new Staff
-            {
-                StaffName = request.StaffName,
-                StaffUsername = request.StaffUsername,
-                StaffEmail = request.StaffEmail,
-                StaffPhotoUrl = request.StaffPhotoUrl,
-                StaffRoleId = request.StaffRoleId,
-                IsActive = request.IsActive
-            };
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var created = await _staffService.CreateAsync(staff, request.Password);
-            return CreatedAtAction(nameof(GetById), new { id = created.StaffId }, created);
+            var created = await _service.CreateAsync(staff);
+            return CreatedAtAction(nameof(Get), new { id = created.StaffId }, created);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Staff>> Update(int id, [FromBody] Staff staff)
+        // PUT: api/Staff/5
+        [HttpPut("{id:long}")]
+        public async Task<IActionResult> Update(long id, [FromBody] Staff staff)
         {
-            if (id != staff.StaffId)
-                return BadRequest("ID mismatch");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var updated = await _staffService.UpdateAsync(id, staff);
-            if (updated == null)
-                return NotFound();
-
-            return Ok(updated);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var deleted = await _staffService.DeleteAsync(id);
-            if (!deleted)
-                return NotFound();
-
+            var ok = await _service.UpdateAsync(id, staff);
+            if (!ok) return NotFound();
             return NoContent();
         }
-    }
 
-    // DTO for creating staff (with plain password)
-    public class CreateStaffRequest
-    {
-        public string StaffName { get; set; }
-        public string StaffUsername { get; set; }
-        public string Password { get; set; }  
-        public string StaffEmail { get; set; }
-        public string StaffPhotoUrl { get; set; }
-        public int StaffRoleId { get; set; }
-        public bool IsActive { get; set; } = true;
+        // DELETE: api/Staff/5
+        [HttpDelete("{id:long}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var ok = await _service.DeleteAsync(id);
+            if (!ok) return NotFound();
+            return NoContent();
+        }
     }
 }
