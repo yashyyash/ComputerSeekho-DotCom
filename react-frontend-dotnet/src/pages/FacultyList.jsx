@@ -16,14 +16,14 @@ const FacultyList = () => {
       <h2>Our Faculties</h2>
       <div className="faculty-scroll">
         {faculties.map((faculty) => (
-          <div className="faculty-card" key={faculty.id}>
+          <div className="faculty-card" key={faculty.facultyId}>
             <img
               src={faculty.photoUrl || "https://via.placeholder.com/200x200?text=No+Image"}
-              alt={faculty.name}
+              alt={faculty.facultyName || "No Name"}
               className="faculty-image"
             />
-            <h3>{faculty.name}</h3>
-            <p><strong>Subject:</strong> {faculty.subject}</p>
+            <h3>{faculty.facultyName || "N/A"}</h3>
+            <p><strong>Subject:</strong> {faculty.teachingSubject || "N/A"}</p>
           </div>
         ))}
       </div>
