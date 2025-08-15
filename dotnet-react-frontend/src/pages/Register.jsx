@@ -35,13 +35,14 @@ const Register = () => {
   });
 
   useEffect(() => {
-    axios.get("https://localhost:7094/api/Course").then((res) => setCourses(res.data));
-    axios.get("https://localhost:7094/api/Batch").then((res) => setBatches(res.data));
+    // Fetch courses & batches
+    axios.get("https://localhost:7094/api/Course").then(res => setCourses(res.data));
+    axios.get("https://localhost:7094/api/Batch").then(res => setBatches(res.data));
   }, []);
 
   useEffect(() => {
     if (enquiryData.enquiryId) {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         enquiryId: enquiryData.enquiryId,
         enquirerName: enquiryData.enquirerName || "",
@@ -50,11 +51,11 @@ const Register = () => {
         enquirerEmailId: enquiryData.enquirerEmailId || "",
         enquiryDate: enquiryData.enquiryDate?.split("T")[0] || "",
         enquirerQuery: enquiryData.enquirerQuery || "",
-        courseName: enquiryData.courseName || enquiryData.coursName || "",
+        courseName: enquiryData.courseName || "",
         studentName: enquiryData.studentName || enquiryData.enquirerName || "",
         enquiryCounter: enquiryData.enquiryCounter || 0,
         followUpDate: enquiryData.followUpDate?.split("T")[0] || "",
-        enquiryIsActive: false, // Already set to false when registering
+        enquiryIsActive: false, // Will be inactive after registration
         courseId: enquiryData.course?.courseId || "",
         batchId: enquiryData.batch?.batchId || "",
         staffId: enquiryData.staffId || 1
@@ -74,58 +75,57 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      // 1️⃣ Update enquiry and set enquiryIsActive to false
-      await axios.put(`https://localhost:7094/api/Enquiry/${formData.enquiryId}`, {
-        enquiryId: formData.enquiryId,
+      // 1️⃣ Update enquiry (set inactive)
+      const updateEnquiryPayload = {
+        enquiryId: Number(formData.enquiryId),
         enquirerName: formData.enquirerName,
-        enquirerAddress: formData.enquirerAddress,
+        enquirerAddress: formData.enquirerAddress || null,
         enquirerMobile: formData.enquirerMobile,
-        enquirerEmailId: formData.enquirerEmailId,
-        enquiryDate: formData.enquiryDate ? `${formData.enquiryDate}T00:00:00` : null,
-        enquirerQuery: formData.enquirerQuery,
-        courseName: formData.courseName,
-        staffId: formData.staffId,
-        staff: null,
-        studentName: formData.studentName,
-        enquiryCounter: formData.enquiryCounter,
-        followUpDate: formData.followUpDate ? `${formData.followUpDate}T00:00:00` : null,
-        enquiryIsActive: false // Force inactive after registration
-      });
+        enquirerEmailId: formData.enquirerEmailId || null,
+        enquiryDate: formData.enquiryDate ? new Date(formData.enquiryDate).toISOString() : null,
+        enquirerQuery: formData.enquirerQuery || null,
+        courseName: formData.courseName || null,
+        studentName: formData.studentName || null,
+        enquiryCounter: formData.enquiryCounter || 0,
+        followUpDate: formData.followUpDate ? new Date(formData.followUpDate).toISOString() : null,
+        enquiryIsActive: false,
+        staffId: Number(formData.staffId) || 1
+      };
 
-      // 2️⃣ Get course fee for paymentDue
-      const selectedCourse = courses.find(c => c.courseId === parseInt(formData.courseId));
-      const paymentDue = selectedCourse ? selectedCourse.courseFee : 0;
+      await axios.put(`https://localhost:7094/api/Enquiry/${formData.enquiryId}`, updateEnquiryPayload);
 
-      // 3️⃣ Register student
-      await axios.post("https://localhost:7094/api/Student", {
-        paymentDue,
-        photoUrl: formData.photoUrl,
-        studentGender: formData.studentGender,
-        studentDob: formData.studentDob ? `${formData.studentDob}T00:00:00` : null,
-        studentQualification: formData.studentQualification,
-        batchId: formData.batchId,
-        courseId: formData.courseId,
-        enquiryId: formData.enquiryId
-      });
+      // 2️⃣ Register student
+      const selectedCourse = courses.find(c => c.courseId === Number(formData.courseId));
+      const studentPayload = {
+        studentName: formData.studentName || formData.enquirerName,
+        studentGender: formData.studentGender || null,
+        studentDob: formData.studentDob ? new Date(formData.studentDob).toISOString() : null,
+        studentQualification: formData.studentQualification || null,
+        photoUrl: formData.photoUrl || null,
+        batchId: formData.batchId ? Number(formData.batchId) : null,
+        courseId: formData.courseId ? Number(formData.courseId) : null,
+        enquiryId: Number(formData.enquiryId),
+        paymentDue: selectedCourse ? Number(selectedCourse.courseFee) : 0
+      };
 
-      // 4️⃣ Fetch updated students
+      await axios.post("https://localhost:7094/api/Student", studentPayload);
+
+      // 3️⃣ Fetch registered student to get studentId
       setTimeout(async () => {
         const res = await axios.get("https://localhost:7094/api/Student");
-        const allStudents = res.data;
-        const newStudent = allStudents.find(s => s.enquiryId === formData.enquiryId);
+        const newStudent = res.data.find(s => s.enquiryId === Number(formData.enquiryId));
 
         if (newStudent?.studentId) {
           alert("Student Registered Successfully & Enquiry Closed");
-          navigate(`/student/${newStudent.studentId}`, {
-            state: { studentData: newStudent }
-          });
+          navigate(`/student/${newStudent.studentId}`, { state: { studentData: newStudent } });
         } else {
           alert("Registration succeeded but Student ID not found");
         }
       }, 1000);
+
     } catch (error) {
-      alert("Student Registration Failed | Check if Already Registered");
       console.error("Registration error:", error.response?.data || error.message);
+      alert("Student Registration Failed | Check if Already Registered");
     }
   };
 
@@ -183,10 +183,8 @@ const Register = () => {
           <small>Select Course:</small>
           <select name="courseId" value={formData.courseId} onChange={handleChange}>
             <option value="">Select Course</option>
-            {courses.map((course) => (
-              <option key={course.courseId} value={course.courseId}>
-                {course.courseName}
-              </option>
+            {courses.map(course => (
+              <option key={course.courseId} value={course.courseId}>{course.courseName}</option>
             ))}
           </select>
         </div>
@@ -195,10 +193,8 @@ const Register = () => {
           <small>Select Batch:</small>
           <select name="batchId" value={formData.batchId} onChange={handleChange}>
             <option value="">Select Batch</option>
-            {batches.map((batch) => (
-              <option key={batch.batchId} value={batch.batchId}>
-                {batch.batchName}
-              </option>
+            {batches.map(batch => (
+              <option key={batch.batchId} value={batch.batchId}>{batch.batchName}</option>
             ))}
           </select>
         </div>
@@ -264,7 +260,7 @@ const Register = () => {
             name="enquiryIsActive"
             checked={formData.enquiryIsActive}
             onChange={handleChange}
-            disabled // disable since it will be set to false automatically
+            disabled
           />
         </div>
 
