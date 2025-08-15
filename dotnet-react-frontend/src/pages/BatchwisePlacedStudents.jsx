@@ -16,7 +16,7 @@ const BatchwisePlacedStudents = () => {
       } catch (error) {
         console.error("Error fetching placement data:", error);
       } finally {
-        setTimeout(() => setLoading(false), 1200); // 3 sec delay
+        setTimeout(() => setLoading(false), 1200); // loading delay
       }
     };
 
@@ -26,16 +26,16 @@ const BatchwisePlacedStudents = () => {
   const batchName = placements.length > 0 ? placements[0].batch?.batchName : "";
 
   return (
-    <div className="placed-students">
-      <h2>{batchName}</h2>
+    <div className="placed-students-modern">
+      <h2>{batchName ? `${batchName} Placed Students` : "Placed Students"}</h2>
 
       <div className="placement-grid">
         {loading
           ? Array(6).fill(0).map((_, index) => (
-              <div className="placement-card loading" key={index}>
+              <div className="placement-card skeleton" key={index}>
                 <div className="img-placeholder" />
-                <p className="title placeholder" />
-                <p className="company placeholder" />
+                <div className="text-placeholder title" />
+                <div className="text-placeholder company" />
               </div>
             ))
           : placements.map((placement) => (
@@ -43,10 +43,8 @@ const BatchwisePlacedStudents = () => {
                 <img
                   src={placement.studentPhoto}
                   alt={placement.studentName}
-                  style={{ width: "150px", height: "150px", objectFit: "cover" }}
-                  onError={(e) => {
-                    e.target.src = "/default-student.jpg";
-                  }}
+                  className="student-photo"
+                  onError={(e) => { e.target.src = "/default-student.jpg"; }}
                 />
                 <p className="title">{placement.studentName}</p>
                 <p className="company">{placement.recruiter?.recruiterName}</p>

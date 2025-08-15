@@ -1,108 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  min-height: 100vh;
-  color: #fff;
-}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 .manage-data {
-  padding: 50px 20px;
+  font-family: 'Orbitron', sans-serif;
   min-height: 100vh;
-  backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #1f2a44, #3b4a6b, #2c3e5b);
+  color: #f0f0f0;
 }
 
+/* Page Title */
 .page-title {
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 40px;
-  text-align: center;
-  color: #fff;
-  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  animation: fadeInDown 1s ease;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  color: #60e0ca;
+  text-shadow: 0 0 5px #60e0ca, 0 0 10px #4ade80;
 }
 
+/* Button Grid */
 .button-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
+/* Section Buttons */
 .section-button {
-  background: rgba(255, 255, 255, 0.08);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 25px 30px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(96,224,202,0.5);
+  color: #f0f0f0;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 18px;
   border-radius: 20px;
-  width: 250px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.section-button::before {
-  content: "";
-  position: absolute;
-  width: 120%;
-  height: 100%;
-  background: linear-gradient(to right, #ffffff33, #ffffff11);
-  top: 0;
-  left: -120%;
-  transform: skewX(-20deg);
-  transition: 0.5s;
-}
-
-.section-button:hover::before {
-  left: 100%;
-}
-
-.section-button:hover {
-  transform: translateY(-4px) scale(1.03);
-  background: rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .section-button i {
-  margin-right: 10px;
-  color: #ffd700;
+  font-size: 20px;
 }
 
-@media (max-width: 768px) {
-  .section-button {
-    width: 90%;
-    padding: 20px;
-    font-size: 16px;
-  }
-
-  .page-title {
-    font-size: 30px;
-  }
-}
-
-/* Fancy fade animation */
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Hover effect */
+.section-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(96,224,202,0.5), 0 0 20px #4ade80;
 }

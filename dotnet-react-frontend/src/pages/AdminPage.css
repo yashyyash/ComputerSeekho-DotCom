@@ -1,161 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
-  color: #222;
-}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 .admin-container {
-  padding: 40px;
+  font-family: 'Orbitron', sans-serif;
   min-height: 100vh;
+  padding: 30px;
+  background: linear-gradient(135deg, #1f2a44, #3b4a6b, #2c3e5b);
+  color: #f0f0f0;
 }
 
+/* Header Card */
 .admin-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffffee;
-  border-radius: 16px;
-  padding: 25px;
-  margin-bottom: 40px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  padding: 20px 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .admin-info h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #2d3436;
+  font-size: 1.8rem;
+  color: #ffffff;
 }
 
 .admin-info span {
-  color: #0984e3;
+  color: #6ee7b7; /* soft fresh highlight for name */
 }
 
-.admin-info p,
-.admin-info small {
-  font-size: 14px;
-  color: #555;
+.admin-info p, .admin-info small {
+  color: #090909;
+  font-size: 0.9rem;
 }
 
 .staff-photo {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  border: 3px solid #00cec9;
   object-fit: cover;
-  box-shadow: 0 0 12px rgba(0, 206, 201, 0.6);
+  border: 2px solid #6ee7b7;
 }
 
+/* Action Buttons */
 .admin-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-  margin-bottom: 50px;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-.btn {
-  padding: 14px 28px;
-  font-size: 15px;
+.admin-actions .btn {
+  padding: 12px 20px;
   font-weight: 600;
-  border-radius: 50px;
-  border: 2px solid transparent;
+  border: none;
+  border-radius: 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background: linear-gradient(45deg, #6c5ce7, #00b894);
-  color: #fff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  transition: transform 0.2s, opacity 0.3s, background 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.btn:hover {
-  background: #fff;
-  color: #00b894;
-  border: 2px solid #00b894;
+.admin-actions .btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
-.sub-heading {
-  font-size: 24px;
-  font-weight: 600;
-  color: #2d3436;
-  margin-bottom: 20px;
-  text-align: center;
-}
+.btn-green { background: #4ade80; } /* soft green */
+.btn-blue { background: #60a5fa; }  /* soft blue */
+.btn-purple { background: #c084fc; } /* soft purple */
+.btn-red { background: #f87171; }   /* soft red */
+.btn-yellow { background: #facc15; color: #000; } /* soft yellow */
 
+/* Table */
 .table-wrapper {
   overflow-x: auto;
-  background: #ffffffee;
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  margin-top: 20px;
+  border-radius: 15px;
 }
 
 .followup-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
-  color: #2d3436;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+}
+
+.followup-table th, .followup-table td {
+  padding: 12px 15px;
+  text-align: left;
+  color: #020202;
 }
 
 .followup-table th {
-  background-color: #dfe6e9;
-  padding: 14px 20px;
-  text-align: left;
+  background: rgba(255,255,255,0.1);
   font-weight: 700;
-  color: #2d3436;
 }
 
 .followup-table td {
-  padding: 12px 20px;
-  border-bottom: 1px solid #dcdde1;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-.followup-table tbody tr:hover {
-  background-color: #f1f2f6;
-  transition: background 0.3s;
+.followup-table tr:hover {
+  background: rgba(255,255,255,0.08);
 }
 
-.followup-table td button {
-  padding: 8px 14px;
-  font-weight: 600;
-  border-radius: 25px;
-  border: none;
-  background: #00cec9;
-  color: #fff;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.followup-table td button:hover {
-  background: #00b894;
-}
-
-@media (max-width: 768px) {
-  .admin-header {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .admin-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn {
-    width: 100%;
-    max-width: 280px;
-  }
-
-  .followup-table th,
-  .followup-table td {
-    font-size: 14px;
-  }
+/* Subheading */
+.sub-heading {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #ffffff;
 }

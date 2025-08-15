@@ -1,43 +1,83 @@
+/* ReceiptPage.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
 .receipt-container {
-  max-width: 600px;
-  margin: 50px auto;
+  font-family: 'Orbitron', sans-serif;
+  min-height: 100vh;
   padding: 30px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background-color: #fafafa;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1f2a44, #3b4a6b, #2c3e5b);
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+.receipt-container h1 {
+  color: #60e0ca;
+  text-shadow: 0 0 5px #60e0ca, 0 0 10px #4ade80;
+  margin-bottom: 25px;
 }
 
+/* Receipt info box */
 .receipt-info {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  border: 1px solid rgba(96, 224, 202, 0.3);
+  padding: 25px 30px;
+  width: 100%;
+  max-width: 600px;
   margin-bottom: 20px;
-  line-height: 1.6;
 }
 
 .receipt-info p {
-  margin: 5px 0;
-  color: #555;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #60e0ca;
 }
 
+.receipt-info strong {
+  color: #4ade80;
+}
+
+/* Download button */
 .download-button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 12px;
   border: none;
-  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background: linear-gradient(90deg, #60e0ca, #4ade80);
+  color: #000;
+  font-size: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .download-button:hover {
-  background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #60e0ca, 0 0 20px #4ade80;
+}
+
+/* Loading/Error message */
+.receipt-container div {
+  font-size: 18px;
+  font-weight: 600;
+  color: #facc15;
+  margin-top: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .receipt-info {
+    padding: 15px 20px;
+  }
+
+  .receipt-info p {
+    font-size: 14px;
+  }
+
+  .download-button {
+    width: 100%;
+    font-size: 14px;
+  }
 }
