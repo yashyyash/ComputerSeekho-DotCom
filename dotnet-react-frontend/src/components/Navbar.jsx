@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -14,33 +15,55 @@ const Navbar = () => {
   ];
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const location = useLocation(); 
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     setIsLoggedIn(sessionStorage.getItem("isLoggedIn") === "true");
-  }, [location]); 
+    setMobileMenu(false);
+  }, [location]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const adminLink = isLoggedIn ? "/admin" : "/login";
 
   return (
-    <nav className="container-fluid d-flex justify-content-center navbar">
-      <ul className="nav-list">
+    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+      {/* Logo */}
+      <div className="nav-logo">BIA</div>
+
+      {/* Main Links */}
+      <div className={`nav-links ${mobileMenu ? 'active' : ''}`}>
         {navItems.map((item, index) => (
-          <li key={index} className="nav-item">
-            <Link
-              to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '')}`}
-              className="nav-link"
-            >
-              {item.toUpperCase()}
-            </Link>
-          </li>
-        ))}
-        <li className="nav-item">
-          <Link to={adminLink} className="nav-link">
-            Admin
+          <Link
+            key={index}
+            to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '')}`}
+            className={`nav-link ${location.pathname === (item === 'Home' ? '/' : `/${item.toLowerCase().replace(/\s+/g, '')}`) ? 'active' : ''}`}
+          >
+            {item.toUpperCase()}
           </Link>
-        </li>
-      </ul>
+        ))}
+      </div>
+
+      {/* Admin Link Right */}
+      <div className="nav-admin">
+        <Link 
+          to={adminLink} 
+          className={`nav-link admin ${location.pathname === adminLink ? 'active' : ''}`}
+        >
+          ADMIN
+        </Link>
+      </div>
+
+      {/* Mobile Toggle */}
+      <div className="nav-toggle" onClick={() => setMobileMenu(!mobileMenu)}>
+        {mobileMenu ? <FaTimes /> : <FaBars />}
+      </div>
     </nav>
   );
 };

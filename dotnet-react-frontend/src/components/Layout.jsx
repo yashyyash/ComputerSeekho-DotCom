@@ -1,4 +1,3 @@
-// src/components/Layout.js
 import React from "react";
 import Header from "./Header";
 import Navbar from "./Navbar";
@@ -13,7 +12,9 @@ const Layout = ({ children }) => {
       <Navbar />
       <NotificationBar />
 
-      <main className="main-content">{children}</main>
+      <main className="main-content">
+        {children}
+      </main>
 
       <ScrollToTopButton />
       <Footer />
