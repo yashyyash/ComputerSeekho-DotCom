@@ -19,6 +19,7 @@ namespace dotnet_backend.Repositories
         public DbSet<Payment> Payments { get; set; } = null;
         public DbSet<CampusLife> CampusLife { get; set; } = null!; 
         public DbSet<Faculty> Faculties { get; set; } = null;
+        public DbSet<announcement> Announcements { get; set; } = null;
 
 
 

@@ -2,18 +2,19 @@
   height: 20px;
   background-color: #f5f5f5;
   overflow: hidden;
-  position: relative;
   white-space: nowrap;
   border-bottom: 1px solid #ddd;
-  padding: 0 10px;
+  padding: 0;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 999;
 }
 
 .marquee {
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-right 15s linear infinite;
+  animation: scroll-left-to-right 15s linear infinite;
 }
 
 .marquee p {
@@ -21,13 +22,14 @@
   font-size: 14px;
   display: inline-block;
   margin: 0;
+  padding-right: 100%; /* Ensures space before it loops */
 }
 
-@keyframes scroll-right {
+@keyframes scroll-left-to-right {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Fully off-screen left */
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(100%); /* Fully off-screen right */
   }
 }

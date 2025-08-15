@@ -38,6 +38,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 // Register services
+builder.Services.AddScoped<IAnnounceService, AnnounceService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IBatchService, BatchService>();
 builder.Services.AddScoped<IRecruiterService, RecruiterService>();
